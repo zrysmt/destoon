@@ -1,0 +1,29 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $_TYPE}
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><a href="{$HURL}&action={$item}">全部分类</a></div></li>
+{loop $_TP[0] $k0 $v0}
+<li><div><a href="{$HURL}&action={$item}&typeid={$v0[typeid]}">{$v0[typename]}</a></div></li>
+{if isset($_TP[1][$v0[typeid]])}
+{loop $_TP[1][$v0[typeid]] $v1}
+<li><div><a href="{$HURL}&action={$item}&typeid={$v1[typeid]}">&nbsp;&nbsp;- {$v1[typename]}</a></div></li>
+{/loop}
+{/if}
+{/loop}
+</ul>
+</div>
+{else}
+<div class="list-empty">暂无分类</div>
+{/if}
+{template 'footer', 'mobile'}

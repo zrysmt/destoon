@@ -1,0 +1,1 @@
+<?php defined('IN_DESTOON') or exit('Access Denied');?><?php if(is_array($tags)) { foreach($tags as $i => $t) { ?><h2><a href="<?php echo $t['linkurl'];?>" target="_blank"><span><?php echo $t['title'];?></span></a></h2><?php } } ?>

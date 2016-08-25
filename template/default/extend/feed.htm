@@ -1,0 +1,82 @@
+{template 'header'}
+<div class="m">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td valign="top" class="left_menu">
+		<ul>
+		<li class="left_menu_li"><a href="{$MODULE[1][linkurl]}">网站首页</a></li>
+		<li class="left_menu_on"><a href="./">RSS订阅</a></li>
+		</ul>
+	</td>
+	<td valign="top">
+		<div class="left_box">		
+			<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="./">RSS订阅</a></div>
+			{if $MOD[feed_enable]}
+			{if $MOD[feed_enable]==2}
+				<div class="b15">&nbsp;</div>
+				<table cellpadding="6" cellspacing="1" width="96%" align="center" bgcolor="#E3EEF5">
+				<tr bgcolor="#F1F7FC">
+				<th align="left">&nbsp;自定义订阅</th>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				<td>
+					<form action="index.php">
+					&nbsp;
+					<select name="mid">
+						<option value="0">模块</option>
+						{loop $FD $k $v}
+						<option value="{$v[moduleid]}"{if $mid==$v[moduleid]} selected{/if}>{$v[name]}</option>
+						{/loop}
+					</select>&nbsp;
+					<input type="text" name="kw" size="20" value="{if $kw}{$kw}{else}关键词{/if}" onfocus="if(this.value=='关键词')this.value='';"/>&nbsp;
+					{if $category_select}{$category_select}&nbsp;{/if}
+					{if $area_select}{$area_select}&nbsp;{/if}
+					<input type="submit" value=" 提交 "/>
+					<input type="button" value=" 重设 " onclick="Go('./');"/>
+					</form>
+				</td>
+				</tr>
+				</table>
+				{if $feed_code}
+				<div class="b15">&nbsp;</div>
+				<table cellpadding="6" cellspacing="1" width="96%" align="center" bgcolor="#E3EEF5">
+				<tr bgcolor="#F1F7FC">
+				<th width="80">频 道</th>
+				<th>订阅地址</th>
+				<th width="60">订 阅</th>
+				</tr>
+				<tr align="center" bgcolor="#FFFFFF">
+				<td class="f_red">自定义</td>
+				<td><input type="text" style="width:96%;" value="{$feed_code}" onmouseover="this.select();"/></td>
+				<td><a href="{$feed_code}" target="_blank"><img src="{DT_STATIC}file/image/xml.gif" alt="订阅"/></a></td>
+				</tr>
+				</table>
+				{/if}
+			{/if}
+			<div class="b15">&nbsp;</div>
+			<table cellpadding="6" cellspacing="1" width="96%" align="center" bgcolor="#E3EEF5">
+			<tr bgcolor="#F1F7FC">
+				<th width="80">频 道</th>
+				<th>订阅地址</th>
+				<th width="60">订 阅</th>
+			</tr>
+			{loop $FD $k $v}
+			<tr align="center" bgcolor="#FFFFFF">
+			<td><a href="{$v[linkurl]}" target="_blank">{$v[name]}</a></td>
+			<td><input type="text" style="width:96%;" value="{$v[rssurl]}" onmouseover="this.select();"/></td>
+			<td><a href="{$v[rssurl]}" target="_blank"><img src="{DT_STATIC}file/image/xml.gif" alt="订阅"/></a></td>
+			</tr>
+			{/loop}
+			</table>
+			<div class="b15">&nbsp;</div>
+			{else}
+			<br/><br/><br/><br/><br/>
+			<center class="px14 f_b">系统未开启RSS订阅</center>
+			<br/><br/><br/><br/><br/>
+			{/if}
+		</div>
+	</td>
+	</tr>
+	</table>
+</div>
+{template 'footer'}

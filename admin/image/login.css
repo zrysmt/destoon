@@ -1,0 +1,18 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	This is NOT a freeware, use is subject to license.txt
+*/
+*{font-size:12px;font-family:Verdana,Arial;color:#333333;-webkit-text-size-adjust:none;}
+body{background:#F0F2F7;margin:0;}
+form{margin:0px;}
+img{border:none;}
+a:link,a:visited,a:active {color:#ABBBD6;text-decoration:none;}
+.msg{width:320px;background:#FFFFFF url('msgbg.gif') repeat-x;margin:auto;}
+.head{letter-spacing:2px;line-height:29px;height:26px;overflow:hidden;font-weight:bold;}
+.content{background:#FFFFFF url('login.gif') no-repeat 0 0px;padding:10px;line-height:200%;word-break:break-all;border:#7998B7 1px solid;border-top:none;}
+.ml{color:#FFFFFF;background:url('msg.gif') no-repeat 0 0;padding-left:10px;}
+.mr{float:right;background:url('msg.gif') no-repeat 0 -34px;width:4px;font-size:1px;}
+.btn{background:url('btn.gif') no-repeat;border:none;width:65px;height:20px;vertical-align:middle;text-align:center;cursor:pointer;line-height:18px;line-height:20px\9;_line-height:23px;*line-height:23px;padding-bottom:2px !important;}
+.inp{border:#86A2C0 1px solid;color:#000000;}
+.tip{color:#ABBBD6;}
+.c_p{cursor:pointer;}

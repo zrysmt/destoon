@@ -1,0 +1,72 @@
+{if $action != 'ajax'}
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+{if $itemid || $catid || $areaid || $kw}
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+{else}
+<a href="channel.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>频道</span></a>
+{/if}
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:{if $itemid}Dsheet('{if $could_sign}<a href=&#34;exhibit.php?itemid={$itemid}&#34;><span>在线报名</span></a>|{/if}<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{/if}
+{if $itemid}
+<div class="main">
+	<div class="title"><strong>{$title}</strong></div>
+	<div class="info">{$editdate}&nbsp;&nbsp;点击:{$hits}</div>
+	<div class="content">
+	日期:{$fromdate}~{$todate}<br/>
+	城市:{$city}<br/>
+	地址:<a href="map.php?auth={encrypt($address, DT_KEY.'MAP')}" rel="external">{$address}</a><br/>
+	展馆:{$hallname}<br/>
+	主办:{$sponsor}<br/>
+	{if $user_status == 3}
+	{if $could_sign}
+	<a href="sign.php?itemid={$itemid}"><div class="btn-blue" style="margin:10px 0;">在线报名</div></a>
+	{/if}
+	</div>
+	{if $content}<div class="content">{$content}</div>{/if}
+	<div class="head bd-b"><strong>联系方式</strong></div>
+	<div class="contact">
+	姓名:{$truename}<br/>
+	{if $telephone}电话:<a href="tel:{$telephone}">{$telephone}</a><br/>{/if}
+	{if $mobile}手机:<a href="tel:{$mobile}">{$mobile}</a><br/>{/if}
+	{if $fax}传真:{$fax}<br/>{/if}
+	{if $email}邮件:<a href="mailto:{$email}">{$email}</a><br/>{/if}
+	{if $qq}QQ:<a href="http://wpa.qq.com/msgrd?v=3&uin={$qq}&site=qq&menu=yes" target="_blank" rel="external">{$qq}</a><br/>{/if}
+	{if $msn}MSN:{$msn}<br/>{/if}
+	{if $addr}地址:<a href="map.php?auth={encrypt($addr, DT_KEY.'MAP')}" rel="external">{$addr}</a><br/>{/if}
+	</div>
+	{else}
+	{template 'chip-content', 'mobile'}
+	{/if}
+	</div>
+</div>
+{if $DT_MOB[browser] == 'weixin' ||  $DT_MOB[browser] == 'qq'}{template 'chip-share', 'mobile'}{/if}
+{template 'chip-comment', 'mobile'}
+{else}
+	{if $lists}
+	{loop $lists $v}
+	<div class="list-img">
+	<ul>
+	<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+	<li><em>{if $v[city]}[{$v[city]}] {/if}{timetodate($v[fromtime], 3)} - {timetodate($v[totime], 3)}</em></li>
+	<li><span>主办：{$v[sponsor]}</span></li>
+	</ul>
+	</div>
+	{/loop}
+	{else}
+	{template 'chip-empty', 'mobile'}
+	{/if}
+{/if}
+{if $action != 'ajax'}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}
+{/if}

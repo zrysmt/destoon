@@ -1,0 +1,15 @@
+<div class="bd-t">
+{if $lists}
+{loop $lists $k $v}
+	<div class="list-img" style="height:66px;">
+	<ul>
+	<li><span class="f_r" style="color:red;">{$DT[money_sign]}{$v[price]}</span>{hide_name($v[buyer])}</li>
+	<li><span class="f_r">x {$v[number]}</span><span>{$v[updatetime]}</span></li>
+	</ul>
+	</div>
+{/loop}
+{if $pages}<div class="pages bd-b">{$pages}</div>{/if}
+{else}
+<div class="bd-b"><br/><br/><center>暂无交易</center><br/><br/></div>
+{/if}
+</div>

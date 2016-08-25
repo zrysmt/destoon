@@ -1,0 +1,53 @@
+{if $action != 'ajax'}
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+{if $itemid || $catid || $areaid || $kw}
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+{else}
+<a href="channel.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>频道</span></a>
+{/if}
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:{if $itemid}Dsheet('<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{/if}
+{if $itemid}
+<div class="main">
+	<div class="title"><strong>{$title}</strong></div>
+	{if $islink}
+	<div class="info">{$editdate}</div>
+	<div class="content"><a href="{$linkurl}" rel="external" class="b">{$linkurl}</a><br/></div>
+	{else}
+	<div class="info">{$editdate}&nbsp;&nbsp;点击:{$hits}</div>
+	<div class="content">
+		{if $user_status == 3}
+		{$content}
+		{else}
+		{template 'chip-content', 'mobile'}
+		{/if}
+	</div>
+	{/if}
+</div>
+{if $DT_MOB[browser] == 'weixin' ||  $DT_MOB[browser] == 'qq'}{template 'chip-share', 'mobile'}{/if}
+{template 'chip-comment', 'mobile'}
+{else}
+	{if $lists}
+	<ul class="list-txt">
+	{loop $lists $v}
+	<li><span>{$v[date]}</span><a href="{$v[linkurl]}">{$v[title]}</a></li>
+	{/loop}
+	</ul>
+	{else}
+	{template 'chip-empty', 'mobile'}
+	{/if}
+{/if}
+{if $action != 'ajax'}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}
+{/if}

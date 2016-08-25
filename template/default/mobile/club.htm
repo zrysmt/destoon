@@ -1,0 +1,109 @@
+{if $action != 'ajax'}
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+{if $itemid || $catid || $areaid || $kw}
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+{else}
+<a href="channel.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>频道</span></a>
+{/if}
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:{if $itemid}Dsheet('<a href=&#34;club.php?action=reply&gid={$gid}&itemid={$itemid}&page={$page}&#34; data-transition=&#34;slideup&#34;><span>发表回复</span></a>|<a href=&#34;club.php?action=post&itemid={$itemid}&gid={$gid}&#34; data-transition=&#34;slideup&#34;><span>发表帖子</span></a>|<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;index.php?moduleid={$moduleid}&catid={$gid}&#34; data-direction=&#34;reverse&#34;><span>{$GRP[title]}{$MOD[seo_name]}</span></a>', '取消');{elseif $gid}Dsheet('<a href=&#34;club.php?action=post&gid={$gid}&#34;><span>发表帖子</span></a>|<a href=&#34;club.php?action=fans&gid={$gid}&#34;><span>成员列表</span></a>|<a href=&#34;search.php?action=post{$catid}&catid={$catid}&areaid={$areaid}&#34;><span>帖子搜索</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;club.php?action=my&#34;><span>我的{$MOD[name]}</span></a>|<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{/if}
+{if $itemid}
+<style type="text/css">
+.club_quote {background:#FAFAFA url('{DT_SKIN}image/club_quote_a.gif') no-repeat 10px 10px;background-size:14px 14px;margin:6px 0 6px 0;font-size:12px;padding:6px 10px;}
+.club_quote div {display:inline-block;padding:5px 20px 5px 20px;background:url('{DT_SKIN}image/club_quote_b.gif') no-repeat right bottom;background-size:14px 14px;line-height:20px;}
+.club_quote p {margin:0;text-indent:0;}
+.club_quote a:link,.club_quote a:visited,.club_quote a:active {color:#555555;text-decoration:none;}
+.club_quote a:hover {color:#FF6600;}
+.club_break {display:none;}
+</style>
+<div class="main">
+	<div class="title"><strong>{$title}</strong></div>
+	<div class="info">点击:{$hits}&nbsp;&nbsp;回复:{$reply}</div>
+	{if $page == 1}
+	<div class="list-user">
+	<img src="{useravatar($item[username])}" width="32" height="32"/>
+	<ul>
+	<li><span>楼主</span><a href="club.php?action=user&username={$item[username]}&itemid={$itemid}" class="b">{if $item[username]}{$item[passport]}{else}{ip2area($item[ip])}访客{/if}</a>&nbsp;{if $item[username] == $GRP[username]}圈主{elseif in_array($item[passport], $GRP[managers])}版主{/if}</li>
+	<li><em>{timetodate($item[addtime], 5)}</em></li>
+	</ul>
+	</div>
+	<div class="content">
+	{if $user_status == 3}
+	{$content}
+	{else}
+	{template 'chip-content', 'mobile'}
+	{/if}
+	</div>
+	{/if}
+	{if $replys}
+	{loop $replys $k $v}
+	<div class="list-user">
+	<img src="{useravatar($v[username])}" width="32" height="32"/>
+	<ul>
+	<li><span>{if $v[fname]}{$v[fname]}{else}{$v[floor]}楼{/if}</span><a href="club.php?action=user&username={$v[username]}&itemid={$itemid}" class="b">{if $v[username]}{$v[passport]}{else}{ip2area($item[ip])}访客{/if}</a>&nbsp;{if $v[username] == $GRP[username]}圈主{elseif in_array($v[passport], $GRP[managers])}版主{/if}</li>
+	<li><em>{timetodate($v[addtime], 5)}</em></li>
+	</ul>
+	</div>
+	<div class="content">{$v[content]}</div>
+	{/loop}
+	{/if}
+</div>
+{if $DT_MOB[browser] == 'weixin' ||  $DT_MOB[browser] == 'qq'}{template 'chip-share', 'mobile'}{/if}
+{else}
+	{if $gid}
+		<style type="text/css">
+		.list-post {height:66px;padding:0 16px;}
+		.list-post p {margin:6px 0 0 0;}
+		.list-ontop {background:#FFFFFF url('static/img/post-ontop.png') no-repeat right 0;background-size:24px 24px;}
+		.list-level {background:#FFFFFF url('static/img/post-level.png') no-repeat right 0;background-size:24px 24px;}
+		.list-thumb {background:#FFFFFF url('static/img/post-thumb.png') no-repeat right 0;background-size:24px 24px;}
+		</style>
+		<div class="list-tab bd-b">
+			<ul>
+				<li{if $typeid==0} class="on"{/if}><a href="index.php?moduleid={$moduleid}&catid={$catid}&typeid=0" data-transition="flip"><span>最后回复</span></a></li>
+				<li{if $typeid==1} class="on"{/if}><a href="index.php?moduleid={$moduleid}&catid={$catid}&typeid=1" data-transition="flip"><span>最新主题</span></a></li>
+				<li{if $typeid==2} class="on"{/if}><a href="index.php?moduleid={$moduleid}&catid={$catid}&typeid=2" data-transition="flip"><span>精华主题</span></a></li>
+			</ul>
+		</div>
+		{if $lists}
+		{loop $lists $v}
+		<div class="list-img list-post{if $v[ontop]} list-ontop{elseif $v[level]} list-level{elseif $v[thumb]} list-thumb{/if}">
+		<ul>
+		<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+		</ul>
+		<p><span class="f_r">{$v[passport]}&nbsp;&nbsp;&nbsp;&nbsp;{$v[reply]}回复</span><span>{$v[date]}</span></p>
+		</div>
+		{/loop}
+		{else}
+		{template 'chip-empty', 'mobile'}
+		{/if}
+	{else}
+		{if $lists}
+		{loop $lists $v}
+		<div class="list-img" style="height:60px;">
+		<a href="index.php?moduleid={$moduleid}&catid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-60.png{/if}" width="40" height="40" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+		<ul>
+		<li><a href="index.php?moduleid={$moduleid}&catid={$v[itemid]}"><strong>{$v[title]}{$MOD[seo_name]}</strong></a></li>
+		<li><span>{$v[post]}主题</span>&nbsp;&nbsp;<span>{$v[fans]}粉丝</span></li>
+		</ul>
+		</div>
+		{/loop}
+		{else}
+		{template 'chip-empty', 'mobile'}
+		{/if}
+	{/if}
+{/if}
+{if $action != 'ajax'}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}
+{/if}

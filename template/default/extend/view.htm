@@ -1,0 +1,18 @@
+{template 'header'}
+<div class="m">
+	<div class="left_box">		
+		<div class="pos"><span class="f_r"><a href="javascript:window.close();">[关闭窗口]</a>&nbsp;&nbsp;</span>当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; 查看大图</div>
+		<br/><br/><center><img src="{$img}" onerror="alert('图片不存在');try{window.close();}catch(e){Go(DTPath);}" onload="if(this.width>900) this.width=900;" style="border:#CCCCCC 1px solid;padding:5px;" ondblclick="window.close();" oncontextmenu="return false;" onmousewheel="return zoomimg(this);"/></center><br/><br/>
+	</div>
+</div>
+<script type="text/javascript">
+function zoomimg(o) {
+  var zoom = parseInt(o.style.zoom, 10) || 100;
+  zoom += event.wheelDelta/12;
+  if(zoom > 100) zoom = 100;
+  if(zoom < 10) zoom = 10;
+  o.style.zoom = zoom+'%';
+  return false;
+}
+</script>
+{template 'footer'}

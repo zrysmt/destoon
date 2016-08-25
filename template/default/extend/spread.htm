@@ -1,0 +1,285 @@
+{php $CSS = array('extend');}
+{template 'header'}
+<div class="m">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr bgcolor="#F8F9FB">
+<td width="625"><a href="./" onfocus="this.blur();"><img src="{DT_SKIN}image/spread.jpg" width="625" height="260"/></a></td>
+<td width="15">&nbsp;</td>
+<td valign="top">
+<br/><br/>
+<form action="index.php" onsubmit="return check();">
+<div><input type="text" name="kw" id="spread_kw" class="sp_input" value="{if $kw}{$kw}{else}请输入关键词...{/if}" onfocus="if(this.value=='请输入关键词...')this.value='';"/></div>
+<div style="padding:15px 0 15px 0;"><input type="image" src="{DT_SKIN}image/btn_spread.gif" align="absmiddle"/> 咨询电话：{$DT[telephone]}</div>
+</form>
+<div class="new_head">最新出价</div>
+<div class="new_body">
+	<div id="spread_up" style="height:75px;overflow:hidden;">
+	<ul>
+		<!--{php $tags=tag("table=spread&condition=status=3 and company<>''&pagesize=20&order=addtime desc&template=null");}-->
+		{loop $tags $t}
+		<li><span class="f_r"><span class="new_price">{$t[price]}{$unit}</span></span><a href="{rewrite('index.php?kw='.urlencode($t['word']))}">{$t[word]}</a> <span class="f_gray">{$t[company]}</span></li>
+		{/loop}
+	</ul>
+	</div>
+</div>
+</td>
+</tr>
+</table>
+{if $action == 'list'}
+<div class="list_tb">
+<h1>关键词“{$kw}”在“{$MODULE[$mid][name]}”搜索结果推广记录</h1>
+<table cellpadding="6" cellspacing="1">
+<tr>
+<th>公司</th>
+<th>出价</th>
+<th>单位</th>
+<th>开始日期</th>
+<th>结束日期</th>
+<th>投放状态</th>
+<th>申请时间</th>
+<th>信息</th>
+</tr>
+<tr>
+<td colspan="8" height="10"> </td>
+</tr>
+{loop $lists $k $v}
+{if $v[bg]}
+<tr>
+<td colspan="8" class="list_dl">&nbsp;</td>
+</tr>
+{/if}
+<tr align="center">
+<td><a href="{userurl($v['username'])}" target="_blank" class="t">{$v[company]}</a></td>
+<td class="f_b f_red">{$v[price]}</td>
+<td>{if $v[currency]=='money'}{$DT[money_unit]}{else}{$DT[credit_unit]}{/if}</td>
+<td>{timetodate($v[fromtime], 3)}</td>
+<td>{timetodate($v[totime], 3)}</td>
+<td>{$v[process]}</td>
+<td class="f_gray px11">{timetodate($v[addtime], 5)}</td>
+<td><a href="{DT_PATH}api/redirect.php?mid={$v[mid]}&itemid={$v[tid]}" target="_blank" class="t">直达</a></td>
+</tr>
+{/loop}
+<tr>
+<td colspan="8" height="10"> </td>
+</tr>
+</table>
+<div class="pages">{$pages}</div>
+</div>
+
+{else}
+
+{if $kw}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="10" bgcolor="#F8F9FB"></td>
+<td bgcolor="#FFFFFF">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td width="10"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head"><span class="f_r px13">起价：<span class="f_red">{$sell_price}</span>{$unit}</span><span class="f_red">{$kw}</span>{$MODULE[5][name]}排名推广</div>
+	<div class="head_n">{$next_year}年{$next_month}月份出价记录</div>
+	<div class="body_n">
+		{if $sell_record}
+		<div class="rank_list">
+		<ul>
+		{loop $sell_record $v}
+		<li><span class="f_r f_red f_b">{$v[price]}{$unit}</span>{$v[company]}</li>
+		{/loop}
+		</ul>
+		</div>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+	</div>
+	</div>
+	</td>
+	<td width="10" bgcolor="#F8F9FB"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head"><span class="f_r px13">起价：<span class="f_red">{$buy_price}</span>{$unit}</span><span class="f_red">{$kw}</span>{$MODULE[6][name]}排名推广</div>
+	<div class="head_n">{$next_year}年{$next_month}月份出价记录</div>
+	<div class="body_n">
+		{if $buy_record}
+		<div class="rank_list">
+		<ul>
+		{loop $buy_record $v}
+		<li><span class="f_r f_red f_b">{$v[price]}{$unit}</span>{$v[company]}</li>
+		{/loop}
+		</ul>
+		</div>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+	</div>
+	</div>
+	</td>
+	<td width="10" bgcolor="#F8F9FB"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head"><span class="f_r px13">起价：<span class="f_red">{$company_price}</span>{$unit}</span><span class="f_red">{$kw}</span>{$MODULE[4][name]}排名推广</div>
+	<div class="head_n">{$next_year}年{$next_month}月份出价记录</div>
+	<div class="body_n">
+		{if $company_record}
+		<div class="rank_list">
+		<ul>
+		{loop $company_record $v}
+		<li><span class="f_r f_red f_b">{$v[price]}{$unit}</span>{$v[company]}</li>
+		{/loop}
+		</ul>
+		</div>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+	</div>
+	</div>
+	</td>
+	<td width="10"> </td>
+	</tr>
+
+	<tr>
+	<td></td>
+	<td align="center">{if $sell_count<$spread_max}<a href="{$MODULE[2][linkurl]}spread.php?action=add&mid=5&kw={$ukw}"><img src="{DT_SKIN}image/btn_spread_price.gif"/></a>{else}<strong>! 本轮竞价已结束，请下月再来</strong>{/if}</td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td align="center">{if $buy_count<$spread_max}<a href="{$MODULE[2][linkurl]}spread.php?action=add&mid=6&kw={$ukw}"><img src="{DT_SKIN}image/btn_spread_price.gif"/></a>{else}<strong>! 本轮竞价已结束，请下月再来</strong>{/if}</td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td align="center">{if $company_count<$spread_max}<a href="{$MODULE[2][linkurl]}spread.php?action=add&mid=4&kw={$ukw}"><img src="{DT_SKIN}image/btn_spread_price.gif"/></a>{else}<strong>! 本轮竞价已结束，请下月再来</strong>{/if}</td>
+	<td></td>
+	</tr>
+
+	<tr>
+	<td height="15"></td>
+	<td></td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td></td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td></td>
+	<td></td>
+	</tr>
+
+	<tr>
+	<td></td>
+	<td valign="top">
+	<div class="h_box">
+		<div class="head_h">{if $MOD[spread_list]}<span class="f_r"><a href="{rewrite('list.php?mid=5&kw='.$ukw)}" class="w">更多&raquo;</a></span>{/if}<strong>历史出价记录</strong></div>		
+		<!--{php $tags=tag("table=spread&condition=mid=5 and status=3 and word='$kw' and fromtime<$next_time&pagesize=10&order=addtime desc&template=null");}-->
+		<div class="body_h">
+		{if $tags}
+		<ul>
+		{loop $tags $t}
+		<li><span class="f_r f_red f_b">{$t[price]}{$unit}</span>({timetodate($t[fromtime], 'Y.m')}) {$t[company]}</li>
+		{/loop}
+		</ul>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+		</div>
+	</div>		
+	</td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td valign="top">
+	<div class="h_box">
+		<div class="head_h">{if $MOD[spread_list]}<span class="f_r"><a href="{rewrite('list.php?mid=6&kw='.$ukw)}" class="w">更多&raquo;</a></span>{/if}<strong>历史出价记录</strong></div>		
+		<!--{php $tags=tag("table=spread&condition=mid=6 and status=3 and word='$kw' and fromtime<$next_time&pagesize=10&order=addtime desc&template=null");}-->
+		<div class="body_h">
+		{if $tags}
+		<ul>
+		{loop $tags $t}
+		<li><span class="f_r f_red f_b">{$t[price]}{$unit}</span>({timetodate($t[fromtime], 'Y.m')}) {$t[company]}</li>
+		{/loop}
+		</ul>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+		</div>
+	</div>		
+	</td>
+	<td bgcolor="#F8F9FB"> </td>
+	<td valign="top">
+	<div class="h_box">
+		<div class="head_h">{if $MOD[spread_list]}<span class="f_r"><a href="{rewrite('list.php?mid=4&kw='.$ukw)}" class="w">更多&raquo;</a></span>{/if}<strong>历史出价记录</strong></div>		
+		<!--{php $tags=tag("table=spread&condition=mid=4 and status=3 and word='$kw' and fromtime<$next_time&pagesize=10&order=addtime desc&template=null")}-->
+		<div class="body_h">
+		{if $tags}
+		<ul>
+		{loop $tags $t}
+		<li><span class="f_r f_red f_b">{$t[price]}{$unit}</span>({timetodate($t[fromtime], 'Y.m')}) {$t[company]}</li>
+		{/loop}
+		</ul>
+		{else}
+		<div class="norecord">暂无记录</div>
+		{/if}
+		</div>
+	</div>	
+	</td>
+	<td></td>
+	</tr>
+	</table>
+</td>
+<td width="10" bgcolor="#F8F9FB"></td>
+</td>
+</tr>
+</table>
+{else}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="10" bgcolor="#F8F9FB"></td>
+<td bgcolor="#FFFFFF">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td width="10"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head">{$MODULE[5][name]}本月搜索排行</div>
+	<div class="rank_list">
+		<!--{tag("table=keyword&condition=moduleid=5 and status=3 and updatetime>$today_endtime-86400*30&pagesize=10&order=month_search desc&key=month_search&template=list-search_spread")}-->
+	</div>
+	</div>
+	</td>
+	<td width="10" bgcolor="#F8F9FB"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head">{$MODULE[6][name]}本月搜索排行</div>
+	<div class="rank_list">
+		<!--{tag("table=keyword&condition=moduleid=6 and status=3 and updatetime>$today_endtime-86400*30&pagesize=10&order=month_search desc&key=month_search&template=list-search_spread")}-->
+	</div>
+	</div>
+	</td>
+	<td width="10" bgcolor="#F8F9FB"> </td>
+	<td width="300" valign="top">
+	<div class="rank_box">
+	<div class="rank_head">{$MODULE[4][name]}本月搜索排行</div>
+	<div class="rank_list">
+		<!--{tag("table=keyword&condition=moduleid=4 and status=3 and updatetime>$today_endtime-86400*30&pagesize=10&order=month_search desc&key=month_search&template=list-search_spread")}-->
+	</div>
+	</div>
+	</td>
+	<td width="10"> </td>
+	</tr>
+	</table>
+</td>
+<td width="10" bgcolor="#F8F9FB"></td>
+</td>
+</tr>
+</table>
+{/if}
+{/if}
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr bgcolor="#F8F9FB">
+<td height="10"> </td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" src="{DT_STATIC}file/script/marquee.js"></script>
+<script type="text/javascript">
+new dmarquee(25, 30, 2000, 'spread_up');
+function check() {
+	if(Dd('spread_kw').value.length < 1 || Dd('spread_kw').value == '请输入关键词...') {
+		alert('请输入关键词');
+		Dd('spread_kw').focus();
+		return false;
+	}
+}
+</script>
+{template 'footer'}

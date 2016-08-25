@@ -1,0 +1,26 @@
+{template 'header', $module}
+{if $banner}
+<div class="m"><a href="{$linkurl}"><img src="{$banner}" alt="{$title}"/></a></div>
+<div class="m b10">&nbsp;</div>
+{/if}
+<div class="m">
+<div class="m_l f_l">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$linkurl}">{$title}</a> &raquo; {$type[typename]}</div>
+
+		<div class="catlist">
+		<!--{tag("table=special_item&condition=specialid=$itemid and typeid=$typeid&order=addtime desc&pagesize=15&page=$page&showpage=1&datetype=5&target=_blank&template=list-cat&cols=5")}-->
+		</div>
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r f_l">
+	<div class="box_head"><div><strong>推荐图文</strong></div></div>
+	<div class="box_body thumb"><!--{tag("table=special_item&length=20&condition=specialid=$itemid and level=3 and thumb<>''&pagesize=4&order=addtime desc&width=120&height=90&cols=2&target=_blank&template=thumb-table", -2)}--></div>
+	<div class="b10 c_b"> </div>
+	<div class="box_head"><div><strong>最新更新</strong></div></div>
+	<div class="box_body li_dot"><!--{tag("table=special_item&condition=specialid=$itemid&order=addtime desc&pagesize=11&target=_blank, -2")}-->
+	</div>
+</div>
+</div>
+{template 'footer'}

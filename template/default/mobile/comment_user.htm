@@ -1,0 +1,42 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="comment.php?mid={$mid}&itemid={$itemid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:Dsheet('<a href=&#34;message.php?action=send&touser={$username}&#34; data-transition=&#34;slideup&#34;><span>发送消息</span></a>', '取消');"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+<div class="main">
+	<div class="user-info">
+	<img src="{useravatar($username, 'large')}" width="64" height="64"/>
+	<div><a href="index.php?moduleid=4&username={$username}"><strong>{$username}</strong></a><br/>
+	来自{area_pos($user[areaid], '')}，当前{if online($user[userid])==1}在线{else}离线{/if}</div>
+	</div>
+	{if $lists}
+	{loop $lists $k $v}
+	<div class="list-user">
+	<img src="{useravatar($v[username])}" width="32" height="32"/>
+	<ul>
+	<li><a href="index.php?moduleid={$v[item_mid]}&itemid={$v[item_id]}" class="b"><span>原文</span></a><a href="comment.php?action=user&username={$v[username]}&mid={$mid}&itemid={$itemid}" class="b">{$v[username]}</a></li>
+	<li><em>{if $v[star]==1}差评{elseif $v[star]==2}中评{else}好评{/if} {timetodate($v[addtime], 5)}</em></li>
+	</ul>
+	</div>
+	<div class="content">
+	{$v[content]}
+	{if $v[reply]}
+	<br/><span class="px12 f_gray">{if $v[editor]}<span style="color:red;">管理员</span>{else}<span style="color:blue;">{$v[replyer]}</span>{/if} {timetodate($v[replytime], 5)} 回复： </span>
+	<br/>{nl2br($v[reply])}
+	{/if}
+	</div>
+	{/loop}
+	{else}
+	<div class="list-empty">暂无评论</div>
+	{/if}
+</div>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

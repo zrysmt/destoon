@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset={DT_CHARSET}"/>
+<title>{$DT[sitename]}</title>
+<link rel="stylesheet" type="text/css" href="{DT_SKIN}style.css"/>
+<link rel="stylesheet" type="text/css" href="{DT_SKIN}extend.css"/>
+<script type="text/javascript" src="{DT_STATIC}lang/{DT_LANG}/lang.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/config.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/jquery.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/common.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/page.js"></script>
+</head>
+<body oncontextmenu="return false">
+<iframe id="proxy_iframe" src="" style="display:none"></iframe>
+<div id="destoon_poll">
+	<div id="poll_list">
+	{template $template_poll, 'chip'}
+	</div>
+{if $verify}
+	<div class="poll_verify" id="poll_verify">
+		<table width="100%" cellpadding="10" cellspacing="0">
+		{if $verify == 1}
+		<tr>
+		<td width="100" align="right">请填写验证码</td>
+		<td>{template 'captcha', 'chip'} <span id="dcaptcha" class="f_red"></span></td>
+		</tr>
+		{/if}
+		{if $verify == 2}
+		<tr>
+		<td width="100" align="right">请回答验证问题</td>
+		<td>{template 'question', 'chip'} <span id="danswer" class="f_red"></span></td>
+		</tr>
+		{/if}
+		<tr>
+		<td colspan="2" align="center">
+		<input type="button" value=" 投 票 " class="submit_btn" onclick="P();"/>
+		<input type="button" value=" 取 消 " class="poll_cc" onclick="C();"/>
+		</td>
+		</tr>
+		</table>
+	</div>
+{/if}
+</div>
+<script style="text/javascript">
+var id = 0;
+function Poll(i) {
+	id = i;
+	var par = '?action=ajax&itemid='+i;
+	{if $verify == 1}
+		if(!is_captcha(Dd('captcha').value)) {
+			S();showcaptcha();Dd('captcha').focus();
+			return;
+		}
+		par += '&captcha='+Dd('captcha').value;
+	{/if}
+	{if $verify == 2}
+		if(Dd('answer').value == '') {
+			S();reloadquestion();Dd('answer').focus();
+			return;
+		}
+		par += '&answer='+Dd('answer').value;
+	{/if}
+	$.get(par,
+		function(data, status) {
+			if(data == 'ok') {
+				alert('投票成功，感谢参与');
+				window.location.reload();
+			} else if(data) {
+				alert(data);
+				if(data.indexOf('验证码') != -1) {
+					reloadcaptcha();
+				} else if(data.indexOf('验证问题') != -1) {
+					reloadquestion();
+				} else {
+					C();
+				}
+			}
+		}
+	);
+}
+function P() {
+	Poll(id);
+}
+function S() {
+	$('#poll_verify').show('slow');
+	$('#poll_list').hide('fast');
+}
+function C() {
+	$('#poll_verify').hide('fast');
+	$('#poll_list').show('fast');
+	{if $verify == 1}Dd('captcha').value='';{/if}
+	{if $verify == 2}Dd('answer').value='';{/if}
+}
+function H() {
+	var h = Dd('destoon_poll').scrollHeight;
+	h = h + 30;
+	Dd('proxy_iframe').src = AJPath+'?action=proxy&itemid=3#'+h+'|{$itemid}';
+}
+H();
+</script>
+</body>
+</html>

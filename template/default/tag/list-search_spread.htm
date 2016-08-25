@@ -1,0 +1,5 @@
+<ul>
+{loop $tags $i $t}
+<li title="搜索{$t[$key]}次 约{$t[items]}条结果"><span class="f_r px11 f_gray">&nbsp;{$t[$key]}次</span><a href="{rewrite('index.php?kw='.urlencode($t['word']))}" rel="nofollow">{$t[word]}</a></li>
+{/loop}
+</ul>

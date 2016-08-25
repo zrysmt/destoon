@@ -1,0 +1,125 @@
+{if $action != 'ajax'}
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+{if $itemid || $catid || $areaid || $kw}
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+{else}
+<a href="channel.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>频道</span></a>
+{/if}
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:{if $itemid}Dsheet('<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{/if}
+{if $userid}
+	{if $action=='introduce'}
+		<div class="content">
+		{if $thumb}<center><img src="{$thumb}"/></center>{/if}
+		{$content}
+		</div>
+	{elseif $action=='news'}
+		{if $itemid}
+			<div class="title"><strong>{$title}</strong></div>
+			<div class="info">日期:<small>{$adddate}</small>&nbsp;&nbsp;点击:{$hits}</div>
+			<div class="content">{$content}</div>
+		{else}
+			{if $MTYPE}
+			<div class="content">
+				<a href="index.php?moduleid={$moduleid}&username={$username}&action={$action}"{if $typeid==0} class="f_b"{/if}>全部</a>
+				{loop $MTYPE $t}
+				&nbsp;|&nbsp;<a href="index.php?moduleid={$moduleid}&username={$username}&action={$action}&typeid={$t[typeid]}"{if $typeid==$t[typeid]} class="f_b"{/if}>{$t[typename]}</a>
+				{/loop}
+			</div>
+			{/if}
+			<ul class="list-txt">
+			{loop $lists $v}
+			<li><span class="f_r px11 f_gray">&nbsp;{timetodate($v[addtime], 3)}</span><a href="index.php?moduleid={$moduleid}&username={$username}&action={$action}&itemid={$v[itemid]}">{$v[title]}</a></li>
+			{/loop}
+			</ul>
+		{/if}
+	{elseif $action=='sell'}
+		{if $MTYPE}
+		<div class="content">
+			<a href="index.php?moduleid={$moduleid}&username={$username}&action={$action}"{if $typeid==0} class="f_b"{/if}>全部</a>
+			{loop $MTYPE $t}
+			&nbsp;|&nbsp;<a href="index.php?moduleid={$moduleid}&username={$username}&action={$action}&typeid={$t[typeid]}"{if $typeid==$t[typeid]} class="f_b"{/if}>{$t[typename]}</a>
+			{/loop}
+		</div>
+		{/if}
+		{loop $lists $v}
+		<div class="list-img">
+		<a href="index.php?moduleid=5&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+		<ul>
+		<li><a href="index.php?moduleid=5&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+		<li><em>{$v[date]}</em></li>
+		<li{if $v[vip]} class="vip" title="{VIP}:{$v[vip]}"{/if}><a href="index.php?moduleid=4&username={$v[username]}"><span>{$v[company]}</span></a></li>
+		</ul>
+		</div>
+		{/loop}
+	{elseif $action=='contact'}
+		<div class="content">
+		{if $could_contact}
+			{if $truename}姓名:{$truename}({if $gender==1}先生{else}女士{/if})<br/>{/if}
+			{if $department}部门:{$department}<br/>{/if}
+			{if $career}职务:{$career}<br/>{/if}
+			{if $mobile}手机:{$mobile}<br/>{/if}
+			{if $telephone}电话:{$telephone}<br/>{/if}
+			{if $fax}传真:{$fax}<br/>{/if}
+			{if $address}地址:{$address}<br/>{/if}
+			{if $postcode}邮编:{$postcode}<br/>{/if}
+			{if $mail}邮件:{$mail}<br/>{/if}
+			{if $homepage}网址:{$homepage}<br/>{/if}
+			{if $qq && $DT[im_qq]}QQ:{$qq}<br/>{/if}
+			{if $ali && $DT[im_ali]}阿里旺旺:{$ali}<br/>{/if}
+			{if $msn && $DT[im_msn]}MSN:{$msn}<br/>{/if}
+			{if $skype && $DT[im_skype]}Skype:{$skype}<br/>{/if}
+			发信:<a href="index.php?moduleid=2&action=message_send&touser={$username}" class="b">点此发送</a><br/>
+		{else}
+		无权查看，请升级<br/>
+		{/if}
+		</div>
+	{else}
+		<div class="content">
+		{if $vip}级别:{VIP} {$vip}<br/>{/if}
+		{if $areaid}所在地区:{area_pos($areaid, '/')}<br/>{/if}
+		{if $type}公司类型:{$type}{if $mode}({$mode}){/if}<br/>{/if}
+		{if $regyear}成立时间:{$regyear}<br/>{/if}
+		{if $capital}注册资本:{$capital}万{$regunit}<br/>{/if}
+		{if $business}经营范围:{$business}<br/>{/if}
+		</div>
+		<!--{php $tags=tag("moduleid=5&condition=status=3 and elite>0 and username='$username'&pagesize=5&length=$len&order=edittime desc&template=null");}-->
+		{if $tags}
+		<div class="box_head"><span class="f_r px12"><a href="index.php?moduleid={$moduleid}&username={$username}&action=sell">更多&raquo;</a></span><strong>推荐产品</strong></div>
+		<ul class="list-txt">
+		{loop $tags $v}
+		<li><span class="f_r px11 f_gray">&nbsp;&nbsp;{timetodate($v[edittime], 3)}</span><a href="index.php?moduleid=5&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+		{/loop}
+		</ul>
+		{/if}
+	{/if}
+{else}
+	{if $lists}
+	{loop $lists $v}
+	<div class="list-img">
+	<a href="index.php?moduleid={$moduleid}&username={$v[username]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+	<ul>
+	<li{if $v[vip]} class="vip" title="{VIP}:{$v[vip]}"{/if}><a href="index.php?moduleid={$moduleid}&username={$v[username]}"><strong>{$v[company]}</strong></a></li>
+	<li><span>主营：{$v[business]}</span></li>
+	<li><span>{area_pos($v[areaid], '', 2)}{if $v[mode]}&nbsp;&nbsp;({$v[mode]}){/if}&nbsp;&nbsp;{if $v[validated]}[已核实]{else}[未核实]{/if}</span></li>
+	</ul>
+	</div>
+	{/loop}
+	{else}
+	{template 'chip-empty', 'mobile'}
+	{/if}
+{/if}
+{if $action != 'ajax'}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}
+{/if}

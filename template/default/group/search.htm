@@ -1,0 +1,77 @@
+{template 'header'}
+<div class="m">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$MOD[linkurl]}search.php">搜索</a></div>
+		<div class="fsearch">
+			<form action="{$MOD[linkurl]}search.php" id="fsearch">
+			<table cellpadding="5" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td colspan="3">
+			<input type="text" size="60" name="kw" value="{$kw}" class="pd3"/>
+			</td>
+			</tr>
+			<tr>
+			<td></td>
+			<td colspan="3">
+			{loop $sfields $k $v}
+			<input type="radio" name="fields" value="{$k}" id="fd_{$k}"{if $fields==$k} checked{/if}/><label for="fd_{$k}"> {$v}</label>&nbsp;
+			{/loop}			
+			</td>
+			</tr>
+			<tr>
+			<td align="right">更新日期：</td>
+			<td>{dcalendar('fromdate', $fromdate, '')} 至 {dcalendar('todate', $todate, '')}</td>
+			<td align="right">所属分类：</td>
+			<td>{$category_select}</td>
+			</tr>
+			<tr>
+			<td align="right">信息类型：</td>
+			<td>			
+			
+			<input type="checkbox" name="thumb" id="thumb" value="1"{if $thumb} checked{/if}/> 图片
+			<input type="checkbox" name="vip" id="vip" value="1"{if $vip} checked{/if}/> {VIP}
+			</td>
+			<td align="right">所在地区：</td>
+			<td>{$area_select}</td>
+			</tr>
+			<tr>
+			<td></td>
+			<td colspan="3">
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>&nbsp;&nbsp;
+			<a href="{$MOD[linkurl]}search.php"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>	
+			</td>
+			</tr>
+			</table>
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			<input type="hidden" name="ppt_{$p[oid]}" id="ppt_{$p[oid]}" value="{$p[select]}"/>
+			<a href="###" onclick="Dd('ppt_{$p[oid]}').value='';Dd('fsearch').submit();">{if $p[select]==''}<span>全部</span>{else}全部{/if}</a>
+			{loop $p[options] $o}
+			&nbsp;|&nbsp;<a href="###" onclick="Dd('ppt_{$p[oid]}').value='{$o}';Dd('fsearch').submit();">{if $p[select]==$o}<span>{$o}</span>{else}{$o}{/if}</a>
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+			</form>
+		</div>
+		{if $page==1 && $kw}
+		{ad($moduleid,$catid,$kw,6)}
+		{load('m'.$moduleid.'_k'.urlencode($kw).'.htm')}
+		{/if}
+		{if $tags}
+		{template 'list-'.$module, 'tag'}
+		{else}
+		{template 'noresult', 'message'}
+		{/if}
+	</div>
+</div>
+{template 'footer'}

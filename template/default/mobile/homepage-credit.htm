@@ -1,0 +1,100 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $tab}
+<div class="list-tab bd-b">
+	<ul>
+		<li{if $typeid==0} class="on"{/if}><a href="{$HURL}&action={$action}&typeid=0" data-transition="flip"><span>公司档案</span></a></li>
+		<li{if $typeid==1} class="on"{/if}><a href="{$HURL}&action={$action}&typeid=1" data-transition="flip"><span>收到的评价</span></a></li>
+		<li{if $typeid==2} class="on"{/if}><a href="{$HURL}&action={$action}&typeid=2" data-transition="flip"><span>发出的评价</span></a></li>
+	</ul>
+</div>
+{/if}
+{if $typeid}
+<style type="text/css">
+.comment_title{padding:10px 16px 0 16px;font-size:12px;color:#999999;}
+.comment_content{padding:10px 16px;line-height:180%;}
+.comment_reply{padding:0 16px 10px 16px;font-size:12px;color:#AF874D;}
+.comment_reply span{color:#007AFF;}
+</style>
+{/if}
+<div class="main">
+{if $typeid==2}
+	{if $lists}
+	{loop $lists $k $v}
+	<div class="bd-b">
+	<div class="comment_title">
+		<span class="f_r">{$STARS[$v[buyer_star]]} <img src="{DT_STATIC}file/image/star{$v[buyer_star]}.gif" width="18" height="6" alt="" align="absmiddle"/></span>
+		买家 <span id="i_{$v[itemid]}">{hide_name($v[buyer])} 于 <span class="comment_time">{timetodate($v[buyer_ctime])}</span> 评论：</span>
+	</div>
+	<div class="comment_content">{nl2br($v[buyer_comment])}</div>
+	{if $v[seller_reply]}
+	<div class="comment_reply">
+	<span>卖家</span> {timetodate($v[seller_rtime])} 回复： {nl2br($v[seller_reply])}
+	</div>
+	{/if}
+	</div>
+	{/loop}
+	{else}
+	<br/><br/><br/><center>暂无评价</center><br/><br/><br/>
+	{/if}
+{elseif $typeid==1}
+	{if $lists}
+	{loop $lists $k $v}
+	<div class="bd-b">
+	<div class="comment_title">
+		<span class="f_r">{$STARS[$v[seller_star]]} <img src="{DT_STATIC}file/image/star{$v[seller_star]}.gif" width="18" height="6" alt="" align="absmiddle"/></span>
+		买家 <span id="i_{$v[itemid]}">{hide_name($v[buyer])} 于 <span class="comment_time">{timetodate($v[seller_ctime])}</span> 评论：</span>
+	</div>
+	<div class="comment_content" id="c_{$v[itemid]}">{nl2br($v[seller_comment])}</div>
+	{if $v[buyer_reply]}
+	<div class="comment_reply">
+	<span>卖家</span> {timetodate($v[buyer_rtime])} 回复： {nl2br($v[buyer_reply])}
+	</div>
+	{/if}
+	</div>
+	{/loop}
+	{else}
+	<br/><br/><br/><center>暂无评价</center><br/><br/><br/>
+	{/if}
+{else}
+	<div class="content">
+	公司名称：{$COM[company]}<br/>
+	公司类型：{$COM[type]} ({$COM[mode]})<br/>
+	所在地区：{area_pos($COM[areaid], '/')}<br/>
+	公司规模：{$COM[size]}<br/>
+	注册资本：{if $COM[capital]}{$COM[capital]}万{$COM[regunit]}{else}未填写{/if}<br/>
+	注册年份：{$COM[regyear]}<br/>
+	资料认证：{if $COM[validated]}企业资料<span class="f_green">通过{$COM[validator]}</span>认证{/if}<br/>
+	{if $COM[vcompany]}工商认证：<span class="f_green">已通过</span><br/>{/if}
+	{if $COM[vtruename]}实名认证：<span class="f_green">已通过</span><br/>{/if}
+	{if $COM[vbank]}银行帐号认证：<span class="f_green">已通过</span><br/>{/if}
+	{if $COM[vmobile]}手机认证：<span class="f_green">已通过</span><br/>{/if}
+	{if $COM[vemail]}邮件认证：<span class="f_green">已通过</span><br/>{/if}
+	{if $COM[deposit]}
+	保&nbsp;&nbsp;证&nbsp;&nbsp;金：已缴纳 <strong class="f_green">{$DT[money_sign]}{$COM[deposit]}</strong> {$DT[money_unit]}<br/>
+	{/if}
+	{if $COM[mode]}
+	经营模式：{$COM[mode]}<br/>
+	{/if}
+	{if $COM[business]}
+	经营范围：{$COM[business]}<br/>
+	{/if}
+	{if $COM[sell]}
+	销售产品：{$COM[sell]}<br/>
+	{/if}
+	{if $COM[buy]}
+	采购产品：{$COM[buy]}
+	{/if}	
+	</div>
+{/if}
+</div>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

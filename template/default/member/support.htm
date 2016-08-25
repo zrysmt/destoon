@@ -1,0 +1,66 @@
+{template 'header', $module}
+<div class="menu">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="tab" id="add"><a href="ask.php?action=add"><span>提交新问题</span></a></td>
+<td class="tab" id="home"><a href="ask.php?action=index"><span>问题及解答</span></a></td>
+<td class="tab_on"><a href="?action=index"><span>客服专员</span></a></td>
+</tr>
+</table>
+</div>
+<table cellspacing="1" cellpadding="10" class="tb">
+{if $user[truename]}
+<tr>
+<td class="tl">姓名</td>
+<td class="tr">{$user[truename]} （{if $user[gender]==1}先生{else}女士{/if}）</td>
+</tr>
+{/if}
+{if $user[telephone]}
+<tr>
+<td class="tl">电话</td>
+<td class="tr">{$user[telephone]}</td>
+</tr>
+{/if}
+{if $user[mobile]}
+<tr>
+<td class="tl">手机</td>
+<td class="tr">{$user[mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($user[mobile], DT_KEY.'SMS')}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
+</tr>
+{/if}
+{if $user[fax]}
+<tr>
+<td class="tl">传真</td>
+<td class="tr">{$user[fax]}</td>
+</tr>
+{/if}
+{if $user[mail]}
+<tr>
+<td class="tl">邮件</td>
+<td class="tr">{$user[mail]}</td>
+</tr>
+{/if}
+{if $user[address]}
+<tr>
+<td class="tl">地址</td>
+<td class="tr">{$user[address]}</td>
+</tr>
+{/if}
+{if $user[postcode]}
+<tr>
+<td class="tl">邮编</td>
+<td class="tr">{$user[postcode]}</td>
+</tr>
+{/if}
+<tr>
+<td class="tl">对话</td>
+<td class="tr">
+{if $user[username] && $DT[im_web]}{im_web($user[username])}&nbsp;{/if}
+{if $user[qq] && $DT[im_qq]}{im_qq($user[qq])}&nbsp;{/if}
+{if $user[ali] && $DT[im_ali]}{im_ali($user[ali])}&nbsp;{/if}
+{if $user[msn] && $DT[im_msn]}{im_msn($user[msn])}&nbsp;{/if}
+{if $user[skype] && $DT[im_skype]}{im_skype($user[skype])}&nbsp;{/if}
+</td>
+</tr>
+</table>
+<script type="text/javascript">s('ask');</script>
+{template 'footer', $module}

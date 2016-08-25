@@ -1,0 +1,15 @@
+{php global $PROCESS;}
+{loop $tags $k $t}
+<div class="know_list">
+	<table>
+	<tr>
+		<td width="30"><a href="{$MODULE[$moduleid][linkurl]}{rewrite('search.php?username='.$t['username'])}" rel="nofollow"><img src="{useravatar($t[username], 'small')}" width="20" height="20" title="{$t[passport]}" alt=""/></a></td>
+		<td align="left"><ul><li>{if $t[credit]}<span class="know_credit">{$t[credit]}</span> {/if}<a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}" class="konw_a">{$t[title]}</a></li></ul></td>
+		<td width="50" align="right">{$t[answer]}回答</td>
+		<td width="50" align="center"><img src="{DT_SKIN}image/know_{$t[process]}.gif" title="{$PROCESS[$t[process]]}"/></td>
+		<td width="120" class="px11" align="center">{timetodate($t[edittime], $datetype)}</td>
+	</tr>
+	</table>
+</div>
+{/loop}		
+{if $showpage && $pages}<div class="pages">{$pages}</div>{/if}

@@ -1,0 +1,14 @@
+{if $user_status == 3}
+{$content}
+{elseif $user_status == 2}
+{if $description}{$description}<br/>{/if}
+<div class="pay">
+查看详细内容需支付<strong>{$fee}</strong>{$fee_unit}<br/>
+{$fee_name}余额：{if $currency == 'money'}{$_money}{else}{$_credit}{/if}{$fee_unit} <a href="my.php?action=member" class="b">我的账户</a> <br/>
+<a href="pay.php?auth={encrypt($moduleid.'|'.$itemid.'|'.$currency.'|'.$fee, DT_KEY.'PAY')}"><div class="btn-green">立即支付</div></a>
+{elseif $user_status == 1}
+无权查看，请升级会员级别<br/>
+{if $DT[telephone]}咨询电话：<a href="tel:{$DT[telephone]}">{$DT[telephone]}</a><br/>{/if}
+{elseif $user_status == 0}
+<a href="login.php" class="b" data-transition="slideup">请登录查看</a><br/>
+{/if}

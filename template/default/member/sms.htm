@@ -1,0 +1,213 @@
+{template 'header', $module}
+<div class="menu">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="tab" id="add"><a href="sms.php?action=add"><span>发送短信</span></a></td>
+<td class="tab" id="action_buy"><a href="sms.php?action=buy"><span>短信购买</span></a></td>
+<td class="tab" id="action"><a href="?action=index"><span>短信记录</span></a></td>
+<td class="tab" id="action_record"><a href="?action=record"><span>接收记录</span></a></td>
+<td class="tab" id="action_send"><a href="?action=send"><span>发送记录</span></a></td>
+</tr>
+</table>
+</div>
+{if $action == 'add'}
+<form method="post" action="?" onsubmit="return check();" id="dform">
+<input type="hidden" name="action" value="{$action}"/>
+<table cellspacing="1" cellpadding="6" class="tb">
+<tr>
+<td class="tl"><span class="f_red">*</span> 接收号码</td>
+<td class="tr">
+<textarea name="mob" id="mob" rows="2" cols="35">{$mob}</textarea><br/>
+[一行一个手机号码]&nbsp;&nbsp;
+<a href="javascript:Dwidget('friend.php?action=my&from=sms', '[我的商友]', 600, 300);" class="t">[我的商友]</a><br/><span id="dmob" class="f_red"></span></td>
+</tr>
+<tr>
+<td class="tl"><span class="f_red">*</span> 短信内容</td>
+<td class="tr lh18"><textarea name="content" id="content" rows="15" cols="35" onkeyup="S();" onblur="S();"></textarea>
+<br/>当前已输入<strong id="chars" class="f_red">0</strong>字，计<strong id="counts" class="f_green">0</strong>条({$DT[sms_len]}字/条)，可用<strong class="f_blue">{$_sms}</strong>条
+<br/><span class="f_red">请勿发送任何违法信息，否则帐号会被禁用且不退款</span>
+<br/><span id="dcontent" class="f_red"></span>
+</td>
+</tr>
+<tr>
+<td class="tl">&nbsp;</td>
+<td class="tr" height="50"><input type="submit" name="submit" value=" 立即发送 " class="btn_g"/></td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+function S() {
+	var sms_len = {$DT[sms_len]};
+	Dd('chars').innerHTML = Dd('content').value.length;
+	Dd('counts').innerHTML = Math.ceil(Dd('content').value.length/sms_len);
+}
+function check() {
+	if(Dd('mob').value.length < 7) {
+		Dmsg('请填写接收号码', 'mob');
+		return false;
+	}
+	if(Dd('content').value.length < 2) {
+		Dmsg('请填写短信内容', 'content');
+		return false;
+	}
+}
+</script>
+<script type="text/javascript">s('sms');m('add');</script>
+{elseif $action == 'buy'}
+<form method="post" action="?" onsubmit="return check();" id="dform">
+<input type="hidden" name="action" value="{$action}"/>
+<table cellspacing="1" cellpadding="6" class="tb">
+<tr>
+<td class="tl">帐户余额</td>
+<td class="tr"><strong class="f_blue">{$_money}</strong> {$DT[money_unit]}</td>
+</tr>
+<tr>
+<td class="tl">短信单价</td>
+<td class="tr"><strong class="f_red">{$fee}</strong> {$DT[money_unit]}/条</td>
+</tr>
+<tr>
+<td class="tl">剩余短信</td>
+<td class="tr"><strong>{$_sms}</strong> 条</td>
+</tr>
+<tr>
+<td class="tl"><span class="f_red">*</span> 购买数量</td>
+<td class="tr c_p"><input type="text" name="total" id="total" size="10"/> 条&nbsp;<span id="dtotal" class="f_red"></span></td>
+</tr>
+<tr>
+<td class="tl"><span class="f_red">*</span> 支付密码</td>
+<td class="tr">{template 'password', 'chip'}&nbsp;<span id="dpassword" class="f_red"></span></td>
+</tr>
+<tr>
+<td class="tl">&nbsp;</td>
+<td class="tr" height="50"><input type="submit" name="submit" value=" 立即购买 " class="btn_g"/></td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+function check() {
+	if(Dd('total').value == '') {
+		Dmsg('请填写购买数量', 'total');
+		return false;
+	}
+	if(Dd('password').value == '') {
+		Dmsg('请填写支付密码', 'password');
+		return false;
+	}
+}
+</script>
+<script type="text/javascript">s('sms');m('action_buy');</script>
+{elseif $action == 'record'}
+<form action="?">
+<div class="tt">
+关键词：<input type="text" size="30" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+{dcalendar('fromtime', $fromtime)} 至 {dcalendar('totime', $totime)}&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/>
+</div>
+</form>
+<div class="bd">
+<table cellpadding="1" cellspacing="0" class="tb">
+<tr>
+<th>流水号</th>
+<th width="110">发送时间</th>
+<th>内容</th>
+<th>字数</th>
+<th>分条</th>
+<th>状态</th>
+</tr>
+{loop $lists $k $v}
+<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
+<td height="30" class="px11">{$v[itemid]}</td>
+<td class="px11">{$v[sendtime]}</td>
+<td align="left" style="width:150px;padding:8px;line-height:20px;">{$v[message]}</td>
+<td class="px11">{$v[word]}</td>
+<td class="px11">{$v[num]}</td>
+<td>{$v[code]}</td>
+</tr>
+{/loop}
+</table>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('sms');m('action_record');</script>
+{elseif $action == 'send'}
+<form action="?">
+<div class="tt">
+关键词：<input type="text" size="30" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+{dcalendar('fromtime', $fromtime)} 至 {dcalendar('totime', $totime)}&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/>
+</div>
+</form>
+<div class="bd">
+<table cellpadding="1" cellspacing="0" class="tb">
+<tr>
+<th>流水号</th>
+<th width="110">发送时间</th>
+<th>内容</th>
+<th>字数</th>
+<th>分条</th>
+<th>状态</th>
+</tr>
+{loop $lists $k $v}
+<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
+<td height="30" class="px11">{$v[itemid]}</td>
+<td class="px11">{$v[sendtime]}</td>
+<td align="left" style="width:150px;padding:8px;line-height:20px;">{$v[message]}</td>
+<td class="px11">{$v[word]}</td>
+<td class="px11">{$v[num]}</td>
+<td>{$v[code]}</td>
+</tr>
+{/loop}
+</table>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('sms');m('action_send');</script>
+{else}
+<form action="?">
+<input type="hidden" name="action" value="{$action}"/>
+<div class="tt">
+{$fields_select}&nbsp;
+<input type="text" size="30" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+<select name="type">
+<option value="0">类型</option>
+<option value="1" {if $type==1}selected{/if}>增加</option>
+<option value="2" {if $type==2}selected{/if}>扣除</option>
+</select>
+&nbsp;
+{dcalendar('fromtime', $fromtime)} 至 {dcalendar('totime', $totime)}
+&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/>
+</div>
+</form>
+<div class="bd">
+<table cellpadding="1" cellspacing="0" class="tb">
+<tr>
+<th>流水号</th>
+<th>增加</th>
+<th>扣除</th>
+<th>剩余</th>
+<th width="150">发生时间</th>
+<th width="150">事由</th>
+<th width="150">备注</th>
+</tr>
+{loop $lists $k $v}
+<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
+<td height="30" class="px11">{$v[itemid]}</td>
+<td class="px11 f_blue">{if $v[amount] > 0}{$v[amount]}{else}&nbsp;{/if}</td>
+<td class="px11 f_red">{if $v[amount] < 0}{$v[amount]}{else}&nbsp;{/if}</td>
+<td class="px11">{if $v[balance]}{$v[balance]}{else}&nbsp;{/if}</td>
+<td class="px11 f_gray">{$v[addtime]}</td>
+<td title="{$v[reason]}"><input type="text" size="20" value="{$v[reason]}"/></td>
+<td title="{$v[note]}"><input type="text" size="20" value="{$v[note]}"/></td>
+</tr>
+{/loop}
+<tr align="center">
+<td height="35"><strong>小计</strong></td>
+<td class="px11 f_blue">{$income}</td>
+<td class="px11 f_red">{$expense}</td>
+<td colspan="4">&nbsp;</td>
+</tr>
+</table>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('sms');m('action');</script>
+{/if}
+{template 'footer', $module}

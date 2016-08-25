@@ -1,0 +1,75 @@
+{php $CSS = array('catalog');}
+{template 'header'}
+<style>
+.map p {margin:0px;line-height:28px;padding:0 0 0 20px;font-size:14px;}
+.L1 {}
+.L2 {background:#FF6600;color:#FFFFFF;}
+</style>
+<div class="m">
+	<div class="nav">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="./">网站地图</a></div>
+	{if $action=='letter'}
+	<div class="map">
+	<div class="box_head">
+	<span class="f_r px16">
+	{loop $LETTER $L}
+	<a href="{rewrite('index.php?mid='.$M['moduleid'].'&letter='.$L)}"><span class="{if $letter==$L}L2{else}L1{/if}">&nbsp;{$L}&nbsp;</span></a>
+	{/loop}
+	</span>
+	<a href="{rewrite('index.php?mid='.$M['moduleid'])}"><strong>{$M[name]}</strong></a>
+	</div>
+	<div class="box_body">
+	{if $CATALOG}
+	<table cellspacing="0" cellpadding="0">
+	{loop $CATALOG $i $c}
+	{if $i%6==0}<tr>{/if}
+	<td valign="top" width="150">
+		<p><a href="{$M[linkurl]}{$c[linkurl]}" target="_blank">{set_style($c[catname], $c[style])}</a> <span class="px11 f_gray">({$c[item]})</span></p>
+	</td>
+	{if $i%6==5}</tr>{/if}
+	{/loop}
+	</table>
+	{else}
+	<br/><br/><br/><center>没有拼音字母 <strong>{$letter}</strong> 开头的类目</center><br/><br/><br/>
+	{/if}
+	</div>
+	</div>
+
+	{elseif $action=='module'}
+	<div class="box_head">
+	<span class="f_r px16">
+	{loop $LETTER $L}
+	<a href="{rewrite('index.php?mid='.$M['moduleid'].'&letter='.$L)}"><span class="L1">&nbsp;{$L}&nbsp;</span></a>
+	{/loop}
+	</span>
+	<a href="{$M[linkurl]}" target="_blank"><strong>{$M[name]}</strong></a>
+	</div>
+	<div class="box_body">
+		<div class="catalog" style="border:none;padding:0;">
+			{template 'catalog', 'chip'}
+		</div>
+	</div>
+
+	{else}
+		{loop $MODULE $m}
+		{if $m[moduleid] > 3 && !$m[islink]}
+		<div class="map">
+		<div class="box_head"><span class="f_r f_gray c_p" onclick="Go('{rewrite('index.php?mid='.$m['moduleid'])}');">展开..</span><a href="{$m[linkurl]}" target="_blank"><strong>{$m[name]}</strong></a></div>
+		<div class="box_body">
+		<table cellspacing="0" cellpadding="0">
+		{php $child = get_maincat(0, $m[moduleid]);}
+		{loop $child $i $c}
+		{if $i%6==0}<tr>{/if}
+		<td valign="top" width="150">
+			<p><a href="{$m[linkurl]}{$c[linkurl]}" target="_blank">{set_style($c[catname], $c[style])}</a></p>
+		</td>
+		{if $i%6==5}</tr>{/if}
+		{/loop}
+		</table>
+		</div>
+		</div>
+		<div class="b10">&nbsp;</div>
+		{/if}
+		{/loop}
+	{/if}
+</div>
+{template 'footer'}

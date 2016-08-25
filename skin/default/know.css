@@ -1,0 +1,40 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	This is NOT a freeware, use is subject to license.txt
+*/
+a.konw_a:link,a.konw_a:active,a.konw_a:visited {color:#225588;text-decoration:none;}
+a.konw_a:hover {color:#FF6600;text-decoration:none;}
+.know_sch {line-height:180%;}
+.know_sch_inp {width:260px;padding:3px;margin:5px;font-size:14px;}
+.know_sch_btn {padding:3px 0 8px 6px;}
+.know_sch_item {padding:0 0 0 8px;color:green;}
+.know_box {padding:0 10px 10px 10px;}
+.know_credit {background:url('image/ico_reward.gif') no-repeat;font-size:11px;color:#666666;padding:0 0 0 14px;}
+.know_list table {width:100%;color:#666666;}
+.know_list li {height:26px;line-height:26px;overflow:hidden;}
+.know_catalog p {margin:5px;}
+.know_catalog div {padding:0 6px 10px 6px;line-height:20px;}
+.know_catalog strong {color:#225588}
+.know_expert {height:96px;overflow:hidden;color:#666666;}
+.know_expert img {float:left;border:#CCCCCC 1px solid;padding:2px;margin:2px 10px 0 5px;}
+.know_expert div {line-height:20px;}
+
+.know_addition{border-top:#EEEEEE 1px solid;margin:0 15px 0 15px;padding:10px;line-height:180%;font-size:14px;}
+.know_comment{border-top:#EEEEEE 1px solid;margin:0 15px 0 15px;padding:10px;line-height:180%;font-size:14px;}
+.know_asker {border-top:#CCCCCC 1px dotted;margin:0 15px 10px 15px;padding:10px;}
+.best_image {position:absolute;z-index:1;margin:29px 0 0 908px;}
+
+.know_show {border:#DDDDDD 1px solid;margin-bottom:10px;}
+.know_show table {width:100%;border-collapse:collapse;border-spacing:0;}
+.know_show_l {width:150px;background:#FAFAFA;}
+.know_show_l li {padding:10px 0 0 0;text-align:center;}
+.know_info {padding:5px 10px 8px 10px;border-bottom:#EEEEEE 1px solid;}
+
+.answer_body {padding:10px;margin:0 5px 0 5px;line-height:180%;font-size:14px;}
+.answer_foot {border-bottom:#BBBBBB 1px dotted;padding:0 10px 8px 10px;margin:0 5px 0 5px;color:#666666;}
+.question_op {padding:15px 20px 10px 20px;line-height:25px;}
+.answer_btn {background:url('image/btn_3.gif') no-repeat;height:24px;line-height:22px;width:77px;border:none;cursor:pointer;}
+.answer_box {border:#DDDDDD 1px solid;border-top:none;margin-bottom:10px;}
+
+.vote_s {height:10px;line-height:10px;font-size:1px;background:#FFA40D;}
+.vote_b {width:100%;height:10px;line-height:10px;font-size:1px;background:#FFF7D2;}

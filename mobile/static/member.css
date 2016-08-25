@@ -1,0 +1,14 @@
+* {word-break:break-all;font-family:"Segoe UI","Lucida Grande",Helvetica,Arial,Verdana,"Microsoft YaHei";}
+body {-webkit-user-select:none;}
+a,button,input{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;}
+.head-bar-fix {height:48px;background:#F7F7F7;clear:both;}
+.head-bar {width:100%;height:48px;line-height:48px;overflow:hidden;background:#F7F7F7;border-bottom:#A7A7AA 1px solid;position:fixed;z-index:9;left:0;top:0;right:0;}
+.head-bar img {width:24px;height:24px;vertical-align:-5px;}
+.head-bar span {color:#007AFF;font-size:18px;}
+.head-bar-title {margin:0 50px;font-size:18px;font-weight:bold;text-align:center;word-wrap:normal;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.head-bar-back {position:absolute;left:0;top:0;padding:0 0 0 5px;z-index:8;}
+.head-bar-right {float:right;padding:0 10px 0 0;}
+#msgbox{width:100%;height:49px;line-height:49px;overflow:hidden;position:absolute;z-index:10;background:#000000;top:0;left:0;color:#FFFFFF;padding:0 0 0 15px;font-size:16px;font-weight:bold;}
+.main_tb {width:100%;overflow:scroll;}
+.tl{width:80px;padding-right:15px;letter-spacing:0px;}
+.btn_b,.btn_g,.btn_r,.btn {-webkit-appearance:none;}

@@ -1,0 +1,51 @@
+{template 'header'}
+<div class="m">
+	<div class="nav">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')}</div>
+</div>
+<div class="m">
+	<div class="group_list">
+	<table cellpadding="6" cellspacing="1" width="100%" bgcolor="#DDDDDD">
+	<tr bgcolor="#F1F1F1">
+	<th width="40"></th>
+	<th>商圈</th>
+	<th width="100">主题</th>
+	<th width="100">粉丝</th>
+	<th width="100">圈主</th>
+	<th width="100">版主</th>
+	</tr>
+	{loop $tags $k $t}
+	<tr bgcolor="#FFFFFF" align="center">
+	<td height="40"><a href="{$t[linkurl]}"><img src="{$t[thumb]}" width="36" alt="{$t[alt]}"/></a></td>
+	<td align="left"><a href="{$t[linkurl]}" title="{$t[alt]}" class="px14 b">{$t[title]}{$MOD[seo_name]}</a>{if $t[introduce]}<p>{$t[introduce]}</p>{/if}</td>
+	<td>{$t[post]}</td>
+	<td>{$t[fans]}</td>
+	<td><a href="{userurl($t[username])}" target="_blank">{$t[username]}</a></td>
+	<td>
+	<select onchange="if(this.value)window.open(this.value);">
+	{if $t[managers]}
+	<option value="">版主列表</option>
+	{loop $t[managers] $manager}
+	<option value="{userurl($manager)}">{$manager}</option>
+	{/loop}
+	{else}
+	<option value="">暂无版主</option>
+	{/if}
+	</select>
+	</td>
+	</tr>
+	{/loop}
+	</table>
+	</div>
+	{if $showpage && $pages}<div class="pages">{$pages}</div>{/if}
+</div>
+<script type="text/javascript">
+if($('.group_list').length > 0) {
+	$('.group_list tr:gt(0)').mouseover(function(){
+		$(this).css('background', '#FAFAFA');
+		$(this).bind('mouseleave',function(){ 
+			$(this).css('background', '#FFFFFF');
+		});
+	}); 
+}
+</script>
+{template 'footer'}

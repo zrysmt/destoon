@@ -1,0 +1,23 @@
+{template 'header'}
+<div class="m">
+	<div class="left_box">		
+		<div class="pos"><span class="f_r"><a href="{$MODULE[2][linkurl]}ad.php">[我的广告]</a></span>当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$EXT[ad_url]}">广告中心</a> &raquo; <a href="{$EXT[ad_url]}{list_url($typeid)}">广告预览</a> &raquo; {$title}</div>
+		<br/><br/>
+		<table cellpadding="10" cellspacing="0" align="center">
+		<tr>
+		<td>
+		{if $ad_moduleid}
+			{ad($ad_moduleid,$ad_catid,$ad_kw,$typeid)}
+		{elseif $pid}
+			{ad($pid)}
+		{/if}		
+		</td>
+		</tr>
+		<tr>
+		<td><span class="f_gray">以上为广告效果预览，如未看到任何内容，表明此广告为空或不可预览</span></td>
+		</tr>
+		</table>
+		<br/><br/>
+	</div>
+</div>
+{template 'footer'}

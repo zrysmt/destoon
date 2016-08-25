@@ -1,0 +1,142 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+{if $action=='add' || $action=='edit'}
+<a href="{$back_link}"><span>取消</span></a>
+{else}
+{if $lists}
+<a href="?action=add&page={$page}"><span>创建</span></a>
+{else}
+<a href="{$cancel_url}" data-direction="reverse"><span>取消</span></a>
+{/if}
+{/if}
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $action=='add' || $action == 'edit'}
+<style type="text/css">
+.addr-box {width:100%;height:44px;}
+.addr-inp {width:98%;height:24px;line-height:24px;border:none;padding:0;margin:10px 0 0 0;font-size:16px;}
+.addr-are {padding-top:5px;}
+.addr-are select {-webkit-appearance:none;height:34px;border:#FFFFFF 1px solid;padding:0;margin:0;color:#999999;font-size:16px;background:#FFFFFF;}
+</style>
+<div class="main">
+	<div style="padding:0 0 0 16px;">
+	<form id="address-form">
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<input type="hidden" name="post[listorder]" value="{$listorder}"/>
+	<input type="hidden" name="ok" value="1"/>
+	<div class="addr-box bd-b"><div class="addr-are">{ajax_area_select('post[areaid]', '请选择省市', $areaid)}</div></div>
+	<div class="addr-box bd-b"><input type="text" name="post[address]" id="address" value="{$address}" placeholder="详细地址:" class="addr-inp"/></div>
+	<div class="addr-box bd-b"><input type="tel" name="post[postcode]" id="postcode" value="{$postcode}" placeholder="邮政编码:" class="addr-inp"/></div>
+	<div class="addr-box bd-b"><input type="text" name="post[truename]" id="truename" value="{$truename}" placeholder="真实姓名:" class="addr-inp"/></div>
+	<div class="addr-box bd-b"><input type="tel" name="post[mobile]" id="mobile" value="{$mobile}" placeholder="手机号码:" class="addr-inp"/></div>
+	</form>
+	</div>
+</div>
+
+<div class="main" style="padding:10px;" onclick="Daddr();">
+	<div class="btn-blue">提 交</div>
+</div>
+<script type="text/javascript">
+function Daddr() {
+	var len;
+	if(Dd('areaid_1').value == 0) {
+		Dtoast('请选择省市');
+		return false;
+	}
+	len = Dd('address').value.length;
+	if(len < 5) {
+		Dtoast('请填写详细地址');
+		return false;
+	}
+	len = Dd('postcode').value.length;
+	if(len < 6) {
+		Dtoast('请填写邮政编码');
+		return false;
+	}
+	len = Dd('truename').value.length;
+	if(len < 2) {
+		Dtoast('请填写真实姓名');
+		return false;
+	}
+	len = Dd('mobile').value.length;
+	if(len < 6) {
+		Dtoast('请填写手机号码');
+		return false;
+	}
+	$.post('address.php', $('#address-form').serialize(), function(data) {
+		if(data == 'ok') {
+			{if $action=='add'}Dtoast('创建成功');{else}Dtoast('修改成功');{/if}
+			setTimeout(function() {
+				Go('address.php?page={$page}');
+			}, 1000);
+		} else if(data == 'max') {
+			Dtoast('创建地址数量超出限制');
+		} else if(data == 'ko') {
+			Dtoast('操作失败，请重试');
+		} else {
+			Dtoast(data);
+		}
+	});
+}
+$(document).on('pageinit', function(event) {
+	$('input').on('blur', function(){window.scrollTo(0,0);});
+});
+</script>
+{else}
+	{if $lists}
+	<style type="text/css">
+	.list-address {height:66px;padding:0 16px;background:#FFFFFF;}
+	.list-address div {height:16px;line-height:16px;overflow:hidden;}
+	.list-address p {height:36px;line-height:36px;margin:0;}
+	.list-address p b{font-size:16px;}
+	</style>
+	<script type="text/javascript">
+	function address_action(id) {
+		Dsheet('<a href="javascript:address_choose('+id+');"><span>选择地址</span></a>|<a href="?action=edit&page={$page}&itemid='+id+'"><span>修改地址</span></a>|<a href="javascript:delete_action('+id+');"><span>删除地址</span></a>', '取消');
+	}
+	function address_choose(id) {
+		$.get('?action=choose&itemid='+id, function(data) {
+			if(data == 'ok') {
+				Go('{$back_link}');
+			} else {
+				Dtoast('操作失败，请重试');
+			}
+		});
+	}
+	function address_delete(id) {
+		$.get('?action=delete&itemid='+id, function(data) {
+			if(data == 'ok') {
+				Dtoast('删除成功');
+				setTimeout(function() {
+					window.location.reload();
+				}, 1000);
+			} else {
+				Dtoast('删除失败，请重试');
+			}
+		});
+	}
+	function delete_action(id) {
+		Dsheet('<a href="javascript:address_delete('+id+');"><span style="color:red;">删除地址</span></a>', '取消', '确定要删除地址'+$('#address_'+id).html()+'吗？');
+	} 
+	</script>
+	{loop $lists $v}
+	<div class="list-img list-address" onclick="address_action({$v[itemid]})">
+	<p><span class="f_r">{$v[mobile]}</span><b>{$v[truename]}</b></p>
+	<div id="address_{$v[itemid]}">{$v[address]}</div>
+	</div>
+	{/loop}
+	{else}	
+	<div class="list-empty">暂无收货地址，<a href="address.php?action=add" class="b">马上创建</a></div>
+	{/if}
+{/if}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

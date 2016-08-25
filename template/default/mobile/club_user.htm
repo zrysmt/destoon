@@ -1,0 +1,47 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="index.php?moduleid={$moduleid}&itemid={$itemid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:Dsheet('<a href=&#34;message.php?action=send&touser={$username}&#34; data-transition=&#34;slideup&#34;><span>发送消息</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+
+<div class="user-info">
+<img src="{useravatar($username, 'large')}" width="64" height="64"/>
+<div><a href="index.php?moduleid=4&username={$username}"><strong>{$user[passport]}</strong></a><br/>
+来自{area_pos($user[areaid], '')}，当前{if online($user[userid])==1}在线{else}离线{/if}</div>
+</div>
+<div class="list-tab bd-b">
+	<ul>
+		<li{if $typeid==0} class="on"{/if}><a href="club.php?action={$action}&username={$username}&itemid={$itemid}&typeid=0" data-transition="flip"><span>发表的帖子</span></a></li>
+		<li{if $typeid==1} class="on"{/if}><a href="club.php?action={$action}&username={$username}&itemid={$itemid}&typeid=1" data-transition="flip"><span>发表的回复</span></a></li>
+		<li{if $typeid==2} class="on"{/if}><a href="club.php?action={$action}&username={$username}&itemid={$itemid}&typeid=2" data-transition="flip"><span>精华帖子</span></a></li>
+	</ul>
+</div>
+<style type="text/css">
+.list-post {height:66px;padding:0 16px;}
+.list-post p {margin:6px 0 0 0;}
+.list-ontop {background:#FFFFFF url('static/img/post-ontop.png') no-repeat right 0;background-size:24px 24px;}
+.list-level {background:#FFFFFF url('static/img/post-level.png') no-repeat right 0;background-size:24px 24px;}
+.list-thumb {background:#FFFFFF url('static/img/post-thumb.png') no-repeat right 0;background-size:24px 24px;}
+</style>
+{if $lists}
+{loop $lists $v}
+<div class="list-img list-post{if $v[ontop]} list-ontop{elseif $v[level]} list-level{elseif $v[thumb]} list-thumb{/if}">
+<ul>
+<li><a href="index.php?moduleid={$moduleid}&itemid={if $typeid==1}{$v[tid]}{else}{$v[itemid]}{/if}"><strong>{$v[title]}</strong></a></li>
+</ul>
+<p><span class="f_r">{if $typeid==1}{$v[fid]}楼{else}{$v[reply]}回复{/if}</span><span>{$v[date]}</span></p>
+</div>
+{/loop}
+{else}
+{template 'chip-empty', 'mobile'}
+{/if}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

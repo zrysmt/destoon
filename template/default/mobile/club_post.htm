@@ -1,0 +1,93 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="javascript:Dback('index.php?moduleid={$moduleid}&catid={$gid}&itemid={$itemid}');" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$GRP[title]}{$MOD[seo_name]}</div>
+<div class="head-bar-right">
+<a href="javascript:Dpost();"><span>发帖</span></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+
+<div class="main">
+	<div style="padding:0 0 0 16px;">
+	<form method="post" id="club-post">
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="gid" value="{$gid}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<input type="hidden" name="ok" value="1"/>
+
+	<div style="width:100%;height:44px;" class="bd-b"><input type="text" name="title" id="title" placeholder="主题" onblur="window.scrollTo(0,0);" style="width:98%;height:24px;line-height:24px;border:none;padding:0;margin:10px 0 0 0;font-size:16px;"/></div>
+
+	<div style="width:100%;height:110px;"><textarea name="content" id="content" placeholder="正文" onblur="window.scrollTo(0,0);" style="width:98%;height:100px;line-height:24px;border:none;padding:0;margin:10px 0 0 0;font-size:16px;"></textarea></div>
+
+	<div style="line-height:44px;font-size:14px;" class="bd-t"><a href="javascript:Dsheet('<a href=&#34;{$MURL}{$DT[file_my]}?mid={$moduleid}&action=add&gid={$gid}&#34; rel=&#34;external&#34;><span>确定切换</span></a>', '取消', '确定要切换到高级模式吗<br/>当前填写的内容会被丢弃');" class="b">高级模式</a></div>
+
+	{if $need_captcha}
+	<div style="width:100%;height:44px;font-size:16px;" class="bd-b">{template 'captcha', 'chip'}</div>
+	{/if}
+	</form>
+	</div>
+</div>
+<div class="main" style="padding:10px;" onclick="Dpost();">
+	<div class="btn-blue">发表帖子</div>
+</div>
+<script type="text/javascript">
+function Dpost() {
+	var len;
+	len = Dd('title').value.length;
+	if(len < 5) {
+		Dtoast('主题最少个5字，已填写'+len+'个字');
+		return false;
+	}
+	len = Dd('content').value.length;
+	if(len < 5) {
+		Dtoast('正文最少个5字，已填写'+len+'个字');
+		return false;
+	}
+	if(len > 5000) {
+		Dtoast('正文最多个5000字，已填写'+len+'个字');
+		return false;
+	}
+	{if $need_captcha}
+	val = $('#captcha').val();
+	if(!is_captcha(val)) {
+		Dtoast('请填写验证码');
+		return false;
+	}
+	{/if}
+	$.post('club.php', $('#club-post').serialize(), function(data) {
+		if(data.indexOf('ok|') != -1) {
+			Dtoast('发表成功');
+			setTimeout(function() {
+				Go('index.php?moduleid={$moduleid}&itemid='+data.substr(3));
+			}, 1000);
+		} else if(data == 'check') {
+			Dtoast('发表成功，请等待审核');
+			setTimeout(function() {
+				Go('index.php?moduleid={$moduleid}&catid={$gid}');
+			}, 1000);
+		} else if(data == 'captcha') {
+			Dtoast('验证码错误');
+			reloadcaptcha();
+		} else {
+			Dtoast('发表失败，请重试');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		}
+	});
+	return;
+}
+{if $need_captcha}
+$(document).on('pageinit', function(event) {
+	$('#captcha').on('blur', function(){window.scrollTo(0,0);});
+	$('#captcha').css({'width':'100px','border':'none','padding':'0','font-size':'16px'});
+	showcaptcha();
+});
+{/if}
+</script>
+{template 'footer', 'mobile'}

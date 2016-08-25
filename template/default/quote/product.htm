@@ -1,0 +1,49 @@
+{template 'header'}
+<div class="m">
+	<div class="nav">
+		<div class="product_search">
+			<form action="{$MOD[linkurl]}product.php">
+			<input type="text" size="40" name="kw" value="{$kw}"/>
+			{ajax_category_select('catid', '所属分类', $catid, $moduleid)}
+			<input type="submit" value="立即搜索"/>
+			<input type="button" value="重新搜索" onclick="Go('{$MOD[linkurl]}product.php');"/>
+			</form>
+		</div>		
+		当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$MOD[linkurl]}product.php">产品报价</a>
+	</div>
+	<div class="b10">&nbsp;</div>
+</div>
+<div class="m">
+{if $tags}
+	<div class="tb">
+	<table>
+	<tr>
+	<th>品名</th>
+	<th>属性参数</th>
+	<th width="120">最新报价</th>
+	<th width="40">单位</th>
+	<th width="100">报价数</th>
+	<th width="120">报价时间</th>
+	</tr>
+	{loop $tags $t}
+	<tr>
+	<td>&nbsp;&nbsp;<a href="{$t[linkurl]}" target="_blank" class="b">{$t[title]}</a></td>
+	<td class="f_gray">
+	{if $t[v1]}&nbsp;&nbsp;{$t[n1]}:{$t[v1]}{/if}
+	{if $t[v2]}&nbsp;&nbsp;{$t[n2]}:{$t[v2]}{/if}
+	{if $t[v3]}&nbsp;&nbsp;{$t[n1]}:{$t[v3]}{/if}
+	</td>
+	<td class="t_c f_red">{$DT[money_sign]}{$t[price]}</td>
+	<td class="t_c">{$t[unit]}</td>
+	<td class="px11 t_c">{$t[item]}</td>
+	<td class="px11 t_c">{timetodate($t[edittime], 5)}</td>
+	</tr>
+	{/loop}
+	</table>
+	</div>
+	{if $pages}<div class="pages">{$pages}</div>{/if}
+{else}
+	<br/><br/><br/><center class="f_gray">未找到相关产品</center><br/><br/><br/>
+{/if}
+</div>
+{template 'footer'}

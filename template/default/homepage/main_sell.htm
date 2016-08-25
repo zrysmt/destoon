@@ -1,0 +1,17 @@
+<div class="main_head"><div><span class="f_r"><a href="{userurl($username, 'file=sell', $domain)}"><img src="{DT_STATIC}{$MODULE[4][moduledir]}/image/more.gif" title="更多"/></a></span><strong>{$main_name[$HM]}</strong></div></div>
+<div class="main_body">
+<!--{php $tags=tag("moduleid=5&condition=status>2 and username='$username'&pagesize=".$main_num[$HM]."&order=edittime desc&fields=itemid,title,linkurl,thumb,edittime&template=null");}-->
+<table cellpadding="0" cellspacing="0" width="100%">
+{loop $tags $i $t}
+{if $i%5==0}<tr align="center">{/if}
+<td valign="top" width="20%" height="180">
+<div class="thumb" onmouseover="this.className='thumb thumb_on';" onmouseout="this.className='thumb';">
+	<a href="{if $homeurl}{$t[linkurl]}{else}{userurl($username, 'file=sell&itemid='.$t['itemid'], $domain)}{/if}"><img src="{imgurl($t[thumb], 100)}" width="100" height="100" alt="{$t[alt]}"/></a>
+	<div><a href="{if $homeurl}{$t[linkurl]}{else}{userurl($username, 'file=sell&itemid='.$t['itemid'], $domain)}{/if}" title="{$t[alt]}">{$t[title]}</a></div>
+	<p>{timetodate($t[edittime], 3)}</p>
+</div>
+</td>
+{if $i%5==4}</tr>{/if}
+{/loop}
+</table>
+</div>

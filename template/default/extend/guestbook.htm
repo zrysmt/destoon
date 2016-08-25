@@ -1,0 +1,166 @@
+{template 'header'}
+<div class="m">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td valign="top" class="left_menu">
+		<ul>
+		<li class="left_menu_li"><a href="{$MODULE[1][linkurl]}">网站首页</a></li>
+		<li class="left_menu_on" id="type_guestbook"><a href="{$EXT[guestbook_url]}">网站留言</a></li>
+		</ul>
+	</td>
+	<td valign="top">
+		<div class="left_box">		
+			<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$EXT[guestbook_url]}">网站留言</a></div>
+			<div class="pd20">
+			<form action="{$EXT[guestbook_url]}index.php" method="post" onsubmit="return check();">
+			<table width="100%" cellpadding="8" cellspacing="1" bgcolor="#E3EEF5">
+			<tr>
+			<td bgcolor="#F1F7FC" width="90" align="right">留言类型&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			<select name="post[type]" id="type">
+			<option value="">请选择</option>
+			{loop $TYPE $k $v}
+			<option value="{$v}">{$v}</option>
+			{/loop}
+			</select>
+			</td>
+			</tr>
+			<tr>
+			<td bgcolor="#F1F7FC" align="right"><span class="f_red">*</span> 留言内容&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF" title="留言内容不支持任何语法，仅限文字"><textarea name="post[content]" rows="5" cols="70" id="content">{$content}</textarea><br/>
+			<span id="dcontent" class="f_red"></span>
+			</td>
+			</tr>
+			<tr>
+			<td bgcolor="#F1F7FC" width="90" align="right">与您联系&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			<input type="radio" name="my" value="1" id="my_1" onclick="Ds('gb_contact');"/> <label for="my_1">需要</label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" name="my" value="0" id="my_0" checked onclick="Dh('gb_contact');"/> <label for="my_0">不需要</label>
+			</td>
+			</tr>
+			<tbody id="gb_contact" style="display:none;">
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">联系人&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			<input type="text" name="post[truename]" size="10" id="truename" value="{$truename}"/>&nbsp;
+			<input type="checkbox" name="post[hidden]" value="1" id="hidden" checked/><label for="hidden" title="选择匿名后,联系人姓名仅网站工作人员可见"> 匿名留言</label>
+			<span id="dtruename" class="f_red"></span>
+			</td>
+			</tr>
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">联系电话&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			<input type="text" name="post[telephone]" size="30" id="telephone" value="{$telephone}"/>
+			<span id="dtelephone" class="f_red"></span>
+			</td>
+			</tr>
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">电子邮件&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			<input type="text" name="post[email]" size="30" id="email" value="{$email}"/>
+			<span id="demail" class="f_red"></span>
+			</td>
+			</tr>
+			{if $DT[im_qq]}
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">QQ&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF"><input type="text" size="20" name="post[qq]" id="qq" value="{$qq}"/></td>
+			</tr>
+			{/if}
+			{if $DT[im_ali]}
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">阿里旺旺&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF"><input type="text" size="20" name="post[ali]" id="ali" value="{$ali}"/></td>
+			</tr>
+			{/if}
+			{if $DT[im_msn]}
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">MSN&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF"><input type="text" size="30" name="post[msn]" id="msn" value="{$msn}"/></td>
+			</tr>
+			{/if}
+			{if $DT[im_skype]}
+			<tr>
+			<td bgcolor="#F1F7FC" align="right">Skype&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF"><input type="text" size="20" name="post[skype]" id="skype" value="{$skype}"/></td>
+			</tr>
+			{/if}
+			</tbody>
+			{if $MOD[guestbook_captcha]}
+			<tr>
+			<td bgcolor="#F1F7FC" align="right"><span class="f_red">*</span> 验证码&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF">
+			{template 'captcha', 'chip'}
+			<span id="dcaptcha" class="f_red"></span>
+			</td>
+			</tr>
+			{/if}
+			<tr>
+			<td bgcolor="#F1F7FC"> </td>
+			<td bgcolor="#FFFFFF">
+			<input type="submit" name="submit" value=" 提交 "/>&nbsp;
+			<input type="reset" value=" 重写 "/>
+			</td>
+			</tr>
+			</table>
+			</form>
+			{if $lists}
+			<div class="b10">&nbsp;</div><div class="b10">&nbsp;</div>
+			<div class="fsearch">
+			<form action="{$EXT[guestbook_url]}index.php">
+			<strong>关键词：</strong>
+			<input type="text" size="50" name="kw" value="{$kw}"/> 
+			<input type="submit" value="搜索"/>
+			<input type="button" value="重置" onclick="Go('{$EXT[guestbook_url]}');"/>
+			</form>
+			</div>
+			{loop $lists $k $v}
+			<div class="b10">&nbsp;</div><div class="b10">&nbsp;</div>
+			<table width="100%" cellpadding="8" cellspacing="1" bgcolor="#E3EEF5">
+			<tr>
+			<td align="right" bgcolor="#F1F7FC" width="200">{if $v[hidden]}匿名{else}{$v[truename]}{/if} <span class="px11">{$v[adddate]}</span> 提问：&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF" class="lh18">{$v[content]}</td>
+			</tr>
+			{if $v[reply]}
+			<tr>
+			<td align="right" bgcolor="#F1F7FC">网站 <span class="px11">{$v[editdate]}</span> 回复：&nbsp;&nbsp;</td>
+			<td bgcolor="#FFFFFF" style="color:#D9251D;">{$v[reply]}</td>
+			</tr>
+			{/if}
+			</table>
+			{/loop}		
+			{if $pages}<div class="pages">{$pages}</div>{/if}
+			{/if}		
+			</div>
+		</div>
+	</td>
+	</tr>
+	</table>
+</div>
+{load('guest.js')}
+<script type="text/javascript">
+function check() {
+	var l;
+	var f;
+	f = 'content';
+	l = Dd(f).value.length;
+	if(l < 5 || l > 1000) {
+		Dmsg('内容应为5-1000字，当前已输入'+l+'字', f);
+		return false;
+	}
+	{if $MOD[guestbook_captcha]}
+	f = 'captcha';
+	l = Dd(f).value;
+	if(!is_captcha(l)) {
+		Dmsg('请填写验证码', f);
+		return false;
+	}
+	{/if}
+	return true;
+}
+{if $action == 'report'}
+$('#type').val('不良信息');
+Dd('content').value = Dd('content').value+"\n-------------------------------\n举报理由：\n";
+{/if}
+</script>
+{template 'footer'}

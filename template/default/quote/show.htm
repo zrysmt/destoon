@@ -1,0 +1,53 @@
+{template 'header'}
+<script type="text/javascript">var module_id= {$moduleid},item_id={$itemid},content_id='content',img_max_width={$MOD[max_width]};</script>
+<div class="m">
+<div class="m_l f_l">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')} &raquo; 正文</div>
+		<h1 class="title" id="title">{$title}</h1>
+		<div class="info"><span class="f_r"><img src="{DT_SKIN}image/zoomin.gif" width="16" height="16" alt="放大字体" class="c_p" onclick="fontZoom('+');"/>&nbsp;&nbsp;<img src="{DT_SKIN}image/zoomout.gif" width="16" height="16"  alt="缩小字体" class="c_p" onclick="fontZoom('-');"/></span>
+		发布日期：{$adddate}
+		&nbsp;&nbsp;浏览次数：<span id="hits">{$hits}</span>	
+		</div>
+		{if $CP}{template 'property', 'chip'}{/if}
+		<div class="content" id="content">{template 'content', 'chip'}</div>
+		{if $pages}<div class="pages">{$pages}</div>{/if}
+		<br/>
+		<div class="t_c"><strong class="f_red">特别提示：</strong>本信息由相关企业自行提供，真实性未证实，仅供参考。请谨慎采用，风险自负。</div>
+		<br/><br/>
+		<center>
+		[ <a href="{$MOD[linkurl]}search.php" rel="nofollow">{$MOD[name]}搜索</a> ]&nbsp;
+		[ <a href="javascript:SendFav();">加入收藏</a> ]&nbsp;
+		[ <a href="javascript:SendPage();">告诉好友</a> ]&nbsp;
+		[ <a href="javascript:Print();">打印本文</a> ]&nbsp;
+		[ <a href="javascript:SendReport();">违规举报</a> ]&nbsp;
+		[ <a href="javascript:window.close()">关闭窗口</a> ]
+		</center>
+		<br/>
+		{template 'comment', 'chip'}
+		<br/>
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r f_l">
+	<div class="box_head"><div><strong>相关{$MOD[name]}</strong></div></div>
+	<div class="box_body li_dot">
+	{if $tag}
+	<!--{tag("moduleid=$moduleid&condition=status=3 and tag='$tag'&areaid=$cityid&pagesize=8&order=".$MOD[order], -2)}-->
+	{else}
+	<!--{tag("moduleid=$moduleid&condition=status=3&catid=$catid&areaid=$cityid&pagesize=8&order=".$MOD[order], -2)}-->
+	{/if}
+	</div>
+	<div class="b10 c_b"> </div>
+	<div class="box_head"><div><strong>推荐{$MOD[name]}</strong></div></div>
+	<div class="box_body li_dot"><!--{tag("moduleid=$moduleid&condition=status=3 and level=1&catid=$catid&areaid=$cityid&order=".$MOD[order]."&pagesize=10")}-->
+	</div>
+	<div class="b10 c_b"> </div>
+	<div class="box_head"><div><strong>点击排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$today_endtime-30*86400&catid=$catid&areaid=$cityid&order=hits desc&pagesize=10")}--></div>
+	</div>
+</div>
+</div>
+{if $content}<script type="text/javascript" src="{DT_STATIC}file/script/content.js"></script>{/if}
+{template 'footer'}

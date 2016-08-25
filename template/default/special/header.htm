@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset={DT_CHARSET}"/>
+<title>{if $seo_title}{$seo_title}{else}{if $head_title}{$head_title}{$DT[seo_delimiter]}{/if}{if $city_sitename}{$city_sitename}{else}{$DT[sitename]}{/if}{/if}</title>
+{if $head_keywords}
+<meta name="keywords" content="{$head_keywords}"/>
+{/if}
+{if $head_description}
+<meta name="description" content="{$head_description}"/>
+{/if}
+<meta name="generator" content="DESTOON B2B - www.destoon.com"/>
+<link rel="shortcut icon" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+<link rel="bookmark" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+{if $head_canonical}
+<link rel="canonical" href="{$head_canonical}"/>
+{/if}
+<link rel="stylesheet" type="text/css" href="{DT_SKIN}style.css"/>
+{if $moduleid>4}<link rel="stylesheet" type="text/css" href="{DT_SKIN}{$module}.css"/>{/if}
+{if $CSS}
+{loop $CSS $css}
+<link rel="stylesheet" type="text/css" href="{DT_SKIN}{$css}.css"/>
+{/loop}
+{/if}
+<!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="{DT_SKIN}ie6.css"/>
+<![endif]-->
+{if !DT_DEBUG}<script type="text/javascript">window.onerror=function(){return true;}</script>{/if}
+{if $itemid && $DT[anticopy]}
+<script type="text/javascript">
+document.oncontextmenu=function(e){return false;};
+document.onselectstart=function(e){return false;};
+</script>
+{/if}
+<script type="text/javascript" src="{DT_STATIC}lang/{DT_LANG}/lang.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/config.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/jquery.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/common.js"></script>
+<script type="text/javascript" src="{DT_STATIC}file/script/page.js"></script>
+{if $lazy}<script type="text/javascript" src="{DT_STATIC}file/script/jquery.lazyload.js"></script>{/if}
+{if $JS}
+{loop $JS $js}
+<script type="text/javascript" src="{DT_STATIC}file/script/{$js}.js"></script>
+{/loop}
+{/if}
+</head>
+<body>
+<div class="head" id="head">
+	<div class="head_m">
+		<div class="f_r" id="destoon_member"></div>
+		<div class="head_l">
+			<ul>
+			{if $DT[city]}<li class="h_city">[<span id="destoon_city">{$city_name}</span>] <a href="{DT_PATH}api/city.php" title="点击切换城市" rel="nofollow">切换</a></li>{/if}
+			<li class="h_fav"><a href="{$MODULE[1][linkurl]}">返回首页</a></li>
+			{if $EXT[mobile_enable]}<li class="h_mobile"><a href="{$EXT[mobile_url]}mobile.php">手机版</a></li>{/if}
+			{if $MODULE[16]}<li class="h_cart"><a href="{$MODULE[16][linkurl]}cart.php" rel="nofollow">购物车</a>(<span class="head_t" id="destoon_cart">0</span>)</li>{/if}
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="m head_s">&nbsp;</div>
+<div class="m b10">&nbsp;</div>

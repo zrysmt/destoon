@@ -1,0 +1,21 @@
+{php $CSS = array('article');}
+{template 'header'}
+<div class="m">
+<div class="m_l f_l">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {$L[news_title]}</div>
+			<div class="catlist"><!--{tag("table=news&condition=status=3&pagesize=".$MOD[pagesize]."&page=$page&showpage=1&datetype=5&target=_blank&order=addtime desc&template=list-cat&cols=5")}--></div>
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r f_l">
+	<div class="box_head"><div><strong>推荐新闻</strong></div></div>
+	<div class="box_body li_dot"><!--{tag("table=news&condition=status=3 and level>0&pagesize=10&order=addtime desc&target=_blank")}--></div>
+	<div class="b10 c_b"> </div>
+	<div class="box_head"><div><strong>本月热门</strong></div></div>
+	<div class="box_body">
+	<div class="rank_list"><!--{tag("table=news&condition=status=3 and addtime>$today_endtime-30*86400&order=hits desc&pagesize=10&target=_blank")}--></div>
+	</div>
+</div>
+</div>
+{template 'footer'}

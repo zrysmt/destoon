@@ -1,0 +1,195 @@
+{template 'header'}
+<div class="m">
+	<div class="nav">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$MOD[linkurl]}search.php">搜索</a></div>
+</div>
+<div class="m">
+	<div class="left_box" style="border-top:none;">
+		<div class="type">
+		<a href="{$MOD[linkurl]}search.php?action=group&kw={urlencode($kw)}" class="{if $action=='group'}type_1{else}type_2{/if}">商圈搜索</a>
+		<a href="{$MOD[linkurl]}search.php?action=post&kw={urlencode($kw)}" class="{if $action=='post'}type_1{else}type_2{/if}">帖子搜索</a>
+		<a href="{$MOD[linkurl]}search.php?action=reply&kw={urlencode($kw)}" class="{if $action=='reply'}type_1{else}type_2{/if}">回复搜索</a>
+		</div>
+		<div class="b10">&nbsp;</div>
+		{if $action == 'group'}
+			<form action="{$MOD[linkurl]}search.php">
+			<input type="hidden" name="action" id="action" value="{$action}"/>
+			<div style="padding:10px 0 10px 10px;">
+			<table cellpadding="3" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td>
+			<input type="text" size="80" name="kw" value="{$kw}" style="padding:3px 0 3px 1px;"/>
+			</td>
+			</tr>			
+			<tr>
+			<td align="right">所属分类：</td>
+			<td>{$category_select}</td>
+			</tr>
+			{if $DT[city]}
+			<tr>
+			<td align="right">所在地区：</td>
+			<td>
+			{$area_select}
+			</td>
+			</tr>
+			{/if}
+			<tr>
+			<td></td>
+			<td>
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>
+			<a href="{$MOD[linkurl]}search.php?action={$action}"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>
+			</td>
+			</tr>
+			</table>
+			</div>
+			</form>
+		{elseif $action == 'reply'}
+			<form action="{$MOD[linkurl]}search.php">
+			<input type="hidden" name="action" id="action" value="{$action}"/>
+			<div style="padding:10px 0 10px 10px;">
+			<table cellpadding="3" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td><input type="text" size="80" name="kw" value="{$kw}" style="padding:3px 0 3px 1px;"/></td>
+			</tr>			
+			<tr>
+			<td align="right">作者：</td>
+			<td><input type="text" size="10" name="username" value="{$username}"/></td>
+			</tr>
+			<tr>
+			<td align="right">发表日期：</td>
+			<td>{dcalendar('fromdate', $fromdate, '')} 至 {dcalendar('todate', $todate, '')}</td>
+			</tr>			
+			<tr>
+			<td></td>
+			<td>
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>
+			<a href="{$MOD[linkurl]}search.php?action={$action}"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>
+			</td>
+			</tr>
+			</table>
+			</div>
+			</form>
+		{else}
+			<form action="{$MOD[linkurl]}search.php">
+			<input type="hidden" name="action" id="action" value="{$action}"/>
+			<div style="padding:10px 0 10px 10px;">
+			<table cellpadding="3" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td><input type="text" size="80" name="kw" value="{$kw}" style="padding:3px 0 3px 1px;"/></td>
+			</tr>			
+			<tr>
+			<td align="right">作者：</td>
+			<td><input type="text" size="10" name="username" value="{$username}"/></td>
+			</tr>
+			<tr>
+			<td align="right">发表日期：</td>
+			<td>{dcalendar('fromdate', $fromdate, '')} 至 {dcalendar('todate', $todate, '')}</td>
+			</tr>			
+			<tr>
+			<td></td>
+			<td>
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>
+			<a href="{$MOD[linkurl]}search.php?action={$action}"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>
+			</td>
+			</tr>
+			</table>
+			</div>
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			<input type="hidden" name="ppt_{$p[oid]}" id="ppt_{$p[oid]}" value="{$p[select]}"/>
+			<a href="###" onclick="Dd('ppt_{$p[oid]}').value='';Dd('fsearch').submit();">{if $p[select]==''}<span>全部</span>{else}全部{/if}</a>
+			{loop $p[options] $o}
+			&nbsp;|&nbsp;<a href="###" onclick="Dd('ppt_{$p[oid]}').value='{$o}';Dd('fsearch').submit();">{if $p[select]==$o}<span>{$o}</span>{else}{$o}{/if}</a>
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+		</form>
+	{/if}
+	</div>
+</div>
+<div class="m b10"></div>
+<div class="m">
+{if $action == 'group'}
+	{if $tags}
+	<div class="group_list">
+	<table cellpadding="6" cellspacing="1" width="100%" bgcolor="#DDDDDD">
+	<tr bgcolor="#F1F1F1">
+	<th width="40"></th>
+	<th>商圈</th>
+	<th width="100">主题</th>
+	<th width="100">粉丝</th>
+	<th width="100">圈主</th>
+	<th width="100">版主</th>
+	</tr>
+	{loop $tags $k $t}
+	<tr bgcolor="#FFFFFF" align="center">
+	<td height="40"><a href="{$t[linkurl]}"><img src="{$t[thumb]}" width="36" alt="{$t[alt]}"/></a></td>
+	<td align="left"><a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}" class="px14 b">{$t[title]}{$MOD[seo_name]}</a>{if $t[introduce]}<p>{$t[introduce]}</p>{/if}</td>
+	<td>{$t[post]}</td>
+	<td>{$t[fans]}</td>
+	<td><a href="{userurl($t[username])}" target="_blank">{$t[username]}</a></td>
+	<td>
+	<select onchange="if(this.value)window.open(this.value);">
+	{if $r[managers]}
+	<option value="">版主列表</option>
+	{loop $r[managers] $manager}
+	<option value="{userurl($manager)}">{$manager}</option>
+	{/loop}
+	{else}
+	<option value="">暂无版主</option>
+	{/if}
+	</select>
+	</td>
+	</tr>
+	{/loop}
+	</table>
+	</div>
+	{if $pages}<div class="pages">{$pages}</div>{/if}
+	{else}
+	{template 'noresult', 'message'}
+	{/if}
+{elseif $action == 'reply'}
+	{if $tags}
+	<div class="reply_list">
+	<table cellpadding="0" cellspacing="0">
+	<tr bgcolor="#F1F1F1">
+	<td height="30">&nbsp;&nbsp;&nbsp;&nbsp;回复内容</td>
+	<td width="150">回复人</td>
+	<td width="150">回复时间</td>
+	</tr>
+	{loop $tags $k $t}
+	<tr>
+	<td><div><a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}" class="px14">{$t[title]}</a></div></td>
+	<td><a href="{$MOD[linkurl]}search.php?action={$action}&kw={urlencode($kw)}&username={$t[username]}"><em>{$t[username]}</em></a></td>
+	<td><em>{$t[adddate]}</em></td>
+	</tr>
+	{/loop}	
+	</table>	
+	{if $pages}<div class="pages">{$pages}</div>{/if}
+	{else}
+	{template 'noresult', 'message'}
+	{/if}
+{else}
+	{if $page==1 && $kw}
+	{ad($moduleid,$catid,$kw,6)}
+	{load('m'.$moduleid.'_k'.urlencode($kw).'.htm')}
+	{/if}
+	{if $tags}
+	{template 'list-'.$module, 'tag'}
+	{else}
+	{template 'noresult', 'message'}
+	{/if}
+{/if}
+</div>
+{template 'footer'}

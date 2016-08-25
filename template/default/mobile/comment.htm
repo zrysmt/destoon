@@ -1,0 +1,171 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="index.php?moduleid={$mid}&itemid={$itemid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+{if $EXT[comment_api]}
+<a href="javascript:window.location.reload();"><span>刷新</span></a>
+{else}
+<a href="javascript:$('#box-star').show();{if $need_captcha}$('#box-captcha').show();{/if}$('#box-btn').show();Dcomment();"><span>发表</span></a>
+{/if}
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $EXT[comment_api] == 'changyan'}
+<div class="main">
+	<div id="SOHUCS" sid="{$mid}-{$itemid}"></div>
+	<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" 
+		src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id={$EXT[comment_api_id]}&conf={$EXT[comment_api_key]}">
+	</script>
+</div>
+{elseif $EXT[comment_api] == 'duoshuo'}
+<div class="main" style="padding:0 10px;">
+	<div class="ds-thread" data-thread-key="{$mid}-{$itemid}" data-title="{$title}" data-url="{$linkurl}" data-image="{if $thumb}{str_replace('.thumb.'.file_ext($thumb), '', $thumb)}{/if}"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"{$EXT[comment_api_id]}"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+</div>
+{else}
+<style type="text/css">
+.quote{border:1px solid #DCDCDC;background:#FFFFFF;padding:10px;margin-bottom:10px;}
+.quote_title {font-size:12px;color:#007AFF;}
+.quote_time {font-size:11px;color:#999999;}
+.quote_floor {float:right;font-size:10px;color:#999999;}
+.quote_content {clear:both;}
+.star_a {display:inline-block;margin:12px 10px 0 0;padding:2px 8px;background:#FF6600;color:#FFFFFF;font-size:12px;border-radius:6px;}
+.star_b {display:inline-block;margin:12px 10px 0 0;padding:2px 8px;background:#EEEEEE;color:#333333;font-size:12px;border-radius:6px;}
+</style>
+<div class="main">
+	<div style="padding:0 0 0 16px;" class="bd-b">
+	<form method="post" id="comment-post">
+	<input type="hidden" name="action" value="post"/>
+	<input type="hidden" name="mid" value="{$mid}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<input type="hidden" name="star" value="3" id="star"/>
+	<div style="width:100%;height:68px;"><textarea name="content" id="content" placeholder="我来说两句" onblur="window.scrollTo(0,0);" style="width:98%;height:48px;line-height:24px;border:none;padding:0;margin:10px 0 0 0;font-size:16px;" onfocus="$('#box-star').show();{if $need_captcha}$('#box-captcha').show();{/if}$('#box-btn').show();"></textarea></div>
+	<div style="width:100%;height:44px;display:none;" class="bd-t" id="box-star">
+	<span id="star_3" class="star_a" onclick="Dstar(3);">好评</span>
+	<span id="star_2" class="star_b" onclick="Dstar(2);">中评</span>
+	<span id="star_1" class="star_b" onclick="Dstar(1);">差评</span>
+	</div>
+	{if $need_captcha}
+	<div style="width:100%;height:44px;font-size:16px;display:none;" class="bd-t" id="box-captcha">{template 'captcha', 'chip'}</div>
+	{/if}
+	<div style="padding:10px 16px 10px 0;display:none;" onclick="Dcomment();" id="box-btn">
+		<div class="btn-blue">发表评论</div>
+	</div>
+	</form>	
+	</div>
+	{if $lists}
+	{loop $lists $k $v}
+	<div class="list-user">
+	<img src="{useravatar($v[uname])}" width="32" height="32"/>
+	<ul>
+	<li><span>{$v[floor]}楼</span><a href="comment.php?action=user&username={$v[uname]}&mid={$mid}&itemid={$itemid}" class="b">{$v[name]}</a></li>
+	<li><em>{if $v[star]==1}差评{elseif $v[star]==2}中评{else}好评{/if} {timetodate($v[addtime], 5)}</em></li>
+	</ul>
+	</div>
+	<div class="content">
+	{if $v[quotation]}{$v[quotation]}{else}{$v[content]}{/if}
+	{if $v[reply]}
+	<br/><span class="px12 f_gray">{if $v[editor]}<span style="color:red;">管理员</span>{else}<span style="color:blue;">{$v[replyer]}</span>{/if} {timetodate($v[replytime], 5)} 回复： </span>
+	<br/>{nl2br($v[reply])}
+	{/if}
+	</div>
+	{/loop}
+	{else}
+	<div class="list-empty">暂无评论</div>
+	{/if}
+</div>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+<script type="text/javascript">
+function Dstar(v) {
+	for(var i = 1; i < 4; i++) {
+		if(v == i) {
+			$('#star').val(i);
+			$('#star_'+i).attr('class', 'star_a');
+		} else {
+			$('#star_'+i).attr('class', 'star_b');
+		}
+	}
+}
+function Dcomment() {
+	window.scrollTo(0,0);
+	var len,va;;
+	len = $('#content').val().length;
+	if(len < {$MOD[comment_min]}) {
+		Dtoast('正文最少个{$MOD[comment_min]}字，已填写'+len+'个字');
+		return false;
+	}
+	if(len > {$MOD[comment_max]}) {
+		Dtoast('正文最多个{$MOD[comment_max]}字，已填写'+len+'个字');
+		return false;
+	}
+	{if $need_captcha}
+	val = $('#captcha').val();
+	if(!is_captcha(val)) {
+		Dtoast('请填写验证码');
+		return false;
+	}
+	{/if}
+	$.post('comment.php', $('#comment-post').serialize(), function(data) {
+		if(data == 'ok') {
+			Dtoast('评论成功');
+			setTimeout(function() {
+				if($('#page-last').length > 0) {
+					Go($('#page-last').attr('href'));
+				} else {
+					window.location.reload();
+				}
+			}, 1000);
+		} else if(data == 'check') {
+			Dtoast('评论成功，请等待审核');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		} else if(data == 'captcha') {
+			Dtoast('验证码错误');
+			reloadcaptcha();
+		} else if(data == 'self') {
+			Dtoast('不能评论自己');
+		} else if(data == 'permission') {
+			Dtoast('无评论权限');
+		} else if(data == 'login') {
+			Dtoast('暂无权限，请登录再试');
+		} else if(data == 'max') {
+			Dtoast('今日评论次数过多');
+			{if $need_captcha}reloadcaptcha();{/if}
+		} else if(data == 'fast') {
+			Dtoast('评论发表过快');
+			{if $need_captcha}reloadcaptcha();{/if}
+		} else {
+			Dtoast('评论失败，请重试');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		}
+	});
+	return;
+}
+{if $need_captcha}
+$(document).on('pageinit', function(event) {
+	$('#captcha').on('blur', function(){window.scrollTo(0,0);});
+	$('#captcha').css({'width':'100px','border':'none','padding':'0','font-size':'16px'});
+	showcaptcha();
+});
+{/if}
+</script>
+{/if}
+{template 'footer', 'mobile'}

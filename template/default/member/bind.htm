@@ -1,0 +1,11 @@
+{template 'header',$module}
+<div style="text-align:center;">
+<img src="{if $U[avatar]}{$U[avatar]}{else}{DT_PATH}api/oauth/avatar.png{/if}" width="50" style="margin:30px 0 10px 0;border-radius:50%;"/>
+<div style="color:#005590;">{$U[nickname]}</div>
+<div style="padding:20px 0;color:#999999;">只差一步，绑定后就可以用<a href="{DT_PATH}api/oauth/{$U[site]}/connect.php" class="b">{$OAUTH[$U[site]][name]}</a>自动登录<a href="{DT_PATH}" class="b">{$DT[sitename]}</a>了</div>
+<div style="padding:20px 0;"><input type="button" value=" 已是会员，请登录自动绑定 " class="btn_b" onclick="Go('{$MODULE[2][linkurl]}{$DT[file_login]}');"/></div>
+<div><input type="button" value=" 不是会员，请注册自动绑定 " class="btn_g" onclick="Go('{$MODULE[2][linkurl]}{$DT[file_register]}');"/></div>
+<div style="padding:20px 0;"><a href="{$MODULE[2][linkurl]}{$DT[file_login]}" class="b" onclick="return confirm('确定要取消本次绑定吗？');">取消绑定</a></div>
+</div>
+<script type="text/javascript">Dh('side');Dh('side_oh');</script>
+{template 'footer',$module}

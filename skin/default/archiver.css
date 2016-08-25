@@ -1,0 +1,25 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	This is NOT a freeware, use is subject to license.txt
+*/
+body {font-size:13px;margin:0;font-family:Verdana,Arial;}
+form {margin:0px;}
+a:link,a:visited,a:active {color:#004299;text-decoration:none;}
+a:hover {color:#FF5500;}
+img {border:0;margin:5px;}
+em {font-size:12px;color:#666666;font-style:normal;float:right;}
+li {line-height:24px;}
+#nav {background:#CEE1F6;line-height:150%;padding:4px 10px 4px 10px;font-size:14px;}
+#title {background:#ECF3FB;border-top:#CEE1F6 1px solid;padding:5px 0 5px 8px;}
+#content {margin:auto;padding:0 10px 10px 10px;}
+
+.pages {padding:10px 0 10px 0;text-align:center;font-size:12px;color:#666666;}
+.pages a:link,.pages a:visited,.pages a:active  {color:#004499;background:#FFFFFF;border:#9AAFE5 1px solid;padding:1px;text-decoration:none;}
+.pages a:hover  {background:#FFFFFF;border:#2E6AB1 1px solid;color:#FF6600;padding:1px;text-decoration:none;}
+.pages strong {background:#2E6AB1;padding:1px;border:#1D589E 1px solid;color:#FFFFFF;}
+.pages_inp {border:#2E6AB1 1px solid;padding:1px;width:30px;text-align:center;color:#666666;}
+.pages_btn {width:26px;background:#F1F7FC;border:#2E6AB1 1px solid;color:#004499;font-weight:bold;font-size:11px;}
+.pages label {background:#FFFFFF;border:#2E6AB1 1px solid;color:#004499;padding:1px 5px 1px 5px;}
+.pages label em {color:red;font-weight:bold;font-style:normal;}
+.pages label span {font-weight:bold;}
+.pages cite {font-style:normal;}

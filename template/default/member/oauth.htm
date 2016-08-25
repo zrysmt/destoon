@@ -1,0 +1,46 @@
+{template 'header', $module}
+<div class="menu">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="tab_on" id="action"><a href="?action=index"><span>一键登录</span></a></td>
+</tr>
+</table>
+</div>
+<div class="bd">
+<table cellpadding="1" cellspacing="0" class="tb">
+<tr>
+<th width="70">头像</th>
+<th>昵称</th>
+<th width="130">绑定时间</th>
+<th width="130">上次登录</th>
+<th>登录次数</th>
+<th>平台</th>
+<th width="120">操作</th>
+</tr>
+{loop $OAUTH $k $v}
+{if $v[enable]}
+<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
+{if isset($lists[$k])}
+<td>{if $lists[$k][url]}<a href="{$lists[$k][url]}" target="_blank">{/if}<img src="{if $lists[$k][avatar]}{$lists[$k][avatar]}{else}{DT_PATH}api/oauth/avatar.png{/if}" width="50" style="margin:10px;"/>{if $lists[$k][url]}</a>{/if}</td>
+<td>{if $lists[$k][url]}<a href="{$lists[$k][url]}" target="_blank" class="b">{/if}{$lists[$k][nickname]}{if $lists[$k][url]}</a>{/if}</td>
+<td class="px11">{$lists[$k][adddate]}</td>
+<td class="px11">{$lists[$k][logindate]}</td>
+<td class="px11">{$lists[$k][logintimes]}</td>
+<td height="30">{$v[name]}</td>
+<td><img src="{DT_PATH}api/oauth/{$k}/ico.png" align="absmiddle"/> <a href="?action=delete&itemid={$lists[$k][itemid]}" class="b" onclick="return confirm('确定要解除绑定吗？');">解除绑定</a></td>
+{else}
+<td>-</td>
+<td>-</td>
+<td>未绑定</td>
+<td>-</td>
+<td>-</td>
+<td height="30">{$v[name]}</td>
+<td><img src="{DT_PATH}api/oauth/{$k}/ico.png" align="absmiddle"/> <a href="{DT_PATH}api/oauth/{$k}/connect.php" class="b">立即绑定</a></td>
+{/if}
+</tr>
+{/if}
+{/loop}
+</table>
+</div>
+<script type="text/javascript">s('oauth');</script>
+{template 'footer', $module}

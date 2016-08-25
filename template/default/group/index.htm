@@ -1,0 +1,22 @@
+{template 'header'}
+<div class="m">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a>
+		&raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a>
+		{if $catid}&raquo; {cat_pos($CAT, ' &raquo; ')}{/if}
+		</div>
+		<div class="category">
+			<p><img src="{DT_SKIN}image/arrow.gif" width="17" height="12" alt=""/> <strong>按分类浏览</strong></p>
+			<div>
+			<table width="100%" cellpadding="3">
+			{loop $maincat $k $v}
+			{if $k%$MOD[page_subcat]==0}<tr>{/if}
+			<td><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+			{if $k%$MOD[page_subcat]==($MOD[page_subcat]-1)}</tr>{/if}
+			{/loop}
+			</table>
+			</div>
+		</div>		<!--{tag("moduleid=$moduleid&condition=status=3&catid=$catid&areaid=$cityid&pagesize=".$MOD[pagesize]."&page=$page&showpage=1&width=250&height=180&cols=3&datetype=5&order=".$MOD[order]."&fields=".$MOD[fields]."&target=_blank&lazy=$lazy&template=list-group")}-->
+	</div>
+</div>
+{template 'footer'}

@@ -1,0 +1,106 @@
+{template 'header'}
+<script type="text/javascript">var module_id= {$moduleid},item_id={$itemid},content_id='content',img_max_width={$MOD[max_width]};</script>
+<div class="m">
+<div class="m_l f_l">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')} &raquo; 正文</div>
+		<h1 class="title" id="title">{$title}</h1>
+		<div class="info"><span class="f_r"><img src="{DT_SKIN}image/zoomin.gif" width="16" height="16" alt="放大字体" class="c_p" onclick="fontZoom('+', 'article');"/>&nbsp;&nbsp;<img src="{DT_SKIN}image/zoomout.gif" width="16" height="16"  alt="缩小字体" class="c_p" onclick="fontZoom('-', 'article');"/></span>
+		发布日期：{$adddate}
+		{if $copyfrom}&nbsp;&nbsp;来源：{if $fromurl}<a href="{$fromurl}" target="_blank">{/if}{$copyfrom}{if $fromurl}</a>{/if}{/if}
+		{if $author}&nbsp;&nbsp;作者：{$author}{/if}
+		&nbsp;&nbsp;浏览次数：<span id="hits">{$hits}</span>	
+		</div>
+		{if $introduce && $user_status == 3 && $page == 1}<div class="introduce">核心提示：{$introduce}</div>{/if}
+
+		{if $CP}{template 'property', 'chip'}{/if}
+		<div id="content">{template 'content', 'chip'}</div>
+		{if $voteid}<div class="pd20">{loop $voteid $v}
+		{load('vote_'.$v.'.htm')}{/loop}</div>
+		{/if}
+		{if $pages}<div class="pages">{$pages}</div>{/if}
+		<div class="b10 c_b">&nbsp;</div>
+		
+		{if $subtitles}
+		<div class="subtitle">
+		<strong>本文导航：</strong>
+		<ul>
+		{loop $titles $i $t}
+		{if $subtitles > $i}
+		<li>
+		({php echo $i+1;})
+		{if $page == $i+1}
+		<strong>{$t}</strong>
+		{else}
+		<a href="{$MOD[linkurl]}{if $i}{itemurl($item, $i+1)}{else}{$item[linkurl]}{/if}" title="{$t}">{$t}</a>
+		{/if}
+		</li>
+		{/if}
+		{/loop}
+		</ul>
+		<div class="c_b"></div>
+		</div>
+		{/if}
+		{if $keytags}
+		<div class="keytags">
+		<strong>关键词：</strong>
+		{loop $keytags $t}
+		<a href="{$MOD[linkurl]}search.php?kw={urlencode($t)}" target="_blank" rel="nofollow">{$t}</a>
+		{/loop}
+		</div>
+		{/if}
+		{if $MOD[show_np]}
+		<div class="np">
+		<ul>
+		<li><strong>下一篇：</strong><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$addtime&areaid=$cityid&pagesize=1&order=addtime asc&template=list-np", -1)}--></li>
+		<li><strong>上一篇：</strong><!--{tag("moduleid=$moduleid&condition=status=3 and addtime<$addtime&areaid=$cityid&pagesize=1&order=addtime desc&template=list-np", -1)}--></li>
+		</ul>
+		</div>
+		<div class="b10">&nbsp;</div>
+		{/if}
+		<center>
+		[ <a href="{$MOD[linkurl]}search.php" rel="nofollow">{$MOD[name]}搜索</a> ]&nbsp;
+		[ <a href="javascript:SendFav();">加入收藏</a> ]&nbsp;
+		[ <a href="javascript:SendPage();">告诉好友</a> ]&nbsp;
+		[ <a href="javascript:Print();">打印本文</a> ]&nbsp;
+		[ <a href="javascript:SendReport();">违规举报</a> ]&nbsp;
+		[ <a href="javascript:window.close()">关闭窗口</a> ]
+		</center>
+		<br/>
+		{if $MOD[page_srelate]}
+		<div class="b10">&nbsp;</div>
+		{if $keytags}
+		<div class="left_head"><a href="{$MOD[linkurl]}search.php?kw={urlencode($keytags[0])}" rel="nofollow">同类{$MOD[name]}</a></div>
+		<div class="related"><!--{tag("moduleid=$moduleid&length=44&condition=status=3 and itemid<>$itemid and keyword like '%".$keytags[0]."%'&areaid=$cityid&pagesize=".$MOD[page_srelate]."&order=".$MOD[order]."&cols=2&template=list-table", -2)}--></div>
+		{else}
+		<div class="left_head"><a href="{$MOD[linkurl]}{$CAT[linkurl]}">同类{$MOD[name]}</a></div>
+		<div class="related"><!--{tag("moduleid=$moduleid&length=44&catid=$catid&condition=status=3 and itemid!=$itemid&areaid=$cityid&pagesize=".$MOD[page_srelate]."&order=".$MOD[order]."&cols=2&template=list-table", -2)}--></div>
+		{/if}
+		{/if}
+		{template 'comment', 'chip'}
+		<br/>
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r f_l">
+	{if $MOD[page_srecimg]}
+	<div class="box_head"><div><strong>推荐图文</strong></div></div>
+	<div class="box_body thumb"><!--{tag("moduleid=$moduleid&length=20&condition=status=3 and level=3 and thumb!=''&catid=$catid&areaid=$cityid&pagesize=".$MOD[page_srecimg]."&order=".$MOD[order]."&width=120&height=90&cols=2&template=thumb-table")}--></div>
+	<div class="b10"> </div>
+	{/if}
+	{if $MOD[page_srec]}
+	<div class="box_head"><div><strong>推荐{$MOD[name]}</strong></div></div>
+	<div class="box_body li_dot"><!--{tag("moduleid=$moduleid&condition=status=3 and level=1&catid=$catid&areaid=$cityid&order=".$MOD[order]."&pagesize=".$MOD[page_srec])}-->
+	</div>
+	<div class="b10"> </div>
+	{/if}
+	{if $MOD[page_shits]}
+	<div class="box_head"><div><strong>点击排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$today_endtime-30*86400&catid=$catid&areaid=$cityid&order=hits desc&pagesize=".$MOD[page_shits])}--></div>
+	</div>
+	{/if}
+</div>
+</div>
+{if $content}<script type="text/javascript" src="{DT_STATIC}file/script/content.js"></script>{/if}
+{template 'footer'}

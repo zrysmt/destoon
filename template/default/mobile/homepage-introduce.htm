@@ -1,0 +1,40 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $itemid}
+<div class="main">
+	<div class="title"><strong>{$title}</strong></div>
+	<div class="info">{$date}&nbsp;&nbsp;点击:{$hits}</div>
+	{if $content}<div class="content">{$content}</div>{/if}
+</div>
+{else}
+<div class="main">
+	<div class="title"><strong>{$COM[company]}</strong></div>
+	<div class="content">
+	{if $video}
+	<center>{video5_player($video, 280, 210)}</center>
+	{/if}
+	{if $thumb}<center><img src="{$thumb}"/></center>{/if}
+	{$content}
+	</div>
+</div>
+<div class="blank-20"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><a href="{$HURL}&action=credit">公司档案</a></div></li>
+<li><div><a href="{$HURL}&action=contact">联系方式</a></div></li>
+{loop $lists $k $v}
+<li><div><a href="{$HURL}&action={$action}&itemid={$v[itemid]}">{$v[title]}</a></div></li>
+{/loop}
+</ul>
+</div>
+{/if}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

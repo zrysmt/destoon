@@ -1,0 +1,48 @@
+{template 'header'}
+<script type="text/javascript">var sh = '{$MOD[linkurl]}search.php?catid={$catid}';</script>
+<div class="m">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')}</div>
+		<div class="category">
+			<p><img src="{DT_SKIN}image/arrow.gif" width="17" height="12" alt=""/> <strong>按行业浏览</strong></p>
+			<div>
+			<table width="100%" cellpadding="3">
+			{loop $maincat $k $v}
+			{if $k%$MOD[page_subcat]==0}<tr>{/if}
+			<td{if $v[catid]==$catid} class="f_b"{/if}><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+			{if $k%$MOD[page_subcat]==($MOD[page_subcat]-1)}</tr>{/if}
+			{/loop}
+			</table>
+			</div>
+			{if $CP}
+			{loop $PPT $p}
+				<p><img src="{DT_SKIN}image/arrow.gif" width="17" height="12" alt=""/> <strong>按{$p[name]}浏览</strong></p>
+				<div>
+				{loop $p[options] $o}
+				<a href="###" onclick="Go(sh+'&ppt_{$p[oid]}={urlencode($o)}');">{$o}</a>&nbsp;&nbsp;
+				{/loop}
+				</div>
+			{/loop}
+			{/if}
+		</div>
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			{loop $p[options] $o}
+			<a href="###" onclick="Go(sh+'&ppt_{$p[oid]}={urlencode($o)}');">{$o}</a>&nbsp;|&nbsp;
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+		<div class="b10">&nbsp;</div>
+		{if $tags}{template 'list-'.$module, 'tag'}{/if}
+	</div>
+</div>
+{template 'footer'}

@@ -1,0 +1,83 @@
+{template 'header', $module}
+<script type="text/javascript">var module_id= {$moduleid},item_id={$itemid};</script>
+{if $banner}
+<div class="m"><a href="{$linkurl}"><img src="{$banner}" alt="{$title}"/></a></div>
+<div class="m b10">&nbsp;</div>
+{/if}
+<div class="m">
+	<div class="m_l f_l">
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+		<td valign="top" width="320">
+			<!--{tag("table=special_item&condition=specialid=$itemid and level=2 and thumb<>''&order=addtime desc&pagesize=3&width=320&height=200&target=_blank&template=slide")}-->
+		</td>
+		<td width="10"></td>
+		<td valign="top">
+			<div class="headline">
+			<!--{tag("table=special_item&condition=specialid=$itemid and level=5&order=addtime desc&pagesize=1&target=_blank&template=list-hl")}-->
+			<!--{tag("table=special_item&condition=specialid=$itemid and level=4&pagesize=2&order=addtime desc&target=_blank&template=list-hlr&cols=2")}-->
+			</div>
+			<div class="b5"></div>
+			<div class="subline">
+			<!--{tag("table=special_item&condition=specialid=$itemid and level=1&order=addtime desc&pagesize=5&datetype=2&target=_blank&class=b")}-->
+			</div>
+		</td>
+		</tr>
+		</table>
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		<div class="box_head"><div><strong>{$MOD[name]}介绍</strong></div></div>
+		<div class="box_body">
+			{if $CP}{template 'property', 'chip'}{/if}
+			<div class="special_intro">{$content}</div>
+		</div>
+	</div>
+</div>
+{if $cfg_photo}
+<div class="m">
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><strong>图片报道</strong></div></div>
+	<div class="box_body">
+		<div class="thumb">
+		<!--{tag("table=special_item&condition=specialid=$itemid and level=3 and thumb<>''&pagesize=$cfg_photo&length=20&order=addtime desc&width=120&height=90&cols=6&target=_blank&template=thumb-table", -2)}-->
+		</div>
+	</div>
+</div>
+{/if}
+{if $cfg_video}
+<div class="m">
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><strong>视频报道</strong></div></div>
+	<div class="box_body">
+		<div class="thumb">
+		<!--{tag("table=special_item&condition=specialid=$itemid and level=6 and thumb<>''&pagesize=$cfg_video&length=20&order=addtime desc&width=120&height=90&cols=6&target=_blank&template=thumb-table", -2)}-->
+		</div>
+	</div>
+</div>
+{/if}
+{if $cfg_type}
+<div class="m">
+	<div class="special_box">
+	<table cellpadding="0" cellspacing="0" width="990">
+	{loop $TYPE $k $v}
+	{if $k%3==0}<tr>{/if}
+	<td valign="top" width="320">
+		<div class="b10"></div>
+		<div class="box_head"><span class="f_r"><a href="{$v[linkurl]}">更多&raquo;</a></span><strong>{$v[typename]}</strong></div>
+		<div class="box_body li_dot f_gray"><!--{tag("table=special_item&condition=specialid=$itemid and typeid=".$v[typeid]."&order=addtime desc&pagesize=$cfg_type&datetype=2&target=_blank", -2)}--></div>			
+	</td>
+	<td width="10">&nbsp;</td>
+	{if $k%3==2}</tr>{/if}
+	{/loop}
+	</table>
+	</div>
+</div>
+{/if}
+<div class="m">
+	<div class="b10"> </div>
+	<div class="box_body" style="padding:0;">
+	{template 'comment', 'chip'}
+	</div>
+</div>
+{template 'footer'}

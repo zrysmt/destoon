@@ -1,0 +1,9 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	This is NOT a freeware, use is subject to license.txt
+*/
+.player {text-align:center;padding:15px 0 15px 0;}
+.video {background:#333333 url('image/video_bg.gif');padding:15px 10px 10px 15px;}
+.video li {width:120px;}
+.video ul {margin:0 0 6px 0;}
+.li_video li {background:url('image/ico_video.gif') no-repeat 2px 4px;padding:0 10px 0 21px;}

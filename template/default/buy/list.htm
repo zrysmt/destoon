@@ -1,0 +1,72 @@
+{template 'header'}
+<script type="text/javascript">var sh = '{$MOD[linkurl]}search.php?catid={$catid}';</script>
+<div class="m">
+<div class="m_l_1 f_l">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')}</div>
+		<div class="category">
+			<p><img src="{DT_SKIN}image/arrow.gif" width="17" height="12" alt=""/> <strong>按行业浏览</strong></p>
+			<div>
+			<table width="100%" cellpadding="3">
+			{loop $maincat $k $v}
+			{if $k%$MOD[page_subcat]==0}<tr>{/if}
+			<td{if $v[catid]==$catid} class="f_b"{/if}><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+			{if $k%$MOD[page_subcat]==($MOD[page_subcat]-1)}</tr>{/if}
+			{/loop}
+			</table>
+			</div>
+		</div>
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			{loop $p[options] $o}
+			<a href="###" onclick="Go(sh+'&ppt_{$p[oid]}={urlencode($o)}');">{$o}</a>&nbsp;|&nbsp;
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+		<div class="b10">&nbsp;</div>
+		<div class="type">
+		<a href="{$MOD[linkurl]}{$linkurl}" class="type_1">全部</a>
+		{loop $TYPE $k $v}
+		<a href="javascript:Go('{$MOD[linkurl]}{rewrite('index.php?typeid='.$k.'&catid='.$catid)}');" class="type_2">{$v}</a>
+		{/loop}
+		</div>
+		<div class="b10 c_b">&nbsp;</div>
+		<div class="img_tip" id="img_tip" style="display:none;">&nbsp;</div>
+		{if $page == 1}{ad($moduleid,$catid,$kw,6)}{/if}
+		{if $tags}{template 'list-'.$module, 'tag'}{/if}
+		<br/>
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r_1 f_l">
+	<div class="sponsor">{ad($moduleid,$catid,$kw,7)}</div>
+	<div class="box_head"><div><strong>本周搜索排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list">
+			<!--{tag("moduleid=$moduleid&table=keyword&condition=moduleid=$moduleid and status=3 and updatetime>$today_endtime-86400*7&pagesize=10&order=week_search desc&key=week_search&template=list-search_rank")}-->
+		</div>		
+	</div>
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><strong>按地区浏览</strong></div></div>
+	<div class="box_body">
+		<table width="100%" cellpadding="3">
+		{php $mainarea = get_mainarea(0)}
+		{loop $mainarea $k $v}
+		{if $k%2==0}<tr>{/if}
+		<td><a href="{$MOD[linkurl]}search.php?areaid={$v[areaid]}&catid={$catid}" rel="nofollow">{$v[areaname]}</a></td>
+		{if $k%2==1}</tr>{/if}
+		{/loop}
+		</table>
+	</div>
+</div>
+</div>
+{template 'footer'}

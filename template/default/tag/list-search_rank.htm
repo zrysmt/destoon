@@ -1,0 +1,6 @@
+{php isset($file) or $file='search';}
+<ul>
+{loop $tags $i $t}
+<li title="搜索{$t[$key]}次 约{$t[items]}条结果"><span class="f_r px11 f_gray">&nbsp;{$t[items]}条</span><a href="{$MODULE[$moduleid][linkurl]}{$file}.php?kw={urlencode($t[word])}"{if $target} target="{$target}"{/if} rel="nofollow">{$t[word]}</a></li>
+{/loop}
+</ul>

@@ -1,0 +1,129 @@
+{template 'header'}
+<style type="text/css">
+.compare {margin:8px;}
+.compare table {background:#FFFFFF;}
+.compare table tr {background:#F6F6F6;text-align:center;}
+.compare table td {width:120px;padding:5px;border-bottom:#DDDDDD 1px solid;line-height:180%;}
+.compare div {font-weight:bold;color:#FF6600;letter-spacing:2px;}
+</style>
+<div class="m">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; 信息对比</div>
+		<div class="compare">
+		<table cellspacing="1">
+		<tr>
+		<td><div>移除</div></td>
+		{loop $tags $k $v}
+		<td id="del_{$v[itemid]}_{$k}"><span class="jt" onclick="del({$v[itemid]}, {$k});">移除</span></td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>图片</div></td>
+		{loop $tags $k $v}
+		<td id="pic_{$v[itemid]}_{$k}"><a href="{$v[linkurl]}" target="_blank"><img src="{imgurl($v[thumb])}" width="80" height="80" alt=""/></a></td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>标题</div></td>
+		{loop $tags $k $v}
+		<td id="title_{$v[itemid]}_{$k}"><a href="{$v[linkurl]}" target="_blank" title="{$v[title]}">{$v[stitle]}</a></td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>品牌</div></td>
+		{loop $tags $k $v}
+		<td id="brand_{$v[itemid]}_{$k}">{$v[brand]}&nbsp;</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>日期</div></td>
+		{loop $tags $k $v}
+		<td id="date_{$v[itemid]}_{$k}">{$v[editdate]}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>公司</div></td>
+		{loop $tags $k $v}
+		<td id="com_{$v[itemid]}_{$k}"><a href="{$v[userurl]}" target="_blank">{$v[company]}</a></td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>会员</div></td>
+		{loop $tags $k $v}
+		<td id="vip_{$v[itemid]}_{$k}">
+		{if $v[vip]}<img src="{DT_SKIN}image/vip_{$v[vip]}.gif" alt="{VIP}" title="{VIP}:{$v[vip]}级"/>{/if}&nbsp;
+		</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>地区</div></td>
+		{loop $tags $k $v}
+		<td id="area_{$v[itemid]}_{$k}">{area_pos($v[areaid], '', 2)}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>价格</div></td>
+		{loop $tags $k $v}
+		<td id="price_{$v[itemid]}_{$k}">{if $v[price]>0}<strong class="f_red">{$v[price]}</strong>{$DT[money_unit]}/{$v[unit]}{else}面议{/if}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>起订</div></td>
+		{loop $tags $k $v}
+		<td id="min_{$v[itemid]}_{$k}">{if $v[minamount]}{$v[minamount]} {$v[unit]}{else}未填写{/if}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>总量</div></td>
+		{loop $tags $k $v}
+		<td id="amount_{$v[itemid]}_{$k}">{if $v[amount]}{$v[amount]} {$v[unit]}{else}未填写{/if}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>发货</div></td>
+		{loop $tags $k $v}
+		<td id="days_{$v[itemid]}_{$k}">{if $v[days]}{$v[days]}天内{else}未填写{/if}</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>联系</div></td>
+		{loop $tags $k $v}
+		<td id="im_{$v[itemid]}_{$k}">&nbsp;
+			{if $v[username] && $DT[im_web]}{im_web($v[username].'&mid='.$moduleid.'&itemid='.$v[itemid])}&nbsp;{/if}
+			{if $v[qq] && $DT[im_qq]}{im_qq($v[qq])}&nbsp;{/if}
+			{if $v[ali] && $DT[im_ali]}{im_ali($v[ali])}&nbsp;{/if}
+			{if $v[msn] && $DT[im_msn]}{im_msn($v[msn])}&nbsp;{/if}
+			{if $v[skype] && $DT[im_skype]}{im_skype($v[skype])}</a>&nbsp;{/if}
+		</td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>询价</div></td>
+		{loop $tags $k $v}
+		<td id="inq_{$v[itemid]}_{$k}"><a href="{$MOD[linkurl]}{rewrite('inquiry.php?itemid='.$v['itemid'])}" target="_blank"><img src="{DT_SKIN}image/inquiry.gif" title="询价" alt=""/></a></td>
+		{/loop}
+		</tr>
+		<tr>
+		<td><div>移除</div></td>
+		{loop $tags $k $v}
+		<td id="move_{$v[itemid]}_{$k}"><span class="jt" onclick="del({$v[itemid]}, {$k});">移除</span></td>
+		{/loop}
+		</tr>
+		</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var n = {$item_nums};
+function del(id, k) {
+	if(n < 3) {confirm('最少需要保留两条信息');return;}
+	var d = ['del','pic','title','brand','date','com','vip','area','price','min','amount','days','im','inq','move'];
+	var l = d.length;
+	for(var i=0;i<l;i++){
+		Dd(d[i]+'_'+id+'_'+k).style.display='none';
+	}
+	Dd('itemid_'+id).value=0;
+	n--;
+}
+</script>
+{template 'footer'}

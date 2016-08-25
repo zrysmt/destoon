@@ -1,0 +1,43 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="index.php?moduleid={$moduleid}&itemid={$itemid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:Dsheet('<a href=&#34;{$MURL}{$DT[file_my]}?mid={$moduleid}&action=add&askto={$username}&#34; rel=&#34;external&#34;><span>向TA提问</span></a>|<a href=&#34;message.php?action=send&touser={$username}&#34; data-transition=&#34;slideup&#34;><span>发送消息</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+
+<div class="user-info">
+<img src="{useravatar($username, 'large')}" width="64" height="64"/>
+<div><a href="index.php?moduleid=4&username={$username}"><strong>{$user[passport]}</strong></a><br/>
+来自{area_pos($user[areaid], '')}，当前{if online($user[userid])==1}在线{else}离线{/if}</div>
+</div>
+<div class="list-tab bd-b">
+	<ul>
+		<li{if $typeid==0} class="on"{/if}><a href="know.php?action={$action}&username={$username}&itemid={$itemid}&typeid=0" data-transition="flip"><span>提出的问题</span></a></li>
+		<li{if $typeid==1} class="on"{/if}><a href="know.php?action={$action}&username={$username}&itemid={$itemid}&typeid=1" data-transition="flip"><span>回答的问题</span></a></li>
+	</ul>
+</div>
+<style type="text/css">
+.list-ask {height:66px;padding:0 16px;}
+.list-ask p {margin:6px 0 0 0;}
+</style>
+{if $lists}
+{loop $lists $v}
+<div class="list-img list-ask">
+<ul>
+<li><a href="index.php?moduleid={$moduleid}&itemid={if $typeid==1}{$v[qid]}{else}{$v[itemid]}{/if}"><strong>{$v[title]}</strong></a></li>
+</ul>
+<p>{if $typeid==0}<span class="f_r">{$PROCESS[$v[process]]}</span>{/if}<span>{$v[date]}</span></p>
+</div>
+{/loop}
+{else}
+{template 'chip-empty', 'mobile'}
+{/if}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

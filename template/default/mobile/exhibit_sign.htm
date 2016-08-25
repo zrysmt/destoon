@@ -1,0 +1,98 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="javascript:Dback('{$linkurl}');" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="{$linkurl}" data-direction="reverse"><span>取消</span></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+<style type="text/css">
+.sign {padding:0 0 0 16px;}
+.sign div {height:44px;overflow:hidden;}
+.sign input {width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;}
+.sign-area {padding-top:5px;}
+.sign-area select {-webkit-appearance:none;height:34px;border:#FFFFFF 1px solid;padding:0;margin:0;color:#999999;font-size:16px;background:#FFFFFF;}
+</style>
+<div class="main">
+	<div class="sign">
+	<form method="post" id="exhibit-sign">
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<input type="hidden" name="ok" value="1"/>
+	<div class="bd-b"><input type="tel" name="amount" id="amount" placeholder="报名人数(不填代表1人)" value=""/></div>
+	<div class="bd-b"><input type="text" name="truename" id="truename" placeholder="联系人(必填)" value="{$truename}"/></div>
+	<div class="bd-b"><input type="tel" name="mobile" id="mobile" placeholder="手机号码(必填)" value="{$mobile}"/></div>
+	<div class="bd-b"><input type="text" name="company" id="company" placeholder="公司名称" value="{$company}"/></div>
+	<div class="bd-b"><input type="email" name="email" id="email" placeholder="电子邮箱" value="{$email}"/></div>
+	<div class="bd-b"><div class="sign-area">{ajax_area_select('areaid', '所在省市')}</div></div>
+	<div class="bd-b"><input type="text" name="address" id="address" placeholder="通讯地址" value="{$address}"/></div>
+	<div class="bd-b"><input type="tel" name="postcode" id="postcode" placeholder="邮政编码" value="{$postcode}"/></div>
+	{if $DT[im_qq]}
+	<div class="bd-b"><input type="text" name="qq" id="qq" placeholder="QQ" value="{$qq}"/></div>
+	{/if}
+	<div class="bd-b"><input type="text" name="content" id="content" placeholder="备注事项" value=""/></div>
+	</div>
+	{if $need_captcha}
+	<div style="height:44px;margin-left:16px;" class="bd-b">{template 'captcha', 'chip'}</div>
+	{/if}
+	</form>
+</div>
+<div class="main" style="padding:10px;" onclick="Dsign();">
+	<div class="btn-blue">提交报名</div>
+</div>
+<script type="text/javascript">
+function Dsign() {
+	var val,len;
+	val = $('#truename').val();
+	len = val.length;
+	if(len < 2) {
+		Dtoast('请填写联系人姓名');
+		return false;
+	}
+	val = $('#mobile').val();
+	if(!val.match(/^1[3|4|5|7|8]{1}[0-9]{9}$/)) {
+		Dtoast('请填写正确的手机号码');
+		return false;
+	}
+	{if $need_captcha}
+	val = $('#captcha').val();
+	if(!is_captcha(val)) {
+		Dtoast('请填写验证码');
+		return false;
+	}
+	{/if}
+	$.post('sign.php', $('#exhibit-sign').serialize(), function(data) {
+		if(data == 'ok') {
+			Dtoast('报名成功');
+			setTimeout(function() {
+				Go('{$linkurl}');
+			}, 1000);
+		} else if(data == 'turename') {
+			Dtoast('请填写联系人姓名');
+		} else if(data == 'mobile') {
+			Dtoast('请填写正确的手机号码');
+		} else if(data == 'captcha') {
+			Dtoast('验证码错误');
+			reloadcaptcha();
+		} else {
+			Dtoast('报名失败，请重试');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		}
+	});
+	return;
+}
+{if $need_captcha}
+$(document).on('pageinit', function(event) {
+	$('#captcha').on('blur', function(){window.scrollTo(0,0);});
+	$('#captcha').css({'width':'100px','border':'none','padding':'0','font-size':'16px'});
+	showcaptcha();
+});
+{/if}
+</script>
+{template 'footer', 'mobile'}

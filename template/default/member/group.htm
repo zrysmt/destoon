@@ -1,0 +1,831 @@
+{template 'header', $module}
+<script type="text/javascript">c(2);var errimg = '{DT_SKIN}image/nopic60.gif';</script>
+<div class="menu">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="tab" id="action"><a href="?action=index"><span>收到的订单(我是卖家)</span></a></td>
+<td class="tab" id="action_order"><a href="?action=order"><span>团到的商品(我是买家)</span></a></td>
+<td class="tab" id="action_express"><a href="?action=express"><span>我的快递</span></a></td>
+</tr>
+</table>
+</div>
+{if $action == 'update'}
+	{if $step == 'detail'}
+	<table cellpadding="0" cellspacing="0" align="center">
+	<tr align="center" class="f_gray">
+	<td>买家下单</td>
+	<td>买家付款</td>
+	<td>{if $td[logistic]}卖家发货{else}买家消费{/if}</td>
+	{if $td[status] == 4 || $td[status] == 5}
+	<td>申请退款</td>
+	<td>退款成功</td>
+	{else}
+	<td>交易成功</td>
+	{/if}
+	</tr>
+	<tr height="60">
+	<td><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/state_2.gif" id="state_1"/></td>
+	<td id="pay_s"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/state_1.gif" id="state_2"/></td>
+	<td><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/state_1.gif" id="state_3"/></td>
+	<td><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/state_1.gif" id="state_4"/></td>
+	{if $td[status] == 4 || $td[status] == 5}
+	<td><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/state_1.gif" id="state_5"/></td>
+	{/if}
+	</tr>
+	</table>
+	</div>
+	<script type="text/javascript">
+	var s1 = Dd('state_2').src;
+	var s2 = Dd('state_1').src;
+	function Dstate(n) {
+		for(var i = 2; i <= n; i++) {
+			Dd('state_'+i).src = s2;
+		}
+	}
+	{if $td[status] == 0}
+	Dstate(2);
+	{elseif $td[status] == 1 || $td[status] == 2}
+	Dstate(3);
+	{elseif $td[status] == 3}
+	Dstate(4);
+	{elseif $td[status] == 4}
+	Dstate(4);
+	{elseif $td[status] == 5}
+	Dstate(5);
+	{/if}
+	{if $td[status] == 4 || $td[status] == 5}
+		{if !$td[send_time]}Dd('state_3').src = s1;{/if}
+	{/if}
+	</script>
+	<div class="t2">商品信息</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">订单单号</td>
+	<td class="tr">{$td[itemid]}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品名称</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank" class="t">{$td[title]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">商品图片</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank"><img src="{if $td[thumb]}{$td[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60"/></a></td>
+	</tr>
+	{if $td[seller] == $_username}
+	<tr>
+	<td class="tl">买家 </td>
+	<td class="tr">{if $DT[im_web]}{im_web($td[buyer])}&nbsp;{/if}<a href="message.php?action=send&touser={$td[buyer]}"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ico_message.gif" title="发送站内信" align="absmiddle"/></a> <a href="{userurl($td[buyer], 'file=contact')}" target="_blank" class="t">{$td[buyer]}</a></td>
+	</tr>
+	{elseif $td[buyer] == $_username}
+	<tr>
+	<td class="tl">卖家</td>
+	<td class="tr">{if $DT[im_web]}{im_web($td[seller])}&nbsp;{/if}<a href="message.php?action=send&touser={$td[seller]}"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ico_message.gif" title="发送站内信" align="absmiddle"/></a> <a href="{userurl($td[seller], 'file=contact')}" target="_blank" class="t">{$td[seller]}</a></td>
+	</tr>
+	{/if}
+	</table>
+	{if $td[logistic]}
+	<div class="t2">快递信息</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">邮编</td>
+	<td class="tr">{$td[buyer_postcode]}</td>
+	</tr>
+	<tr>
+	<td class="tl">地址</td>
+	<td class="tr">{$td[buyer_address]}</td>
+	</tr>
+	<tr>
+	<td class="tl">姓名</td>
+	<td class="tr">{$td[buyer_name]}</td>
+	</tr>
+	<tr>
+	<td class="tl">手机</td>
+	<td class="tr">{$td[buyer_mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($td[buyer_mobile], DT_KEY.'SMS')}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
+	</tr>
+	<tr>
+	<td class="tl">电话</td>
+	<td class="tr">{$td[buyer_phone]}</td>
+	</tr>
+	<tr>
+	<td class="tl">买家备注</td>
+	<td class="tr">{if $td[note]}{$td[note]}{else}无{/if}</td>
+	</tr>
+	{if $td[send_time]}
+	<tr>
+	<td class="tl">发货日期</td>
+	<td class="tr">{$td[send_time]}</td>
+	</tr>
+	<tr>
+	<td class="tl">快递类型</td>
+	<td class="tr">{$td[send_type]}</td>
+	</tr>
+	<tr>
+	<td class="tl">快递单号</td>
+	<td class="tr">{$td[send_no]}{if $td[send_type] && $td[send_no]} &nbsp;<a href="###" class="t" onclick="Ds('express_t');$('#express').load(AJPath+'?action=express&moduleid=2&auth={$auth}');">[快递追踪]</a>{/if}</td>
+	</tr>
+	<tr id="express_t" style="display:none;">
+	<td class="tl">追踪结果</td>
+	<td class="tr" style="line-height:200%;"><div id="express">正在查询...</div></td>
+	</tr>
+	<tr>
+	<td class="tl">快递状态</td>
+	<td class="tr">{$_send_status[$td[send_status]]}</td>
+	</tr>
+	{/if}
+	</table>
+	{else}
+	<div class="t2">验证信息</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">密码</td>
+	<td class="tr">{$td[password]}</td>
+	</tr>
+	<tr>
+	<td class="tl">手机</td>
+	<td class="tr">{$td[buyer_mobile]}</td>
+	</tr>
+	{if $td[status] == 0 && $td[seller] == $_username}
+	<tr>
+	<td class="tl"></td>
+	<td class="tr"><a href="?itemid={$td[itemid]}&action=update&step=used" onclick="return confirm('您确定买家已经消费吗？此操作将不可撤销');" class="t">[确认消费]</a></td>
+	</tr>
+	{/if}
+	</table>
+	{/if}
+	<div class="t2">价格信息</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">商品单价</td>
+	<td class="tr">{$DT[money_sign]}{$td[price]}</td>
+	</tr>
+	<tr>
+	<td class="tl">购买数量</td>
+	<td class="tr">{$td[number]}</td>
+	</tr>
+	<tr>
+	<td class="tl">订单总额</td>
+	<td class="tr f_red">{$DT[money_sign]}{$td[total]}</td>
+	</tr>
+	</table>
+	<div class="t2">订单状态</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">下单时间</td>
+	<td class="tr">{$td[adddate]}</td>
+	</tr>
+	<tr>
+	<td class="tl">最后更新</td>
+	<td class="tr">{$td[updatedate]}</td>
+	</tr>
+	{if $td[send_time]}
+	<tr>
+	<td class="tl">发货时间</td>
+	<td class="tr">{$td[send_time]}</td>
+	</tr>
+	{/if}
+	<tr>
+	<td class="tl">订单状态</td>
+	<td class="tr">{$_status[$td[status]]}</td>
+	</tr>
+	{if $td[buyer_reason]}
+	<tr>
+	<td class="tl">退款理由</td>
+	<td class="tr">{$td[buyer_reason]}</td>
+	</tr>
+	{/if}
+	{if $td[refund_reason]}
+	<tr>
+	<td class="tl">操作原因</td>
+	<td class="tr">{$td[refund_reason]}</td>
+	</tr>
+	{/if}
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	{if $td[seller] == $_username}
+	{else}
+		{if $td[status] == 6}
+		<input type="button" value=" 付 款 " class="btn_g" onclick="Go('?itemid={$td[itemid]}&action=update&step=pay');"/> &nbsp; 
+		{/if}
+	{/if}
+	<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	<script type="text/javascript">s('group');m('{$nav}');</script>
+	{elseif $step == 'express'}
+	<div class="t2">快递信息</div>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">商品名称</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank" class="t">{$td[title]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">发货日期</td>
+	<td class="tr">{$td[send_time]}</td>
+	</tr>
+	<tr>
+	<td class="tl">快递类型</td>
+	<td class="tr">{$td[send_type]}</td>
+	</tr>
+	<tr>
+	<td class="tl">快递单号</td>
+	<td class="tr">{$td[send_no]}</td>
+	</tr>
+	<tr>
+	<td class="tl">追踪结果</td>
+	<td class="tr" style="line-height:200%;"><div id="express">正在查询...</div></td>
+	</tr>
+	<tr>
+	<td class="tl">快递状态</td>
+	<td class="tr">{$_send_status[$td[send_status]]}</td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr"><input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#express').load(AJPath+'?action=express&moduleid=2&auth={$auth}');
+	});
+	</script>
+	<script type="text/javascript">s('group');m('{$nav}');</script>
+	{elseif $step == 'pay'}
+	<form method="post" action="?" onsubmit="return check();" id="dform">
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="step" value="{$step}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">当前操作</td>
+	<td class="tr f_red f_b">订单支付</td>
+	</tr>
+	<tr>
+	<td class="tl">订单单号</td>
+	<td class="tr">{$td[itemid]}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品名称</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank" class="t">{$td[title]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">商品图片</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank"><img src="{if $td[thumb]}{$td[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60"/></a></td>
+	</tr>
+	<tr>
+	<td class="tl">卖家</td>
+	<td class="tr">{if $DT[im_web]}{im_web($td[seller])}&nbsp;{/if}<a href="{userurl($td[seller], 'file=contact')}" target="_blank" class="t">{$td[seller]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">下单时间</td>
+	<td class="tr">{$td[adddate]}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品单价</td>
+	<td class="tr">{$DT[money_sign]}{$td[price]}</td>
+	</tr>
+	<tr>
+	<td class="tl">购买数量</td>
+	<td class="tr">{$td[number]}</td>
+	</tr>
+	<tr>
+	<td class="tl">实付金额</td>
+	<td class="tr f_red">{$DT[money_sign]}{number_format($money, 2, '.', '')}</td>
+	</tr>
+	<tr>
+	<td class="tl">帐户余额</td>
+	<td class="tr f_blue">{$DT[money_sign]}{$_money}</td>
+	</tr>
+	<tr id="payword" style="display:none;">
+	<td class="tl"><span class="f_red">*</span> 支付密码</td>
+	<td class="tr">{template 'password', 'chip'}&nbsp;<span id="dpassword" class="f_red"></span></td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	<input type="submit" name="submit" value="立即支付" class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+	var total = {$money};
+	function check() {
+		if(total > {$_money}) {
+			Go('charge.php?action=pay&reason=group|{$itemid}&amount='+(total-{$_money}));
+			return false;
+		}
+		if(Dd('password').value.length < 6) {
+			Dmsg('请填写支付密码', 'password');
+			return false;
+		}
+		return confirm('您确认此订单，并立即支付吗？');
+	}
+	window.setInterval(
+		function() {
+			total > {$_money} ? Dh('payword') : Ds('payword');
+		}, 
+	500);
+	</script>
+	<script type="text/javascript">s('group');m('action_order');</script>
+	{elseif $step == 'send'}
+	<form method="post" action="?" onsubmit="return check();" id="dform">
+	<input type="hidden" name="forward" value="{$forward}"/>
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="step" value="{$step}"/>
+	<input type="hidden" name="page" value="{$page}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<table cellspacing="1" cellpadding="6" class="tb">
+	<tr>
+	<td class="tl">当前操作</td>
+	<td class="tr f_red f_b">确认发货</td>
+	</tr>
+	<tr>
+	<td class="tl">快递类型</td>
+	<td class="tr f_gray">
+	<select name="send_type" id="send_type">
+	<option value="">常用快递类型</option>
+	{loop $send_types $v}
+	<option value="{$v}">{$v}</option>
+	{/loop}
+	</select>
+	</td>
+	</tr>
+	<tr>
+	<td class="tl">快递单号</td>
+	<td class="tr f_gray"><input type="text" size="30" name="send_no" id="send_no"/></td>
+	</tr>
+	<tr>
+	<td class="tl">发货时间</td>
+	<td class="tr f_gray">{dcalendar('send_time', $send_time)}</td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	<input type="submit" name="submit" value=" 发 货 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+	function check() {
+		return confirm('您确认货物已经发出，并且以上信息填写无误吗？\n\n此操作将不可撤销');
+	}
+	</script>
+	<script type="text/javascript">s('group');m('action');</script>
+	{elseif $step == 'add_time'}
+	<form method="post" action="?" onsubmit="return check();" id="dform">
+	<input type="hidden" name="forward" value="{$forward}"/>
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="step" value="{$step}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<table cellspacing="1" cellpadding="6" class="tb">
+	<tr>
+	<td class="tl">当前操作</td>
+	<td class="tr f_red f_b">延长买家确认时间</td>
+	</tr>
+	<tr>
+	<td class="tl"><span class="f_red">*</span>延长时间</td>
+	<td class="tr f_gray"><input type="text" size="10" name="add_time" id="add_time" value="72"/> 小时 （1天=24小时 只能为整数）&nbsp;<span id="dadd_time" class="f_red"></span></td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	<input type="submit" name="submit" value=" 确 定 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+	function check() {
+		return confirm('您确认延长'+Dd('add_time').value+'小时吗？');
+	}
+	</script>
+	<script type="text/javascript">s('group');m('action');</script>
+	{elseif $step == 'remind'}
+	<form action="message.php" method="post" id="remind">
+	<input type="hidden" name="action" value="send" />
+	<input type="hidden" name="forward" value="{$MOD[linkurl]}group.php?action=order&itemid={$itemid}" />
+	<input type="hidden" name="touser" value="{$td[seller]}" />
+	<input type="hidden" name="title" value="[发货提醒]团购订单(ID:{$itemid})已经付款，请尽快发货" />
+	<textarea name="content" style="display:none;">
+	{$td[seller]}，您好：<br/>
+	订单 <a href="{$MOD[linkurl]}group.php?action=update&step=detail&itemid={$itemid}" target="_blank">{$td[title]} (ID:{$itemid})</a> 已经付款。请尽快发货！
+	</textarea>
+	</form>	
+	<script type="text/javascript">s('group');m('action_order');Dd('remind').submit();</script>
+	{elseif $step == 'refund'}
+	<form method="post" action="?" onsubmit="return check();" id="dform">
+	<input type="hidden" name="forward" value="{$forward}"/>
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="step" value="{$step}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">当前操作</td>
+	<td class="tr f_red f_b">申请退款</td>
+	</tr>
+	<tr>
+	<td class="tl">商品名称</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank" class="t">{$td[title]}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="$('#trade_detail').toggle('fast');" class="t">详情&raquo;</a></td>
+	</tr>
+	<tbody id="trade_detail" style="display:none;">
+	<tr>
+	<td class="tl">订单单号</td>
+	<td class="tr">{$td[itemid]}{if $DT[trade]}&nbsp;&nbsp;&nbsp;&nbsp;({$DT[trade_nm]}订单单号:{$td[trade_no]}){/if}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品图片</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank"><img src="{if $td[thumb]}{$td[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60"/></a></td>
+	</tr>
+	<tr>
+	<td class="tl">卖家</td>
+	<td class="tr">{if $DT[im_web]}{im_web($td[seller])}&nbsp;{/if}<a href="{userurl($td[seller], 'file=contact')}" target="_blank" class="t">{$td[seller]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">下单时间</td>
+	<td class="tr">{$td[adddate]}</td>
+	</tr>
+	<tr>
+	<td class="tl">备注说明</td>
+	<td class="tr">{$td[note]}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品单价</td>
+	<td class="tr">{$DT[money_sign]}{$td[price]}</td>
+	</tr>
+	<tr>
+	<td class="tl">购买数量</td>
+	<td class="tr">{$td[number]}</td>
+	</tr>
+	<tr>
+	<td class="tl">订单总额</td>
+	<td class="tr f_red">{$DT[money_sign]}{$money}</td>
+	</tr>
+	</tbody>
+	<tr>
+	<td class="tl"><span class="f_red">*</span> 退款原因</td>
+	<td class="tr"><textarea name="content" id="content" class="dsn"></textarea>
+	{deditor($moduleid, 'content', 'Simple', '100%', 200)}<br/><span class="f_gray">请客观、如实填写，此申请一经提交，将不可再撤销</span><span id="dcontent" class="f_red"></span></td>
+	</tr>
+	<tr>
+	<td class="tl"><span class="f_red">*</span> 支付密码</td>
+	<td class="tr">{template 'password', 'chip'}&nbsp;<span id="dpassword" class="f_red"></span></td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	<input type="submit" name="submit" value=" 确 定 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+	function check() {
+		var len = FCKLen();
+		if(len < 10) {
+			Dmsg('退款原因不能少于10个字，当前已输入'+len+'个字', 'content');
+			return false;
+		}
+		if(Dd('password').value.length < 6) {
+			Dmsg('请填写支付密码', 'password');
+			return false;
+		}
+		return confirm('您确认您提供的退款原因无误，并申请退款吗？');
+	}
+	</script>
+	<script type="text/javascript">s('group');m('action_order');</script>
+	{elseif $step == 'refund_agree'}
+	<form method="post" action="?" onsubmit="return check();" id="dform">
+	<input type="hidden" name="forward" value="{$forward}"/>
+	<input type="hidden" name="action" value="{$action}"/>
+	<input type="hidden" name="step" value="{$step}"/>
+	<input type="hidden" name="itemid" value="{$itemid}"/>
+	<table cellspacing="1" cellpadding="8" class="tb">
+	<tr>
+	<td class="tl">当前操作</td>
+	<td class="tr f_red f_b">同意退款</td>
+	</tr>
+	<tr>
+	<td class="tl">商品名称</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank" class="t">{$td[title]}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="$('#trade_detail').toggle('fast');" class="t">详情&raquo;</a></td>
+	</tr>
+	<tbody id="trade_detail" style="display:none;">
+	<tr>
+	<td class="tl">订单单号</td>
+	<td class="tr">{$td[itemid]}{if $DT[trade]}&nbsp;&nbsp;&nbsp;&nbsp;({$DT[trade_nm]}订单单号:{$td[trade_no]}){/if}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品图片</td>
+	<td class="tr"><a href="{$td[linkurl]}" target="_blank"><img src="{if $td[thumb]}{$td[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60"/></a></td>
+	</tr>
+	<tr>
+	<td class="tl">卖家</td>
+	<td class="tr">{if $DT[im_web]}{im_web($td[seller])}&nbsp;{/if}<a href="{userurl($td[seller], 'file=contact')}" target="_blank" class="t">{$td[seller]}</a></td>
+	</tr>
+	<tr>
+	<td class="tl">下单时间</td>
+	<td class="tr">{$td[adddate]}</td>
+	</tr>
+	<tr>
+	<td class="tl">备注说明</td>
+	<td class="tr">{$td[note]}</td>
+	</tr>
+	<tr>
+	<td class="tl">商品单价</td>
+	<td class="tr">{$DT[money_sign]}{$td[price]}</td>
+	</tr>
+	<tr>
+	<td class="tl">购买数量</td>
+	<td class="tr">{$td[number]}</td>
+	</tr>
+	<tr>
+	<td class="tl">订单总额</td>
+	<td class="tr f_red">{$DT[money_sign]}{$money}</td>
+	</tr>
+	</tbody>
+	<tr>
+	<td class="tl">退款原因</td>
+	<td class="tr">{$td[buyer_reason]}</td>
+	</tr>
+	<tr>
+	<td class="tl">同意原因</td>
+	<td class="tr"><textarea name="content" id="content" class="dsn"></textarea>
+	{deditor($moduleid, 'content', 'Simple', '100%', 200)}<br/></td>
+	</tr>
+	<tr>
+	<td class="tl"><span class="f_red">*</span> 支付密码</td>
+	<td class="tr">{template 'password', 'chip'}&nbsp;<span id="dpassword" class="f_red"></span></td>
+	</tr>
+	<tr>
+	<td class="tl"> </td>
+	<td class="tr">
+	<input type="submit" name="submit" value=" 确 定 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	</td>
+	</tr>
+	</table>
+	</form>
+	<script type="text/javascript">
+	function check() {
+		if(Dd('password').value.length < 6) {
+			Dmsg('请填写支付密码', 'password');
+			return false;
+		}
+		return confirm('您确认同意退款此订单吗？此操作将不可撤销');
+	}
+	</script>
+	<script type="text/javascript">s('group');m('action_order');</script>
+	{/if}
+{elseif $action == 'express'}
+<!--[我的快递]-->
+<div class="tt">
+<form action="trade.php">
+<input type="hidden" name="action" value="{$action}"/>
+{$fields_select}&nbsp;
+<input type="text" size="30" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+<select name="type">
+<option value="0"{if $type==0} selected{/if}>交易类型</option>
+<option value="1"{if $type==1} selected{/if}>发货（我是卖家）</option>
+<option value="2"{if $type==2} selected{/if}>收货（我是买家）</option>
+</select>&nbsp;
+{$status_select}&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/><br/>
+</div>
+</form>
+<div class="bd">
+<table cellpadding="10" cellspacing="0" class="tb">
+<tr bgcolor="#F2F2F2" align="center">
+<td width="110">类型</td>
+<td>快递公司</td>
+<td>快递单号</td>
+<td width="100">快递状态</td>
+<td width="150">下单时间</td>
+<td width="150">更新时间</td>
+<td width="40">订单</td>
+</tr>
+{loop $lists $k $v}
+<tr align="center">
+<td>{if $v[seller] == $_username}发货（我是卖家）{else}收货（我是买家）{/if}</td>
+<td>{$v[send_type]}</td>
+<td title="快递追踪"><a href="?itemid={$v[itemid]}&action=update&step=express" class="t">{$v[send_no]}</a></td>
+<td>{$v[dstatus]}</td>
+<td>{$v[addtime]}</td>
+<td>{$v[updatetime]}</td>
+<td><a href="?itemid={$v[itemid]}&action=update&step=detail" class="t">查看</a></td>
+</tr>
+{/loop}
+</table>
+</div>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('group');m('action_express');</script>
+{elseif $action == 'order'}
+<!--[团购订单，我是买家]-->
+<div class="tt">
+<form action="?">
+<input type="hidden" name="action" value="{$action}"/>
+{$fields_select}&nbsp;
+<input type="text" size="15" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+{$status_select}&nbsp;
+{dcalendar('fromtime', $fromtime)} 至 {dcalendar('totime', $totime)}&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/><br/>
+<div class="b10"></div>
+单号：<input type="text" size="10" name="itemid" value="{$itemid}"/>&nbsp;
+商品ID：<input type="text" size="10" name="gid" value="{$gid}"/>&nbsp;
+商家：<input type="text" size="10" name="seller" value="{$seller}"/>&nbsp;
+密码：<input type="text" size="10" name="pass" value="{$pass}"/>&nbsp;
+</div>
+</form>
+
+<div class="nav">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="{if !in_array($nav, array(0,1,2,4,5,6))}nav_2{else}nav_1{/if}"><a href="?action={$action}">全部订单</a></td>
+<td class="{if $nav==6}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=6">待付款 <span>({php echo $db->count($table, "buyer='$_username' AND status=6");})</span></a></td>
+<td class="{if $nav==0}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=0">已付款 <span>({php echo $db->count($table, "buyer='$_username' AND status=0");})</span></a></td>
+<td class="{if $nav==1}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=1">已发货 <span>({php echo $db->count($table, "buyer='$_username' AND status=1");})</span></a></td>
+<td class="{if $nav==2}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=2">已消费 <span>({php echo $db->count($table, "buyer='$_username' AND status=2");})</span></a></td>
+<td class="{if $nav==4}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=4">待退款 <span>({php echo $db->count($table, "buyer='$_username' AND status=4");})</span></a></td>
+<td class="{if $nav==5}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=5">已退款 <span>({php echo $db->count($table, "buyer='$_username' AND status=5");})</span></a></td>
+</tr>
+</table>
+</div>
+
+<div class="bd">
+<table cellpadding="6" cellspacing="0" class="tb">
+<tr bgcolor="#F2F2F2" align="center">
+<td height="22">商品信息</td>
+<td width="60">数量</td>
+<td width="120">订单金额</td>
+<td width="100">下单时间</td>
+<td width="100">商家</td>
+<td width="90">订单状态</td>
+</tr>
+</table>
+{loop $lists $k $v}
+<table cellpadding="6" cellspacing="0" class="tb">
+<tr bgcolor="#F5F5F5">
+<td height="22" colspan="7" class="f_gray">
+<span class="f_r">
+{if $v[status] == 0}
+{if $v[logistic]}
+<a href="?itemid={$v[itemid]}&action=update&step=remind">提醒发货</a> | 
+{/if}
+<a href="?itemid={$v[itemid]}&action=update&step=refund">申请退款</a> | 
+{elseif $v[status] == 1}
+{if $v[lefttime]}
+<span class="f_blue" title="如果逾期未处理，系统将自动付款给卖家"><img src="{DT_STATIC}file/image/clock.gif" width="12" height="12"/> 距处理此订单还剩{$v[lefttime]}</span>&nbsp;	
+<a href="?itemid={$v[itemid]}&action=update&step=receive&page={$page}" onclick="return confirm('您确定已经收到商家货物且质量与数量无误吗？此操作将不可撤销');">确认收货</a> | 
+{if $v[send_type] && $v[send_no]}
+<a href="?itemid={$v[itemid]}&action=update&step=express&page={$page}">快递追踪</a> | 
+{/if}
+<a href="?itemid={$v[itemid]}&action=update&step=refund">申请退款</a> | 
+{else}
+<span class="f_red">订单处理已超时，等待卖家收款</span>&nbsp;
+{/if}
+{elseif $v[status] == 2}
+{if $v[lefttime]}
+<span class="f_blue" title="如果逾期未处理，系统将自动付款给卖家"><img src="{DT_STATIC}file/image/clock.gif" width="12" height="12"/> 距处理此订单还剩{$v[lefttime]}</span>&nbsp;	
+<a href="?itemid={$v[itemid]}&action=update&step=used&page={$page}" onclick="return confirm('您确定已在商家消费且质量与数量无误吗？此操作将不可撤销');">确认消费</a> | 
+<a href="?itemid={$v[itemid]}&action=update&step=refund">申请退款</a> | 
+{else}
+<span class="f_red">订单处理已超时，等待卖家收款</span>&nbsp;
+{/if}
+{elseif $v[status] == 6}
+<a href="?itemid={$v[itemid]}&action=update&step=pay">立即付款</a> | 
+{/if}
+<a href="?itemid={$v[itemid]}&action=update&step=detail">订单详情</a>&nbsp;
+</span>
+&nbsp;订单号：{$v[itemid]}
+</td>
+</tr>
+<tr align="center">
+<td width="70"><a href="{$v[linkurl]}" target="_blank" title="{$v[title]}"><img src="{if $v[thumb]}{$v[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60" onerror="this.src=errimg;"/></a></td>
+<td align="left" valign="top" class="f_gray lh18">
+<a href="{$v[linkurl]}" target="_blank" class="t">{$v[title]}</a>
+{if !$v[logistic]}
+<br/>手机：{$v[buyer_mobile]}
+&nbsp;&nbsp;&nbsp;&nbsp;密码：{$v[password]}
+{/if}
+</td>
+<td width="60">{$v[number]}</td>
+<td width="120">{$DT[money_sign]}{$v[amount]}</td>
+<td width="100">{$v[addtime]}</td>
+<td width="100"><div style="margin-bottom:15px;"><a href="{userurl($v[seller], 'file=contact')}" target="_blank">{$v[seller]}</a></div>{if $DT[im_web]}{im_web($v[seller].'&mid=16&itemid='.$v[gid])} {/if}<a href="message.php?action=send&touser={$v[seller]}"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ico_message.gif" title="发送站内信" align="absmiddle"/></a></td>
+<td width="90">{$v[dstatus]}</td>
+</tr>
+</table>
+<br/>
+{/loop}
+</div>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('group');m('action_order');</script>
+{else}
+<!--[我收到的订单，我是卖家]-->
+<div class="tt">
+<form action="?">
+<input type="hidden" name="action" value="{$action}"/>
+{$fields_select}&nbsp;
+<input type="text" size="15" name="kw" value="{$kw}" title="关键词"/>&nbsp;
+{$status_select}&nbsp;
+{dcalendar('fromtime', $fromtime)} 至 {dcalendar('totime', $totime)}&nbsp;
+<input type="submit" value=" 搜 索 " class="btn"/>&nbsp;
+<input type="button" value=" 重 置 " class="btn" onclick="Go('?action={$action}');"/><br/>
+<div class="b10"></div>
+单号：<input type="text" size="10" name="itemid" value="{$itemid}"/>&nbsp;
+商品ID：<input type="text" size="10" name="gid" value="{$gid}"/>&nbsp;
+买家：<input type="text" size="10" name="buyer" value="{$buyer}"/>&nbsp;
+密码：<input type="text" size="10" name="pass" value="{$pass}"/>&nbsp;
+</form>
+</div>
+
+<div class="nav">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td class="{if !in_array($nav, array(0,1,2,4,5,6))}nav_2{else}nav_1{/if}"><a href="?action={$action}">全部订单</a></td>
+<td class="{if $nav==6}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=6">待付款 <span>({php echo $db->count($table, "seller='$_username' AND status=6");})</span></a></td>
+<td class="{if $nav==0}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=0">已付款 <span>({php echo $db->count($table, "seller='$_username' AND status=0");})</span></a></td>
+<td class="{if $nav==1}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=1">已发货 <span>({php echo $db->count($table, "seller='$_username' AND status=1");})</span></a></td>
+<td class="{if $nav==2}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=2">已消费 <span>({php echo $db->count($table, "seller='$_username' AND status=2");})</span></a></td>
+<td class="{if $nav==4}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=4">待退款 <span>({php echo $db->count($table, "seller='$_username' AND status=4");})</span></a></td>
+<td class="{if $nav==5}nav_2{else}nav_1{/if}"><a href="?action={$action}&nav=5">已退款 <span>({php echo $db->count($table, "seller='$_username' AND status=5");})</span></a></td>
+</tr>
+</table>
+</div>
+
+<div class="bd">
+<table cellpadding="6" cellspacing="0" class="tb">
+<tr bgcolor="#F2F2F2" align="center">
+<td height="22">商品信息</td>
+<td width="60">数量</td>
+<td width="120">订单金额</td>
+<td width="100">下单时间</td>
+<td width="100">买家</td>
+<td width="90">订单状态</td>
+</tr>
+</table>
+{loop $lists $k $v}
+<table cellpadding="6" cellspacing="0" class="tb">
+<tr bgcolor="#F5F5F5">
+<td height="22" colspan="7" class="f_gray">
+<span class="f_r">
+{if $v[status] == 0}
+{if $v[logistic]}
+<a href="?itemid={$v[itemid]}&action=update&step=send&page={$page}">确认发货</a> | 
+<a href="?itemid={$v[itemid]}&action=update&step=print" target="_blank">打印订单</a> | 
+{else}
+<a href="?itemid={$v[itemid]}&action=update&step=used&page={$page}" onclick="return confirm('您确定买家已经消费吗？此操作将不可撤销');">确认消费</a> | 
+{/if}
+{elseif $v[status] == 1}
+{if $v[lefttime]}
+<span class="f_blue"><img src="{DT_STATIC}file/image/clock.gif" width="12" height="12"/> 距买家处理订单还剩{$v[lefttime]}</span>&nbsp;
+<a href="?itemid={$v[itemid]}&action=update&step=add_time">延长时间</a> | 
+{else}
+<span class="f_blue">买家处理订单超时</span>
+<a href="?itemid={$v[itemid]}&action=update&step=get_pay">直接收款</a> | 
+{/if}
+{if $v[send_type] && $v[send_no]}
+<a href="?itemid={$v[itemid]}&action=update&step=express&page={$page}">快递追踪</a> | 
+{/if}
+{elseif $v[status] == 2}
+{if $v[lefttime]}
+<span class="f_blue"><img src="{DT_STATIC}file/image/clock.gif" width="12" height="12"/> 距买家处理订单还剩{$v[lefttime]}</span>&nbsp;
+<a href="?itemid={$v[itemid]}&action=update&step=add_time">延长时间</a> | 
+{else}
+<span class="f_blue">买家处理订单超时</span>
+<a href="?itemid={$v[itemid]}&action=update&step=get_pay">直接收款</a> | 
+{/if}
+{elseif $v[status] == 4}
+<a href="?itemid={$v[itemid]}&action=update&step=refund_agree">同意退款</a> | 
+{/if}
+<a href="?itemid={$v[itemid]}&action=update&step=detail">订单详情</a>&nbsp;
+</span>
+&nbsp;订单号：{$v[itemid]}
+</td>
+</tr>
+<tr align="center">
+<td width="70"><a href="{$v[linkurl]}" target="_blank" title="{$v[title]}"><img src="{if $v[thumb]}{$v[thumb]}{else}{DT_SKIN}image/nopic60.gif{/if}" width="60" height="60" onerror="this.src=errimg;"/></a></td>
+<td align="left" valign="top" class="f_gray lh18">
+<a href="{$v[linkurl]}" target="_blank" class="t">{$v[title]}</a>
+{if !$v[logistic]}
+<br/>手机：{$v[buyer_mobile]}
+&nbsp;&nbsp;&nbsp;&nbsp;密码：{$v[password]}
+{/if}
+</td>
+<td width="60">{$v[number]}</td>
+<td width="120">{$DT[money_sign]}{$v[amount]}</td>
+<td width="100">{$v[addtime]}</td>
+<td width="100"><div style="margin-bottom:15px;"><a href="{userurl($v[buyer], 'file=contact')}" target="_blank">{$v[buyer]}</a></div>{if $DT[im_web]}{im_web($v[buyer].'&mid=16&itemid='.$v[gid])} {/if}<a href="message.php?action=send&touser={$v[buyer]}"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ico_message.gif" title="发送站内信" align="absmiddle"/></a></td>
+<td width="90">{$v[dstatus]}</td>
+</tr>
+</table>
+<br/>
+{/loop}
+</div>
+<div class="pages">{$pages}</div>
+<script type="text/javascript">s('group');m('action');</script>
+{/if}
+{template 'footer', $module}

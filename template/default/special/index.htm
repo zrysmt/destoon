@@ -1,0 +1,33 @@
+{template 'header'}
+<div class="m">
+	<div class="m_l f_l">
+		{if $MOD[page_icat]}
+		{loop $maincat $i $c}
+			{if $i}<div class="b10"></div>{/if}	
+			<div class="box_head"><span class="f_r"><a href="{$MOD[linkurl]}{$c[linkurl]}">更多&raquo;</a></span><strong>{$c[catname]}</strong></div>
+			<div class="box_body">
+				<div class="thumb"><!--{tag("moduleid=$moduleid&catid=".$c[catid]."&areaid=$cityid&condition=status=3 and thumb<>''&order=".$MOD[order]."&length=20&width=120&height=90&pagesize=".$MOD[page_icat]."&cols=4&lazy=$lazy&template=thumb-table")}--></div>
+			</div>
+		{/loop}
+		{/if}
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		<div class="box_head"><div><strong>按分类浏览</strong></div></div>
+		<div class="box_body">
+		<table width="100%" cellpadding="3">
+		{loop $maincat $k $v}
+		{if $k%2==0}<tr>{/if}
+		<td><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+		{if $k%2==1}</tr>{/if}
+		{/loop}
+		</table>
+		</div>
+		<div class="b10 c_b"> </div>
+		<div class="box_head"><div><strong>点击排行</strong></div></div>
+		<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$today_endtime-60*86400&areaid=$cityid&order=hits desc&pagesize=10")}--></div>
+		</div>
+	</div>
+</div>
+{template 'footer'}

@@ -1,0 +1,86 @@
+{template 'header'}
+<script type="text/javascript">var sh = '{$MOD[linkurl]}search.php?catid={$catid}';</script>
+<div class="m">
+	<div class="m_l f_l">
+		<div class="left_box">
+			<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')}</div>
+			<div class="category">
+				<p><img src="{DT_SKIN}image/arrow.gif" width="17" height="12" alt=""/> <strong>按分类浏览</strong></p>
+				<div>
+				<table width="100%" cellpadding="3">
+				{loop $maincat $k $v}
+				{if $k%4==0}<tr>{/if}
+				<td width="25%"{if $v[catid]==$catid} class="f_b"{/if}><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+				{if $k%4==3}</tr>{/if}
+				{/loop}
+				</table>
+				</div>
+			</div>
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			{loop $p[options] $o}
+			<a href="###" onclick="Go(sh+'&ppt_{$p[oid]}={urlencode($o)}');">{$o}</a>&nbsp;|&nbsp;
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+		<div class="b10">&nbsp;</div>
+			<div class="type">
+			<a href="{$MOD[linkurl]}{$linkurl}" class="type_1">全部</a>
+			{loop $TYPE $k $v}
+			<a href="javascript:Go('{$MOD[linkurl]}{rewrite('search.php?typeid='.$k.'&catid='.$catid)}');" class="type_2">{$v}</a>
+			{/loop}
+			</div>
+			<div class="pd10 c_b">
+			{if $tags}{template 'list-'.$module, 'tag'}{/if}
+			</div>
+
+		</div>
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		<div class="box_head"><div><strong>问题搜索</strong></div></div>
+		<div class="box_body">
+			<div class="know_sch">
+				<form action="{$MODULE[2][linkurl]}{$DT[file_my]}" id="ask_form">
+				<input type="hidden" name="mid" value="{$moduleid}"/>
+				<input type="hidden" name="cid" value="{$catid}"/>
+				<input type="hidden" name="action" value="add"/>
+				<input type="hidden" name="kw" value="" id="ask_kw"/>
+				</form>
+				<form action="{$MOD[linkurl]}search.php" onsubmit="return know_sch_check();">
+				<input type="hidden" name="typeid" value="99" id="know_typeid"/>
+				<input type="text" name="kw" id="know_kw" value="请输入问题" class="know_sch_inp" onfocus="if(this.value=='请输入问题')this.value='';"/>
+				<div class="know_sch_btn">
+				<input type="submit" value="搜索答案" onclick="Dd('know_typeid').value=99;"/>&nbsp;
+				<input type="submit" value="我要回答" onclick="Dd('know_typeid').value=3;"/>&nbsp;
+				<input type="button" value="我要提问" onclick="if(know_sch_check()){Dd('ask_kw').value=Dd('know_kw').value;Dd('ask_form').submit();}"/>&nbsp;
+				</div>
+				</form>
+				<script type="text/javascript">
+					function know_sch_check() {
+						if(Dd('know_kw').value == '请输入问题' || Dd('know_kw').value.length < 1) {
+							alert('请输入问题');
+							Dd('know_kw').focus();
+							return false;
+						}
+						return true;
+					}
+				</script>
+			</div>			
+		</div>
+		<div class="b10"></div>
+		<div class="box_head"><div><strong>等待回答</strong></div></div>
+		<div class="box_body li_dot"><!--{tag("moduleid=$moduleid&condition=status=3 and process=1&catid=$catid&order=".$MOD[order]."&pagesize=10")}-->
+		</div>
+	</div>
+</div>
+{template 'footer'}

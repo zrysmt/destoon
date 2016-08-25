@@ -1,0 +1,81 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	This is NOT a freeware, use is subject to license.txt
+*/
+
+.iuser {height:35px;overflow:hidden;line-height:100px;}
+a.iuser_l:link,a.iuser_l:visited,a.iuser_l:active {float:left;display:block;width:100px;height:70px;background:url('image/iuser.png') no-repeat;}
+a.iuser_l:hover {background-position:0 -35px;}
+a.iuser_r:link,a.iuser_r:visited,a.iuser_r:active {float:left;display:block;width:80px;height:70px;background:url('image/iuser.png') no-repeat;background-position:-100px 0;}
+a.iuser_r:hover {background-position:-100px -35px;}
+a.iuser_m:link,a.iuser_m:visited,a.iuser_m:active {float:left;display:block;width:120px;height:70px;background:url('image/iuser.png') no-repeat;background-position:-180px 0;}
+a.iuser_m:hover {background-position:-180px -35px;}
+a.iuser_u:link,a.iuser_u:visited,a.iuser_u:active {float:left;display:block;width:120px;height:70px;background:url('image/iuser.png') no-repeat;background-position:0 -70px;}
+a.iuser_u:hover {background-position:0 -105px;}
+a.iuser_e:link,a.iuser_e:visited,a.iuser_e:active {float:left;display:block;width:60px;height:70px;background:url('image/iuser.png') no-repeat;background-position:-120px -70px;}
+a.iuser_e:hover {background-position:-120px -105px;}
+
+.icatalog_head {border:#DDDDDD 1px solid;border-bottom:none;height:31px;line-height:31px;overflow:hidden;padding:0 10px 0 10px;background:#EEEEEE url('image/box_head_bg.gif') repeat-x;}
+.icatalog_head div {background:url('image/ico_open.gif') no-repeat 175px 8px;}
+.icatalog_head strong {font-size:14px;}
+.icatalog_body {border:#DDDDDD 1px solid;border-top:none;padding:6px 8px 6px 8px;}
+
+.icatalog {height:390px;overflow:hidden;}
+.icatalog ul {height:32px;overflow:hidden;border-bottom:#EEEEEE 1px solid;}
+.icatalog li {float:left;height:32px;line-height:32px;padding:0 6px 0 2px;}
+.icatalog strong {color:#225588;font-size:14px;}
+
+#site_stats {float:right;height:22px;overflow:hidden;margin:3px 0 0 0;width:200px;}
+#site_stats li {height:22px;line-height:22px;overflow:hidden;text-align:right;color:#666666;background:url('image/ico_arrow_up.gif') no-repeat right center;padding-right:12px;}
+#site_stats span {color:#38970E;}
+.announce {height:70px;overflow:hidden;}
+
+.isell_head {height:30px;overflow:hidden;background:url('image/line.gif') repeat-x 0 29px;margin:5px 15px 0 5px;padding:0 0 0 15px;}
+.isell_1,.isell_2{width:80px;text-align:center;float:left;font-size:14px;}
+.isell_2 {height:30px;line-height:26px;font-weight:bold;border-top:#258CFF 2px solid;border-right:#DDDDDD 1px solid;border-left:#DDDDDD 1px solid;background:#FFFFFF;}
+.isell_1 {height:30px;line-height:30px;}
+.isell_s {padding:5px;margin:0 5px 0 0;}
+.isell_s img {margin:10px 0 10px 0;}
+.isell_s li {line-height:30px;height:30px;width:110px;overflow:hidden;}
+.isell_s ul {margin-bottom:10px;}
+.isell_m {padding:5px;margin:0 5px 0 0;}
+.isell_m img {margin:10px 0 10px 0;}
+.isell_m li {line-height:22px;height:22px;width:110px;overflow:hidden;}
+.isell_m ul {margin-bottom:5px;}
+
+.loading {width:100%;height:220px;background:url('image/loading.gif') no-repeat center center;}
+
+.headline h2 {text-align:center;font-size:16px;margin:0;height:40px;line-height:40px;overflow:hidden;}
+.headline span {color:#225588;}
+
+.w290 {width:290px;}
+.ibox_head {height:31px;line-height:31px;background:url('image/ibox_head.png') no-repeat 0 15px;padding:0 0 0 15px;}
+.ibox_head strong {background:#FFFFFF;font-size:14px;padding:0 5px 0 5px;}
+.ibox_body {padding:0 10px 0 15px;}
+.ibox_body li {height:28px;line-height:28px;background:url('image/li_dot.gif') no-repeat 5px 13px;padding:0 10px 0 12px;}
+.ibox_body a {font-size:14px;}
+.ibox_body_s {background:url('image/dot.gif') repeat-x 0 center;margin:0 20px 0 25px;}
+
+.ispecial {background:#EEEEEE url('image/ispecial_bg.png') no-repeat;height:23px;line-height:23px;overflow:hidden;padding:0 10px 0 6px;}
+
+.job_head {border-bottom:#258CFF 1px solid;background:#FAFAFA;height:22px;line-height:22px;margin:0 10px 0 10px;overflow:hidden;}
+.job_head li {float:left;height:22px;line-height:22px;padding:0 10px 0 10px;}
+.job_1 {}
+.job_2 {background:#258CFF;}
+.job_2 span {color:#FFFFFF;}
+
+/* know */
+.know_credit {background:url('image/ico_reward.gif') no-repeat;font-size:11px;color:#666666;padding:0 0 0 14px;}
+.video li {background:url('image/ico_video.gif') no-repeat 2px 6px;padding:0 10px 0 21px;}
+
+.topr {width:400px;float:right;}
+.topl {width:260px;}
+
+#ipad_tips {width:720px;border:#697078 1px solid;margin:0 auto 10px auto;background:#FAFAFA;padding:10px 0 10px 0;}
+.ipad_tips_logo {width:60px;float:left;padding:0 10px 0 10px;}
+.ipad_tips_text {width:610px;float:left;line-height:24px;font-size:14px;}
+.ipad_tips_ico1 {background:url('image/ipad_tips.gif') no-repeat 5px -34px;padding:4px 15px 4px 15px;}
+.ipad_tips_ico2 {background:url('image/ipad_tips.gif') no-repeat 5px -56px;padding:4px 15px 4px 15px;}
+.ipad_tips_hide {width:28px;float:left;padding-top:15px;}
+a.ipad_tip_close:link,a.ipad_tip_close:visited,a.ipad_tip_close:active{display:block;width:16px;height:16px;background:url('image/ipad_tips.gif') no-repeat;text-decoration:none;}
+a.ipad_tip_close:hover {display:block;width:16px;height:16px;background:url('image/ipad_tips.gif') no-repeat 0 -18px;text-decoration:none;}

@@ -1,0 +1,40 @@
+{template 'header'}
+<div class="m">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td valign="top" class="left_menu">
+		<ul>
+		<li class="left_menu_li"><a href="{$MODULE[1][linkurl]}">网站首页</a></li>
+		<li class="left_menu_on"><a href="{$MOD[linkurl]}">投递简历</a></li>
+		</ul>
+	</td>
+	<td valign="top">
+		<div class="left_box">		
+			<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {$item[title]} &raquo; 投递简历</div>
+			<div style="padding:20px;">				
+				<form method="post" action="{$MOD[linkurl]}apply.php" id="dform">
+				<input type="hidden" name="itemid" value="{$itemid}"/>
+				<table cellpadding="8" cellspacing="1" width="100%" bgcolor="#CDDCE4">
+				<tr>
+				<td bgcolor="#FBFCFD" width="120" align="center">选择简历</td>
+				<td bgcolor="#FFFFFF">
+				{loop $lists $k $v}
+				<div class="b5"></div>
+				<div><input type="radio" name="resumeid" value="{$v[itemid]}"{if $k==0} checked{/if}/> <a href="{$v[linkurl]}" target="_blank">{$v[title]}</a></div>
+				{/loop}
+				</td>
+				</tr>
+				<tr>
+				<td bgcolor="#FBFCFD"> </td>
+				<td bgcolor="#FFFFFF"><input type="submit" name="submit" value=" 确定 "/>&nbsp;&nbsp;<input type="button" value=" 返回 " onclick="Go('{$linkurl}');"/></td>
+				</tr>
+				</table>
+				</form>	
+			</div>
+			<br/>
+		</div>
+	</td>
+	</tr>
+	</table>
+</div>
+{template 'footer'}

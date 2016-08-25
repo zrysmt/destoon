@@ -1,0 +1,95 @@
+/*
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	This is NOT a freeware, use is subject to license.txt
+*/
+.club_my {background:#2389FA;}
+.club_my td {height:32px;line-height:32px;text-align:center;font-size:13px;border-right:#DDDDDD 1px solid;}
+.club_my a:link,.club_my a:visited,.club_my a:active {display:block;width:100%;height:100%;color:#FFFFFF;text-decoration:none;}
+.club_my a:hover {background:#1873DE;}
+
+.group_cat img {border:#DDDDDD 1px solid;border-radius:50%;margin:10px 0 10px 0;}
+.group_list p {color:#666666;margin:0;line-height:22px;}
+.group_info {border:#DDDDDD 1px solid;}
+.group_title {padding:10px;}
+.group_title span {padding-top:6px;}
+.group_title img {width:30px;border-radius:50%;margin:0 10px 0 0;}
+.group_introduce {border-top:#DDDDDD 1px solid;padding:5px 10px 5px 10px;line-height:22px;}
+
+.group_type {}
+a.group_type_1:link,a.group_type_1:visited,a.group_type_1:active,a.group_type_1:hover {float:left;display:block;line-height:30px;padding:0 10px 0 10px;border-radius:5px;margin-right:6px;background:#258CFF;color:#FFFFFF;}
+a.group_type_2:link,a.group_type_2:visited,a.group_type_2:active {float:left;display:block;line-height:30px;padding:0 10px 0 10px;border-radius:5px;margin-right:6px;background:#F1F1F1;}
+a.group_type_2:hover {background:#258CFF;color:#FFFFFF;}
+
+a.group_post:link,a.group_post:visited,a.group_post:active {float:left;display:block;line-height:30px;padding:0 15px 0 15px;border-radius:5px;margin-left:6px;background:#258CFF;color:#FFFFFF;letter-spacing:2px;font-size:14px;}
+a.group_post:hover {background:#1873DE;}
+
+
+.club_list{border:#DDDDDD 1px solid;border-bottom:none;}
+.club_list table {width:100%;}
+.club_list div {height:40px;line-height:40px;overflow:hidden;padding:0 30px 0 0;}
+.club_list td {border-bottom:#DDDDDD 1px solid;}
+.club_list em {color:#225588;font-style:normal;font-family:Arial;}
+.club_list p {color:#999999;margin:1px 0 0 0;font-family:Arial;}
+.club_quote {background:#FAFAFA url('image/club_quote_a.gif') no-repeat 10px 10px;margin:10px 0 10px 0;font-size:12px;padding:10px;}
+.club_quote div {display:inline-block;padding:5px 40px 5px 40px;background:url('image/club_quote_b.gif') no-repeat right bottom;line-height:20px;}
+.club_quote p {margin:0;text-indent:0;}
+.club_quote a:link,.club_quote a:visited,.club_quote a:active {color:#555555;text-decoration:none;}
+.club_quote a:hover {color:#FF6600;}
+.club_break {display:none;}
+
+.club_show {border:#DDDDDD 1px solid;margin-bottom:10px;}
+.club_show table {width:100%;border-collapse:collapse;border-spacing:0;}
+.club_show_l {width:150px;background:#FAFAFA;}
+.club_show_l li {padding:10px 0 0 0;text-align:center;}
+.club_info {padding:5px 10px 8px 10px;border-bottom:#EEEEEE 1px solid;}
+
+.reply_list{border:#DDDDDD 1px solid;border-bottom:none;}
+.reply_list table {width:100%;}
+.reply_list div {height:40px;line-height:40px;overflow:hidden;padding:0 30px 0 15px;}
+.reply_list td {border-bottom:#DDDDDD 1px solid;}
+.reply_list em {color:#666666;font-style:normal;font-family:Arial;}
+.btn_post {background:#258CFF;color:#FFFFFF;font-size:14px;padding:5px 15px 5px 15px;border:none;cursor:pointer;}
+.btn_reply {background:#2CAE5A;color:#FFFFFF;font-size:14px;padding:5px 15px 5px 15px;border:none;cursor:pointer;}
+
+.headline {background:#FFFFFF;padding:0 10px 5px 10px;border-bottom:#DDDDDD 1px solid;}
+.headline h2 {text-align:center;font-size:16px;margin:0;height:30px;line-height:30px;overflow:hidden;}
+.headline span {color:#225588;}
+.headline div {line-height:22px;height:22px;overflow:hidden;}
+.subline li {height:26px;line-height:26px;overflow:hidden;font-size:14px;padding:0 10px 0 10px;}
+.subline span {color:#666666;}
+
+/*
+
+a.club_a:link,a.club_a:active,a.club_a:visited {color:#225588;text-decoration:none;}
+a.club_a:hover {color:#FF6600;text-decoration:none;}
+.club_sch {line-height:180%;}
+.club_sch_inp {width:250px;padding:3px;margin:5px;font-size:14px;}
+.club_sch_btn {padding:3px 0 8px 6px;}
+.club_sch_item {padding:0 0 0 8px;color:green;}
+.club_box {padding:0 10px 10px 10px;}
+.club_credit {background:url('image/ico_reward.gif') no-repeat;font-size:11px;color:#666666;padding:0 0 0 14px;}
+
+.club_catalog p {margin:5px;}
+.club_catalog div {padding:0 6px 10px 6px;line-height:20px;}
+.club_catalog strong {color:#225588}
+.club_expert {height:96px;overflow:hidden;color:#666666;}
+.club_expert img {float:left;border:#CCCCCC 1px solid;padding:2px;margin:2px 10px 0 5px;}
+.club_expert div {line-height:20px;}
+
+.club_addition{border-top:#EEEEEE 1px solid;margin:0 15px 0 15px;padding:10px;line-height:180%;font-size:14px;}
+.club_comment{border-top:#EEEEEE 1px solid;margin:0 15px 0 15px;padding:10px;line-height:180%;font-size:14px;}
+.club_asker {border-top:#CCCCCC 1px dotted;margin:0 15px 10px 15px;padding:10px;}
+.best_image {position:absolute;z-index:1;margin:29px 0 0 908px;}
+
+
+
+.answer_body {padding:10px;margin:0 5px 0 5px;line-height:180%;font-size:14px;}
+.answer_foot {border-bottom:#BBBBBB 1px dotted;padding:0 10px 8px 10px;margin:0 5px 0 5px;color:#666666;}
+.question_op {padding:15px 20px 10px 20px;line-height:25px;}
+.answer_btn {background:url('image/btn_3.gif') no-repeat;height:24px;line-height:22px;width:77px;border:none;cursor:pointer;}
+.answer_box {border:#DDDDDD 1px solid;border-top:none;margin-bottom:10px;}
+
+.vote_s {height:10px;line-height:10px;font-size:1px;background:#FFA40D;}
+.vote_b {width:100%;height:10px;line-height:10px;font-size:1px;background:#FFF7D2;}
+
+*/

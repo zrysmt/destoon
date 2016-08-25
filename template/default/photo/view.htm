@@ -1,0 +1,39 @@
+{if $pass}
+{template 'header'}
+<div class="m">
+<div class="nav">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')} &raquo;</div>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td valign="top" class="photo_l">
+<a name="p"></a>
+<div class="photo_info">
+<div>
+<h1 class="title" id="title">{$title}</h1>
+日期：<span class="px11">{$adddate}</span>&nbsp;&nbsp;&nbsp;
+点击：<span id="hits" class="px11">{$hits}</span>&nbsp;&nbsp;&nbsp;
+图片：<span id="hits" class="px11">{$items}</span>&nbsp;&nbsp;&nbsp;
+<span onclick="Go('{$linkurl}#p');" class="c_p">返回大图</span>
+</div>
+</div>
+<div class="photo_all" oncontextmenu="return false">
+<table width="100%">
+{loop $T $i $t}
+{if $i%5==0}<tr align="center">{/if}
+<td width="20%" valign="top">
+<a href="{$t[linkurl]}"><img src="{$t[thumb]}" width="160" alt="{$t[introduce]}" class="thumb_a" onmouseover="this.className='thumb_b';" onmouseout="this.className='thumb_a';"/></a>
+<div>({$t[number]}) {$t[title]}</div>
+</td>
+{if $i%5==4}</tr>{/if}
+{/loop}
+</table>
+</div>
+<div class="b10"></div>
+</td>
+</tr>
+</table>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+</div>
+{template 'footer'}
+{else}
+<meta http-equiv="refresh" content="0;url={$MOD[linkurl]}private.php?itemid={$itemid}&page={$page}">
+{/if}

@@ -1,0 +1,95 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="index.php?moduleid={$moduleid}&catid={$gid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">成员列表</div>
+<div class="head-bar-right">
+{if $is_fans}<a href="javascript:Dsheet('<a href=&#34;javascript:Cquit();&#34;><span>确定退出</span></a>', '取消', '确定要退出该{$MOD[name]}吗？');"><span>退出</span></a>{else}<a href="javascript:Cjoin();"><span>加入</span></a>{/if}
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if !$is_fans}
+<div class="main bd-b" style="display:none;" id="reason">
+	<div style="padding:0 0 0 16px;">
+	<div style="width:100%;height:60px;"><textarea name="content" id="content" placeholder="加入原因" onblur="window.scrollTo(0,0);" style="width:98%;height:50px;line-height:24px;border:none;padding:0;margin:10px 0 0 0;font-size:16px;"></textarea></div>
+	</div>
+</div>
+{/if}
+{if $lists}
+<div class="blank-20"></div>
+<div class="list-set list-set-img">
+<ul>
+{loop $lists $k $v}
+<li><div{if $k==0} style="border:none;"{/if}><img src="{useravatar($v[username])}" width="24" height="24"/><a href="index.php?moduleid=4&username={$v[username]}">{$v[passport]}</a></div></li>
+{/loop}
+</ul>
+</div>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{else}
+<div class="main">
+	<div style="padding:40px 16px;text-align:center;">暂无成员</div>
+</div>
+{/if}
+<script type="text/javascript">
+{if $is_fans}
+function Cquit() {
+	$.post('club.php', {'action':'fans_quit','gid':'{$gid}'}, function(data) {
+		if(data == 'ok') {
+			Dtoast('退出成功');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		} else {
+			Dtoast('退出失败，请重试');
+		}
+	});
+}
+{else}
+function Cjoin() {
+	{if $GRP[join_type]}
+	if($('#reason').css('display') == 'none') {
+		$('#reason').show();
+		$('#content').focus();
+	} else {
+		var len;
+		len = $('#content').val().length;
+		if(len < 3) {
+			Dtoast('请填写加入原因');
+			return false;
+		}
+		if(len > 500) {
+			Dtoast('加入原因最多个500字，已填写'+len+'个字');
+			return false;
+		}
+	}
+	{/if}
+	$.post('club.php', {'action':'fans_join','gid':'{$gid}','reason':$('#content').val()}, function(data) {
+		if(data == 'ok') {
+			Dtoast('加入成功');
+			setTimeout(function() {
+				window.location.reload();
+			}, 1000);
+		} else if(data == 'reason') {
+			Dtoast('请填写加入原因');
+			$('#reason').show();
+		} else if(data == 'join') {
+			Dtoast('已申请过，请等待审核');
+			$('#reason').hide();
+		} else if(data == 'check') {
+			Dtoast('申请已经提交，请等待审核');
+			$('#reason').hide();
+		} else if(data == 'max') {
+			Dtoast('加圈数量超出限制');
+			$('#reason').hide();
+		} else {
+			Dtoast('加入失败，请重试');
+			alert(data);
+		}
+	});
+}
+{/if}
+</script>
+{template 'footer', 'mobile'}

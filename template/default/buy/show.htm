@@ -1,0 +1,138 @@
+{template 'header'}
+<script type="text/javascript">var module_id= {$moduleid},item_id={$itemid},content_id='content',img_max_width={$MOD[max_width]};</script>
+<div class="m">
+<div class="left_box">		
+		<div class="pos"><span class="f_r"><a href="{$MODULE[2][linkurl]}{$DT[file_my]}?mid={$moduleid}&action=add&catid={$catid}" rel="nofollow"><img src="{DT_SKIN}image/btn_add.gif" width="81" height="20" alt="发布信息" style="margin-top:6px;"/></a></span>当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')} &raquo;</div>
+		<div class="b10 c_b"></div>
+		<table width="100%">
+		<tr>
+		<td width="10"> </td>
+		<td>
+			<table width="100%">
+			<tr>
+			<td colspan="3"><h1 class="title_trade" id="title">{$title}</h1></td>
+			</tr>
+			<tr>
+			<td width="250" valign="top">
+				<div id="mid_pos"></div>
+				<div id="mid_div" onmouseover="SAlbum();" onmouseout="HAlbum();" onclick="PAlbum(Dd('mid_pic'));">
+				<img src="{$albums[0]}" width="240" height="180" id="mid_pic"/><span id="zoomer"></span>
+				</div>
+				<div class="b5"></div>
+				<div>
+				{loop $thumbs $k $v}<img src="{$v}" width="60" height="60" onmouseover="if(this.src.indexOf('nopic60.gif')==-1)Album({$k}, '{$albums[$k]}');" class="{if $k}ab_im{else}ab_on{/if}" id="t_{$k}"/>{/loop}
+				</div>
+				<div class="b5"></div>
+				<div onclick="PAlbum(Dd('mid_pic'));" class="c_b t_c c_p"><img src="{DT_SKIN}image/ico_zoom.gif" width="16" height="16" align="absmiddle"/> 点击图片查看原图</div>
+			</td>
+			<td width="15"> </td>
+			<td valign="top">
+				<div id="big_div" style="display:none;"><img src="" id="big_pic"/></div>		
+				<table width="100%" cellpadding="5" cellspacing="5">
+				{if $n1 && $v1}
+				<tr>
+				<td class="f_dblue">{$n1}：</td>
+				<td>{$v1}</td>
+				</tr>
+				{/if}
+				{if $n2 && $v2}
+				<tr>
+				<td class="f_dblue">{$n2}：</td>
+				<td>{$v2}</td>
+				</tr>
+				{/if}
+				{if $n3 && $v3}
+				<tr>
+				<td class="f_dblue">{$n3}：</td>
+				<td>{$v3}</td>
+				</tr>
+				{/if}
+				<tr>
+				<td class="f_dblue">需求数量：</td>
+				<td>{$amount}</td>
+				</tr>
+				<tr>
+				<td class="f_dblue">价格要求：</td>
+				<td class="f_b f_orange">{$price}</td>
+				</tr>
+				<tr>
+				<td class="f_dblue">包装要求：</td>
+				<td>{$pack}</td>
+				</tr>
+				<tr>
+				<td class="f_dblue">所在地：</td>
+				<td>{area_pos($areaid, '')}</td>
+				</tr>
+				<tr>
+				<td class="f_dblue">有效期至：</td>
+				<td>{if $todate}{$todate}{else}长期有效{/if}{if $expired} <span class="f_red">[已过期]</span>{/if}</td>
+				</tr>
+				<tr>
+				<td class="f_dblue">最后更新：</td>
+				<td>{$editdate}</td>
+				</tr>
+				<tr>
+				<td width="80" class="f_dblue">浏览次数：</td>
+				<td><span id="hits">{$hits}</span></td>
+				</tr>
+				{if $username && !$expired}
+				<tr>
+				<td colspan="2"><img src="{DT_SKIN}image/btn_price.gif" alt="报价" class="c_p" onclick="Go('{$MOD[linkurl]}{rewrite('price.php?itemid='.$itemid)}');"/></td>
+				</tr>
+				{/if}
+				</table>
+			</td>
+			</tr>
+		</table>
+		</td>
+		<td width="10"> </td>
+		<td width="300" valign="top">		
+			<div class="contact_head">公司基本资料信息</div>
+			<div class="contact_body" id="contact">{template 'contact', 'chip'}</div>
+			{if !$username}
+			<br/>
+			&nbsp;<strong class="f_red">注意</strong>:发布人未在本站注册，建议优先选择<a href="{$MODULE[2][linkurl]}grade.php"><strong>{VIP}会员</strong></a>
+			{/if}
+		</td>
+		<td width="10"> </td>
+		</tr>
+		</table>
+		<div class="b10">&nbsp;</div>
+</div>
+</div>
+
+<div class="m">
+	<div class="b10">&nbsp;</div>
+	<div class="box_head">
+	<strong>详细说明</strong>
+	</div>
+	<div class="box_body" style="padding:0;">
+	{if $CP}{template 'property', 'chip'}{/if}
+	<div class="content c_b" id="content">{$content}</div>
+	{template 'comment', 'chip'}
+	</div>
+</div>
+
+<div class="m">
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><span class="f_r"><a href="{$MOD[linkurl]}{$CAT[linkurl]}">更多&raquo;</a></span><strong>同类{$MOD[name]}</strong></div></div>
+	<div class="box_body">
+	<div class="thumb" style="padding:10px;"><!--{tag("moduleid=$moduleid&length=20&condition=status=3 and thumb<>''&catid=$catid&areaid=$cityid&pagesize=8&order=edittime desc&width=80&height=80&cols=8&template=thumb-table", -2)}-->
+	</div>
+	</div>
+</div>
+<div class="m">
+	<br/>
+	<center>
+	[ <a href="{$MOD[linkurl]}search.php" rel="nofollow">{$MOD[name]}搜索</a> ]&nbsp;
+	[ <a href="javascript:SendFav();">加入收藏</a> ]&nbsp;
+	[ <a href="javascript:SendPage();">告诉好友</a> ]&nbsp;
+	[ <a href="javascript:Print();">打印本文</a> ]&nbsp;
+	[ <a href="javascript:SendReport();">违规举报</a> ]&nbsp;
+	[ <a href="javascript:window.close()">关闭窗口</a> ]
+	</center>
+	<br/>
+</div>
+<script type="text/javascript" src="{DT_STATIC}file/script/album.js"></script>
+{if $content}<script type="text/javascript" src="{DT_STATIC}file/script/content.js"></script>{/if}
+{template 'footer'}

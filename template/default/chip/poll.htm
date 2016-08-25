@@ -1,0 +1,25 @@
+<div class="poll_show">
+<table cellpadding="6" cellspacing="1" width="100%">
+{loop $polls $i $t}
+{if $i%$cols==0}<tr>{/if}
+<td width="{$percent}" title="{$t[introduce]}" onmouseover="this.style.backgroundColor='#F2F2F2';" onmouseout="this.style.backgroundColor='';">
+{if $t[thumb]}
+<div class="t_c">{if $t[linkurl]}<a href="{$t[linkurl]}" target="_blank">{/if}<img src="{$t[thumb]}" width="{$thumb_width}" height="{$thumb_height}" alt="{$t[title]}" class="poll_img"/>{if $t[linkurl]}</a>{/if}</div>
+{/if}
+<ul>
+<li class="t_c" title="{$t[title]}">{if $t[linkurl]}<a href="{$t[linkurl]}" target="_blank">{/if}<strong>{set_style($t[title], $t[style])}</strong>{if $t[linkurl]}</a>{/if}</li>
+<li class="t_c"><span class="f_red">{$t[polls]}</span>票</li>
+<li class="t_c">
+{if in_array($t[itemid], $votes)}
+<img src="{DT_SKIN}image/btn_poll_2.gif" alt="已投票"/>
+{else}
+<img src="{DT_SKIN}image/btn_poll_1.gif" alt="投一票" class="c_p" onclick="Poll({$t[itemid]});"/>
+{/if}
+</li>
+</ul>
+</td>
+{if $i%$cols==($cols-1)}</tr>{/if}
+{/loop}
+</table>
+</div>
+{if $pages}<div class="pages">{$pages}</div>{/if}

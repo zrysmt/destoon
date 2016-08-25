@@ -1,0 +1,291 @@
+{template 'header'}
+<div class="m">
+<div class="m_l_1 f_l">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$MOD[linkurl]}search.php">搜索</a></div>
+		<div class="fsearch">
+			{if $MOD[sphinx]}
+			<form action="{$MOD[linkurl]}search.php" id="fsearch">
+			<input type="hidden" name="list" id="list" value="{$list}"/>
+			<table cellpadding="5" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td><input type="text" size="60" name="kw" value="{$kw}" class="pd3"/></td>
+			</tr>			
+			<tr>
+			<td align="right">所属行业：</td>
+			<td>{$category_select}</td>
+			</tr>
+			<tr>
+			<td align="right">所在地区：</td>
+			<td>{$area_select}</td>
+			</tr>
+			<tr>
+			<td></td>
+			<td>
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>&nbsp;&nbsp;
+			<a href="{$MOD[linkurl]}search.php"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>	
+			</td>
+			</tr>
+			</table>
+			{else}
+			<form action="{$MOD[linkurl]}search.php" id="fsearch">
+			<input type="hidden" name="list" id="list" value="{$list}"/>
+			<table cellpadding="5" cellspacing="3">
+			<tr>
+			<td width="80" align="right">关 键 词：</td>
+			<td colspan="3"><input type="text" size="60" name="kw" value="{$kw}" class="pd3"/></td>
+			</tr>
+			<tr>
+			<td></td>
+			<td colspan="3">
+			{loop $sfields $k $v}
+			<input type="radio" name="fields" value="{$k}" id="fd_{$k}"{if $fields==$k} checked{/if}/><label for="fd_{$k}"> {$v}</label>&nbsp;
+			{/loop}			
+			</td>
+			</tr>
+			<tr>
+			<td align="right">更新日期：</td>
+			<td>{dcalendar('fromdate', $fromdate, '')} 至 {dcalendar('todate', $todate, '')}</td>
+			<td align="right">所属行业：</td>
+			<td>{$category_select}</td>
+			</tr>
+			<tr>
+			<td align="right">信息类型：</td>
+			<td>			
+			{$type_select}&nbsp;
+			<input type="checkbox" name="price" id="price" value="1"{if $price} checked{/if}/>标价
+			<input type="checkbox" name="thumb" id="thumb" value="1"{if $thumb} checked{/if}/>图片
+			<input type="checkbox" name="vip" id="vip" value="1"{if $vip} checked{/if}/>{VIP}
+			</td>
+			<td align="right">所在地区：</td>
+			<td>{$area_select}</td>
+			</tr>
+			<tr>
+			<td align="right">单价范围：</td>
+			<td>
+			<input type="text" size="10" name="minprice" value="{$minprice}"/> ~ <input type="text" size="10" name="maxprice" value="{$maxprice}"/></td>
+			<td align="right">排序方式：</td>
+			<td>{$order_select}</td>
+			</tr>
+			</tr>
+			<tr>
+			<td></td>
+			<td colspan="3">
+			<input type="image" src="{DT_SKIN}image/btn_search.gif"/>&nbsp;&nbsp;
+			<a href="{$MOD[linkurl]}search.php"><img src="{DT_SKIN}image/btn_reset_search.gif"/></a>	
+			</td>
+			</tr>
+			</table>
+			{/if}
+
+		{if $CP}
+		{loop $PPT $p}
+		<div class="ppt">
+			<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td class="ppt_l" valign="top">按{$p[name]}</td>
+			<td class="ppt_r" valign="top">
+			<input type="hidden" name="ppt_{$p[oid]}" id="ppt_{$p[oid]}" value="{$p[select]}"/>
+			<a href="###" onclick="Dd('ppt_{$p[oid]}').value='';Dd('fsearch').submit();">{if $p[select]==''}<span>全部</span>{else}全部{/if}</a>
+			{loop $p[options] $o}
+			&nbsp;|&nbsp;<a href="###" onclick="Dd('ppt_{$p[oid]}').value='{$o}';Dd('fsearch').submit();">{if $p[select]==$o}<span>{$o}</span>{else}{$o}{/if}</a>
+			{/loop}
+			</td>
+			</tr>
+			</table>
+		</div>
+		{/loop}
+		{/if}
+		</form>
+		</div>		
+		{if $page==1 && $kw}
+		{ad($moduleid,$catid,$kw,6)}
+		{load('m'.$moduleid.'_k'.urlencode($kw).'.htm')}
+		{/if}
+		{if $tags}
+		<form method="post">
+		<div class="sell_tip" id="sell_tip" style="display:none;" title="双击关闭" ondblclick="Dh(this.id);">
+			<div>
+				<p>您可以</p>
+				<input type="submit" value="对比选中" onclick="this.form.action='{$MOD[linkurl]}compare.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/> 或 
+				<input type="submit" value="批量询价" onclick="this.form.action='{$MOD[linkurl]}inquiry.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/>
+			</div>
+		</div>		
+		<div class="img_tip" id="img_tip" style="display:none;">&nbsp;</div>
+		<div class="tool">
+			<table>
+			<tr height="30">
+			<td width="25" align="center" title="全选/反选"><input type="checkbox" onclick="checkall(this.form);"/></td>
+			<td>
+				<input type="submit" value="对比选中" onclick="this.form.action='{$MOD[linkurl]}compare.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/>&nbsp;
+				<input type="submit" value="批量询价" onclick="this.form.action='{$MOD[linkurl]}inquiry.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/>
+			</td>
+			<td align="right">
+			{if $list == 2}
+			<img src="{DT_SKIN}image/list_txt_on.gif" width="16" height="16" alt="文字列表" align="absmiddle"/>&nbsp;
+			{else}
+			<img src="{DT_SKIN}image/list_txt.gif" width="16" height="16" alt="文字列表" align="absmiddle" class="c_p" onclick="Dd('list').value=2;Dd('fsearch').submit();"/>&nbsp;
+			{/if}
+			{if $list == 1}
+			<img src="{DT_SKIN}image/list_img_on.gif" width="16" height="16" alt="图片列表" align="absmiddle"/>&nbsp;
+			{else}
+			<img src="{DT_SKIN}image/list_img.gif" width="16" height="16" alt="图片列表" align="absmiddle" class="c_p" onclick="Dd('list').value=1;Dd('fsearch').submit();"/>&nbsp;
+			{/if}
+			{if $list == 0}
+			<img src="{DT_SKIN}image/list_mix_on.gif" width="16" height="16" alt="图文列表" align="absmiddle"/>&nbsp;
+			{else}
+			<img src="{DT_SKIN}image/list_mix.gif" width="16" height="16" alt="图文列表" align="absmiddle" class="c_p" onclick="Dd('list').value=0;Dd('fsearch').submit();"/>&nbsp;
+			{/if}
+			</td>
+			</tr>
+			</table>
+		</div>
+
+		{if $list==2}
+
+{loop $tags $k $t}
+<div class="list" id="item_{$t[itemid]}">
+	<table>
+	<tr align="center">
+		<td width="25">&nbsp;<input type="checkbox" id="check_{$t[itemid]}" name="itemid[]" value="{$t[itemid]}" onclick="sell_tip(this, {$t[itemid]});"/> </td>
+		<td width="10"> </td>
+		<td align="left">
+			<h3><span class="f_r">{if $t[vip]}<img src="{DT_SKIN}image/vip_{$t[vip]}.gif" alt="{VIP}" title="{VIP}:{$t[vip]}级"/>{/if}</span><a href="{$t[linkurl]}" target="_blank">{$t[title]}</a></h3>
+			<ul>
+			<li><span class="f_r px11">{timetodate($t[edittime], $datetype)}&nbsp;&nbsp;</span>{cat_pos($t[catid], '&nbsp;')}</li>
+			<li>
+			<span class="f_r f_gray">
+			{if $t[username] && $DT[im_web]}{im_web($t[username].'&mid='.$moduleid.'&itemid='.$t[itemid])}&nbsp;{/if}
+			{if $t[qq] && $DT[im_qq]}{im_qq($t[qq])}&nbsp;{/if}
+			{if $t[ali] && $DT[im_ali]}{im_ali($t[ali])}&nbsp;{/if}
+			{if $t[msn] && $DT[im_msn]}{im_msn($t[msn])}&nbsp;{/if}
+			{if $t[skype] && $DT[im_skype]}{im_skype($t[skype])}</a>&nbsp;{/if}
+			[{area_pos($t[areaid], '')}]&nbsp;&nbsp;</span>
+			<a href="{userurl($t[username])}" target="_blank">{$t[company]}</a>&nbsp;
+			<span class="f_gray">
+			{if $t[validated]}<span class="f_green">[已核实]</span>{else}[未核实]{/if}
+			{if !$t[username]} [未注册]{/if}
+			</span>
+			</li>
+			</ul>
+		</td>
+		<td width="10"> </td>
+		<td width="120">
+		{if $t[unit] && $t[price]>0}
+			<span class="f_red"><strong class="px14">{$t[price]}</strong>/{$t[unit]}</span><br/>
+			{$t[minamount]}{$t[unit]}起订<br/>
+		{else}
+		<span class="f_gray">面议</span><br/>
+		{/if}
+		<a href="{$path}{rewrite('inquiry.php?itemid='.$t['itemid'])}" class="l"><img src="{DT_SKIN}image/inquiry.gif" alt="询价" style="margin-top:10px;"/></a>		
+		</td>
+	</tr>
+	</table>
+</div>
+{/loop}		
+{if $pages}<div class="pages">{$pages}</div>{/if}
+
+		{elseif $list==1}
+
+<table cellpadding="5" cellspacing="5" width="100%">
+{loop $tags $k $t}
+{if $k%5==0}<tr>{/if}
+<td valign="top" width="20%" id="item_{$t[itemid]}">
+	<table cellpadding="3" cellspacing="3" width="100%">
+	<tr align="center">
+	<td class="thumb"><a href="{$t[linkurl]}" target="_blank"><img src="{imgurl($t[thumb])}" width="80" height="80" alt="" onmouseover="img_tip(this, this.src);" onmouseout="img_tip(this, '');" class="bd"/></a></td>
+	</tr>
+	<tr align="center">
+	<td class="thumb">
+	<ul>
+	<li><input type="checkbox" id="check_{$t[itemid]}" name="itemid[]" value="{$t[itemid]}" onclick="sell_tip(this, {$t[itemid]});"/> <a href="{$t[linkurl]}" target="_blank" class="px13 f_n">{$t[title]}</a></li>
+	</ul>
+	<div style="padding:5px 0 0 0;">
+		{if $t[unit] && $t[price]>0}
+			<span class="f_red"><strong class="px14">{$t[price]}</strong>/{$t[unit]}</span><br/>
+		{else}
+		<span class="f_gray">面议</span><br/>
+		{/if}
+		<a href="{$path}{rewrite('inquiry.php?itemid='.$t['itemid'])}" class="l"><img src="{DT_SKIN}image/inquiry.gif" title="询价" style="border:none;"/></a>
+	</div>
+	<ul>
+	<li>{if $t[vip]}<img src="{DT_SKIN}image/vip_{$t[vip]}.gif" alt="{VIP}" title="{VIP}:{$t[vip]}级" style="border:none;" align="absmiddle"/>&nbsp;{/if}<a href="{userurl($t[username])}" target="_blank">{$t[company]}</a></li>
+	</ul>
+	</td>
+	</tr>
+	<tr align="center">
+	<td>
+	{if $t[username] && $DT[im_web]}{im_web($t[username].'&mid='.$moduleid.'&itemid='.$t[itemid])}&nbsp;{/if}
+	{if $t[qq] && $DT[im_qq]}{im_qq($t[qq])}&nbsp;{/if}
+	{if $t[ali] && $DT[im_ali]}{im_ali($t[ali])}&nbsp;{/if}
+	{if $t[msn] && $DT[im_msn]}{im_msn($t[msn])}&nbsp;{/if}
+	{if $t[skype] && $DT[im_skype]}{im_skype($t[skype])}</a>&nbsp;{/if}
+	</td>
+	</tr>
+	</table>
+</td>
+{if $k%5==4}</tr>{/if}
+{/loop}
+</table>
+{if $pages}<div class="pages">{$pages}</div>{/if}
+
+		{else}
+		{template 'list-'.$module, 'tag'}
+		{/if}
+		<div class="tool">
+			<table>
+			<tr height="30">
+			<td width="25"></td>
+			<td>
+				<input type="submit" value="对比选中" onclick="this.form.action='{$MOD[linkurl]}compare.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/>&nbsp;
+				<input type="submit" value="批量询价" onclick="this.form.action='{$MOD[linkurl]}inquiry.php';" class="btn_1" onmouseover="this.className='btn_2'" onmouseout="this.className='btn_1'"/>
+			</td>
+			<td></td>
+			</tr>
+			</table>
+		</div>
+		</form>
+		{else}
+		{template 'noresult', 'message'}
+		{/if}
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+<div class="m_r_1 f_l">
+	{if $kw}
+	<div class="box_head"><div><strong>相关搜索</strong></div></div>
+	<div class="box_body">
+		<div class="sch_site">
+			<ul>
+			{loop $MODULE $mod}{if $mod[moduleid]>3 && $mod[moduleid]!=$moduleid && !$mod[islink]}<li><a href="{$mod[linkurl]}search.php?kw={urlencode($kw)}">在 <span class="f_red">{$mod[name]}</span> 找 {$kw}</a></li>{/if}{/loop}
+			</ul>
+		</div>
+		<!--{tag("moduleid=$moduleid&table=keyword&condition=moduleid=$moduleid and status=3 and word<>'$kw' and keyword like '%$keyword%'&pagesize=10&order=total_search desc&template=list-search_relate", -2)}-->
+	</div>
+	<div class="b10">&nbsp;</div>
+	{/if}
+	<div class="sponsor">{ad($moduleid,$catid,$kw,7)}</div>
+	<div class="box_head"><div><strong>今日搜索排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list">
+			<!--{tag("moduleid=$moduleid&table=keyword&condition=moduleid=$moduleid and status=3 and updatetime>$today_endtime-86400&pagesize=10&order=today_search desc&key=today_search&template=list-search_rank")}-->
+		</div>		
+	</div>
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><strong>本周搜索排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list">
+			<!--{tag("moduleid=$moduleid&table=keyword&condition=moduleid=$moduleid and status=3 and updatetime>$today_endtime-86400*7&pagesize=10&order=week_search desc&key=week_search&template=list-search_rank")}-->
+		</div>		
+	</div>
+	<div class="b10">&nbsp;</div>
+	<div class="box_head"><div><strong>本月搜索排行</strong></div></div>
+	<div class="box_body">
+		<div class="rank_list">
+			<!--{tag("moduleid=$moduleid&table=keyword&condition=moduleid=$moduleid and status=3 and updatetime>$today_endtime-86400*30&pagesize=10&order=month_search desc&key=month_search&template=list-search_rank")}-->
+		</div>		
+	</div>
+</div>
+</div>
+{template 'footer'}

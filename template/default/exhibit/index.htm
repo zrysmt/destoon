@@ -1,0 +1,77 @@
+{template 'header'}
+<div class="m">
+	<div class="m_l f_l">
+		<table cellpadding="4" cellspacing="1" width="100%" bgcolor="#DDDDDD">
+		<tr bgcolor="#FAFAFA" align="center">
+		{php for($i=1;$i<13;$i++){ $j = $i<10 ? '0'.$i : $i;}
+		<td{if $j==date('m')} bgcolor="#E0E0E0"{/if}><a href="{$MOD[linkurl]}{rewrite('search.php?month='.$i)}" rel="nofollow">{$j}月</a></td>
+		{php } }
+		</tr>
+		</table>
+		<div class="b10"> </div>	
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+		<td valign="top" width="310">
+			<!--{tag("moduleid=$moduleid&condition=status=3 and level=2 and thumb!=''&areaid=$cityid&order=".$MOD[order]."&pagesize=".$MOD[page_islide]."&width=300&height=225&template=slide")}-->
+		</td>
+		<td valign="top">
+			<div class="exh_rec">
+			<!--{php $tags=tag("moduleid=$moduleid&condition=status=3 and level=1&areaid=$cityid&pagesize=3&order=".$MOD[order]."&template=null");}-->
+			<table width="100%">
+			{loop $tags $i $t}
+			<tr>
+			<td valign="top">
+			<ul>
+			<li><a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}">{$t[title]}</a></li>
+			<li>&nbsp;{timetodate($t[fromtime], 3)} 至 {timetodate($t[totime], 3)} [{$t[city]}]</li>
+			<li title="{$t[city]}{$t[hallname]}">&nbsp;主办：{$t[sponsor]}</li>
+			</ul>
+			</td>
+			</tr>
+			{/loop}
+			</table>
+			</div>		
+		</td>
+		</tr>
+		</table>
+		{loop $maincat $i $c}
+		<div class="b10 c_b"> </div>
+		<div class="box_head"><span class="f_r"><a href="{$MOD[linkurl]}{$c[linkurl]}">更多&raquo;</a></span><strong>{$c[catname]}</strong></div>
+		<div class="box_body f_gray li_dot">
+		<!--{php $tags=tag("moduleid=$moduleid&areaid=$cityid&catid=".$c[catid]."&condition=status=3&order=".$MOD[order]."&pagesize=".$MOD[page_icat]."&template=null");}--><ul>
+		{loop $tags $i $t}
+		<li title="{$t[alt]}&#13;主办：{$t[sponsor]}&#13;展馆：{$t[hallname]}"><span class="f_r">[{$t[city]}] &nbsp;&nbsp; {timetodate($t[fromtime], 3)} 至 {timetodate($t[totime], 3)}</span><a href="{$t[linkurl]}" target="_blank">{$t[title]}</a></li>
+		{/loop}
+		</ul>
+		</div>
+		{/loop}
+
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		{if $news_id}
+		{if $MOD[cat_news_num]}
+		<div class="box_head"><div><span class="f_r"><a href="{if $MOD[cat_news]}{cat_url($MOD[cat_news])}{else}{$MODULE[$news_id][linkurl]}{/if}">更多&raquo;</a></span><strong>展会资讯</strong></div></div>		
+		<div class="box_body">
+		<div class="thumb"><!--{tag("moduleid=$news_id&condition=status=3 and thumb!=''&areaid=$cityid&catid=".$MOD['cat_news']."&pagesize=2&length=20&order=addtime desc&width=120&height=90&cols=2&template=thumb-table&target=_blank")}--></div>
+		<div class="f_gray" style="border-top:#C0C0C0 1px dotted;padding:5px 5px 0 5px;">
+		<!--{tag("moduleid=$news_id&condition=status=3&areaid=$cityid&catid=".$MOD['cat_news']."&pagesize=".$MOD['cat_news_num']."&datetype=2&order=addtime desc&target=_blank")}--></div>
+		</div>
+		<div class="b10"></div>
+		{/if}
+
+		{if $MOD[cat_hall] && $MOD[cat_hall_num]}
+		<div class="box_head"><div><span class="f_r"><a href="{cat_url($MOD[cat_hall])}">更多&raquo;</a></span><strong>展馆介绍</strong></div></div>
+		<div class="box_body thumb"><!--{tag("moduleid=$news_id&condition=status=3 and thumb!=''&areaid=$cityid&catid=".$MOD['cat_hall']."&pagesize=".$MOD['cat_hall_num']."&length=15&order=addtime desc&width=120&height=90&cols=2&template=thumb-table&target=_blank")}--></div>
+		<div class="b10"></div>
+		{/if}
+
+		{if $MOD[cat_service] && $MOD[cat_service_num]}
+		<div class="box_head"><div><span class="f_r"><a href="{cat_url($MOD[cat_service])}">更多&raquo;</a></span><strong>展会服务</strong></div></div>
+		<div class="box_body f_gray li_dot">			<!--{tag("moduleid=$news_id&condition=status=3&areaid=$cityid&catid=".$MOD['cat_service']."&pagesize=".$MOD['cat_service_num']."&order=addtime desc&target=_blank")}--></div>
+		<div class="b10"></div>
+		{/if}
+		{/if}
+	</div>
+</div>
+{template 'footer'}

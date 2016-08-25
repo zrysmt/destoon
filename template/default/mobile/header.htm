@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>{$head_title}</title>
+{if $head_keywords}
+<meta name="keywords" content="{$head_keywords}"/>
+{/if}
+{if $head_description}
+<meta name="description" content="{$head_description}"/>
+{/if}
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<meta name="generator" content="DESTOON B2B - www.destoon.com"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="{$site_name}"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png"/>
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="128x128" href="apple-touch-icon-precomposed.png">
+<meta name="msapplication-TileImage" content="apple-touch-icon-precomposed.png">
+<meta name="msapplication-TileColor" content="#007AFF">
+<link rel="shortcut icon" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+<link rel="bookmark" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="static/lib/jquery/jquery.mobile.custom.structure.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/style.css"/>
+{if $CSS}
+{loop $CSS $css}
+<link rel="stylesheet" type="text/css" href="static/{$css}.css"/>
+{/loop}
+{/if}
+<script type="text/javascript" src="static/lib/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+$(document).bind("mobileinit", function() {
+　　{if $EXT[mobile_ajax]}
+	$.mobile.defaultPageTransition = 'slide';
+	{else}
+	$.mobile.ajaxEnabled = false;
+	{/if}
+});
+var AJPath = 'ajax.php';
+var Dbrowser = '{$DT_MOB[browser]}';
+{if !DT_DEBUG}
+if(!('ontouchend' in document) && window.location.href.indexOf('device.php') == -1) window.location='device.php';
+{/if}
+</script>
+<script type="text/javascript" src="static/lib/jquery/jquery.mobile.custom.min.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+{if $JS}
+{loop $JS $js}
+<script type="text/javascript" src="static/{$js}.js"></script>
+{/loop}
+{/if}
+<script type="text/javascript" src="static/js/fix.js"></script>
+</head>
+<body>
+<div data-role="page">
+<div class="ui-toast"></div>
+<div class="ui-mask"></div>
+<div class="ui-sheet"></div>
+{if $share_icon && $share_icon != 'auto'}<div class="share_icon"><img src="{$share_icon}"/></div>{/if}

@@ -1,0 +1,42 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-title">更多</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+
+{if $DT[city]}
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><span>{$city_name}</span><a href="city.php">切换分站</a></div></li>
+</ul>
+</div>
+{/if}
+
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><a href="about.php" class="my-link">关于网站</a></div></li>
+<li><div><a href="announce.php">最新公告</a></div></li>
+{if $DT[telephone]}
+<li><div><a href="tel:{$DT[telephone]}">客服电话</a></div></li>
+{/if}
+</ul>
+</div>
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><a href="guestbook.php">意见反馈</a></div></li>
+<li><div><a href="tips.php">技巧提示</a></div></li>
+{if !in_array($DT_MOB[browser], array('app', 'b2b', 'screen'))}
+<li><div><a href="mobile.php?action=pc" rel="external">电脑版</a></div></li>
+{/if}
+{if $app}
+<li><div><a href="{$app}" rel="external">安装APP</a></div></li>
+{/if}
+</ul>
+</div>
+<div class="blank-35"></div>
+{template 'footer', 'mobile'}

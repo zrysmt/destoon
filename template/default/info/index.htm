@@ -1,0 +1,64 @@
+{template 'header'}
+<div class="m">
+	<div class="m_l f_l">
+		{if $MOD[page_irec]}
+		<div class="box_head"><strong class="px13">&raquo; 推荐{$MOD[name]}</strong></div>
+		<div class="box_body">
+			<div class="thumb">
+			<!--{tag("moduleid=$moduleid&length=20&condition=status=3 and thumb<>'' and level>0&areaid=$cityid&pagesize=".$MOD[page_irec]."&order=".$MOD[order]."&width=100&height=100&cols=4&template=thumb-table&target=_blank")}-->
+			</div>
+		</div>
+		{/if}
+		{if $MOD[page_icat]}
+		<table cellpadding="0" cellspacing="0" width="100%">
+		{loop $maincat $i $c}
+		{if $i%2==0}<tr>{/if}
+		<td valign="top" width="330">
+			<div class="b10"></div>
+			<div class="box_head"><span class="f_r"><a href="{$MOD[linkurl]}{$c[linkurl]}">更多&raquo;</a></span><strong>{$c[catname]}</strong></div>
+			<div class="box_body li_dot f_gray"><!--{tag("moduleid=$moduleid&condition=status=3&areaid=$cityid&catid=".$c[catid]."&order=".$MOD[order]."&pagesize=".$MOD[page_icat]."&datetype=2&target=_blank")}--></div>			
+		</td>
+		{if $i%2==0}<td>&nbsp;</td>{/if}
+		{if $i%2==1}</tr>{/if}
+		{/loop}
+		</table>
+		{/if}
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		{if $MOD[show_icat]}
+		<div class="box_head"><div><strong>按分类浏览</strong></div></div>
+		<div class="box_body">
+		<table width="100%" cellpadding="3">
+		{loop $maincat $k $v}
+		{if $k%2==0}<tr>{/if}
+		<td><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+		{if $k%2==1}</tr>{/if}
+		{/loop}
+		</table>
+		</div>
+		<div class="b10">&nbsp;</div>
+		{/if}
+		{if $MOD[show_iarea]}
+		<div class="box_head"><div><strong>按地区浏览</strong></div></div>
+		<div class="box_body">
+		{php $mainarea = get_mainarea(0)}
+		<table width="100%" cellpadding="3">
+		{loop $mainarea $k $v}
+		{if $k%4==0}<tr>{/if}
+		<td><a href="{$MOD[linkurl]}search.php?areaid={$v[areaid]}" rel="nofollow">{$v[areaname]}</a></td>
+		{if $k%4==3}</tr>{/if}
+		{/loop}
+		</table>
+		</div>
+		<div class="b10"> </div>
+		{/if}
+		{if $MOD[page_ihits]}
+		<div class="box_head"><div><strong>最热{$MOD[name]}</strong></div></div>
+		<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$today_endtime-180*86400&areaid=$cityid&order=hits desc&pagesize=".$MOD[page_ihits])}--></div>
+		</div>
+		{/if}
+	</div>
+</div>
+{template 'footer'}

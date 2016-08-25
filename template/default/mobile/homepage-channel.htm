@@ -1,0 +1,104 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+{if $action == 'mall' || $action == 'sell'}
+<div class="head-bar-right">
+<a href="{$HURL}&action=type&item={$action}"><img src="static/img/icon-sort.png" width="24" height="24"/></a>
+</div>
+{/if}
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $lists}
+{loop $lists $v}
+{if $action == 'mall'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li class="price">{$DT[money_sign]}{$v[price]}</li>
+<li><em>{$v[date]}</em></li>
+</ul>
+</div>
+{elseif $action == 'sell'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><em>{$v[date]}</em></li>
+<li><span>{$v[introduce]}</span></li>
+</ul>
+</div>
+{elseif $action == 'buy'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><em>{$v[date]}</em></li>
+<li><span>{$v[introduce]}</span></li>
+</ul>
+</div>
+{elseif $action == 'job'}
+<div class="list-img">
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li class="f_orange px12">
+	{if $v[minsalary] && $v[maxsalary]}
+		{$v[minsalary]}-{$v[maxsalary]}{$DT[money_unit]}/月
+	{elseif $v[minsalary]}
+		{$v[minsalary]}{$DT[money_unit]}/月以上
+	{elseif $v[maxsalary]}
+		{$v[maxsalary]}{$DT[money_unit]}/月以内
+	{else}
+		面议
+	{/if}	
+</li>
+<li><em>{$v[date]}</em></li>
+</ul>
+</div>
+{elseif $action == 'photo'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><span>{$v[items]} 张图片</span></li>
+<li><em>{$v[date]}</em></li>
+</ul>
+</div>
+{elseif $action == 'info'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><em>{$v[date]}</em></li>
+<li><span>{$v[introduce]}</span></li>
+</ul>
+</div>
+{elseif $action == 'brand'}
+<div class="list-img" style="height:60px;">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-120.png{/if}" width="120" height="40" alt="" onerror="this.src='static/img/nopic-120.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><em>{$v[date]}</em></li>
+</ul>
+</div>
+{elseif $action == 'video'}
+<div class="list-img">
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<ul>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+<li><span>{$v[hits]} 次播放</span></li>
+<li><em>{$v[date]}</em></li>
+</ul>
+</div>
+{/if}
+{/loop}
+{else}
+{template 'chip-empty', 'mobile'}
+{/if}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}

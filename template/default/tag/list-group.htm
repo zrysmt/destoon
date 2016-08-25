@@ -1,0 +1,13 @@
+<div class="list_group">
+{loop $tags $i $t}
+{php $t[price] = str_replace('.00', '', $t[price]);}
+{php $t[marketprice] = str_replace('.00', '', $t[marketprice]);}
+<div class="list_group_box{if $i%$cols==0} list_group_box_r{/if}">
+	<div><a href="{$t[linkurl]}" target="_blank" id="link_{$t[itemid]}"><img src="{$t[thumb]}" width="{$width}" height="{$height}" alt="{$t[alt]}" class="list_group_img"/></a></div>
+	<div class="list_group_price"><span class="f_r"><strong class="list_group_s3">{$t[orders]}</strong>人购买</span>原价：<span class="list_group_s1">{$t[marketprice]}</span>&nbsp;&nbsp;<span class="list_group_s2"><strong>{$t[discount]}</strong>折</span> </div>
+	<div class="list_group_join" onclick="Go(Dd('link_{$t[itemid]}').href);">{$DT[money_sign]}<strong>{$t[price]}</strong></div>
+	<div class="list_group_title"><a href="{$t[linkurl]}" target="_blank">仅售{$t[price]}{$DT[money_unit]}！原价{$t[marketprice]}{$DT[money_unit]}的{$t[title]}</a></div>
+</div>
+{/loop}
+</div>
+{if $showpage && $pages}<div class="pages c_b">{$pages}</div>{/if}

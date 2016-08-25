@@ -1,0 +1,18 @@
+{template 'header'}
+<div class="m">
+	<div class="left_box">
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; <a href="{$MOD[linkurl]}{$GRP[linkurl]}">{$GRP[title]}{$MOD[seo_name]}</a> &raquo; 成员</div>
+		<div class="thumb">
+			<table width="100%">
+			{loop $lists $i $t}
+			{if $i%10==0}<tr align="center">{/if}
+			<td width="10%" valign="top"><a href="{userurl($t[username])}" target="_blank"><img src="{useravatar($t[username], 'middle')}" width="48" height="48" alt="{$t[username]}"/></a>
+			<ul><li><a href="{userurl($t[username])}" target="_blank">{$t[passport]}</a></li></ul></td>
+			{if $i%10==9}</tr>{/if}
+			{/loop}
+			</table>
+			{if $pages}<div class="pages">{$pages}</div>{/if}		
+		</div>
+	</div>
+</div>
+{template 'footer'}

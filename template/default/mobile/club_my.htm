@@ -1,0 +1,31 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="index.php?moduleid={$moduleid}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="{$MURL}{$DT[file_my]}?mid={$moduleid}&job=join" rel="external"><span>更多</span></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+<li><div style="border:none;"><a href="{$MURL}{$DT[file_my]}?mid={$moduleid}" rel="external">我的帖子</a></div></li>
+<li><div><a href="{$MURL}{$DT[file_my]}?mid={$moduleid}&job=reply" rel="external">我的回复</a></div></li>
+</ul>
+</div>
+{if $lists}
+<div class="blank-35"></div>
+<div class="list-set list-set-img">
+<ul>
+{loop $lists $k $v}
+<li><div{if $k==0} style="border:none;"{/if}><img src="{$v[thumb]}" width="24" height="24"/><a href="index.php?moduleid={$moduleid}&catid={$v[gid]}">{$v[title]}</a></div></li>
+{/loop}
+</ul>
+</div>
+{/if}
+{template 'footer', 'mobile'}

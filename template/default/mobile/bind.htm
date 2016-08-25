@@ -1,0 +1,23 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="my.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">帐号绑定</div>
+<div class="head-bar-right">
+<a href="login.php"><span>取消</span></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+<div class="blank-20"></div>
+<center><img src="{$avatar}" width="40" height="40" alt="" onerror="this.src='{$nohead}';" class="img-circle"/></center>
+<div class="blank-10"></div>
+<center><strong>{$nickname}</strong></center>
+<div class="blank-20"></div>
+<center style="font-size:12px;color:#999999;">只差一步，绑定后就可以用<a href="{$connect}" class="b" rel="external">{$site}</a>自动登录<a href="index.php" class="b">{$site_name}</a>了</center>
+<div style="padding:20px 10px;"><a href="login.php"><div class="btn-blue" style="font-size:16px;">已是会员，请登录自动绑定</div></a></div>
+<div style="padding:0 10px;"><a href="register.php"><div class="btn-green" style="font-size:16px;">不是会员，请注册自动绑定</div></a></div>
+<div class="blank-20"></div>
+{template 'footer', 'mobile'}

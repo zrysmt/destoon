@@ -1,0 +1,105 @@
+{if $action != 'ajax'}
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+{if $itemid || $catid || $areaid || $kw}
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+{else}
+<a href="channel.php" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>频道</span></a>
+{/if}
+</div>
+<div class="head-bar-title">{$head_name}</div>
+<div class="head-bar-right">
+<a href="javascript:{if $itemid}Dsheet('<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{/if}
+{if $itemid}
+<div class="main">
+	<div class="title"><strong>{$title}</strong></div>
+	<div class="info">{$editdate}&nbsp;&nbsp;点击:{$hits}</div>
+	{if $pass}
+	{if $user_status == 3}
+	<div class="album" style="margin:0;">
+		<div id="album" style="margin:0;"><img src="{$P[big]}" id="photo" style="width:100%;"/></div><div style="line-height:30px;font-size:18px;"><span id="photo_page">{$page}</span> / {$items}</div>
+	</div>
+	<div style="display:none;">
+	{loop $T $i $p}
+	<div id="image_{$i}">{$p[big]}</div>
+	<div id="intro_{$i}">{$p[introduce]}</div>
+	{/loop}
+	</div>
+	<script type="text/javascript">
+	var cur = {$page};
+	var max = {$items};	
+	$(document).on('pageinit', function(event) {
+		$('#album').on('swipeleft click',function(){
+			photo_next();
+		});
+		$('#album').on('swiperight',function(){
+			photo_prev();
+		});
+	});
+	</script>
+	<script type="text/javascript" src="static/js/photo.js"></script>
+	<div id="photo_intro" class="content">{$P[introduce]}</div>
+	{else}
+	{template 'chip-content', 'mobile'}
+	{/if}
+	{if $content}<div class="content">{$content}</div>{/if}
+	{else}
+		<div class="content">
+		此{$MOD[name]}需要验证，{if $open == 2}请输入访问密码{elseif $open == 1}请回答{$question}{/if}
+		<form id="photo-form">
+		<input type="hidden" name="moduleid" value="{$moduleid}"/>
+		<input type="hidden" name="itemid" value="{$itemid}"/>
+		<input type="hidden" name="action" value="verify"/>
+		<div style="border:#D8D8D8 1px solid;margin:10px 0;padding:2px 6px;border-radius:4px;"><input type="text" name="key" id="key" style="width:100%;height:28px;line-height:28px;border:none;font-size:14px;padding:0;" onblur="window.scrollTo(0,0);"/></div>
+		<div class="btn-green" onclick="Dphoto();">立即验证</div>
+		</form>
+		</div>
+		<script type="text/javascript">
+		function Dphoto() {
+			if($('#key').val().length < 1) {
+				Dtoast('请填写验证信息');
+				return false;
+			}
+			$.post('index.php', $('#photo-form').serialize(), function(data) {
+				if(data == 'ok') {
+					Dtoast('验证成功');
+					setTimeout(function() {
+						window.location.reload();
+					}, 1000);
+				} else {
+					Dtoast('验证失败，请重试');
+				}
+			});
+		}
+		</script>
+	{/if}
+</div>
+{if $DT_MOB[browser] == 'weixin' ||  $DT_MOB[browser] == 'qq'}{template 'chip-share', 'mobile'}{/if}
+{template 'chip-comment', 'mobile'}
+{else}
+	{if $lists}
+	{loop $lists $v}
+	<div class="list-img">
+	<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+	<ul>
+	<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
+	<li><span>{$v[items]} 张图片</span></li>
+	<li><em>{$v[date]}</em></li>
+	</ul>
+	</div>
+	{/loop}
+	{else}
+	{template 'chip-empty', 'mobile'}
+	{/if}
+{/if}
+{if $action != 'ajax'}
+{if $pages}<div class="pages">{$pages}</div>{/if}
+{template 'footer', 'mobile'}
+{/if}

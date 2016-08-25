@@ -1,0 +1,6 @@
+<ul>
+{loop $tags $i $t}
+<li>{if $datetype}<span class="f_r">{if $showpage}{$t[filesize]} {$t[unit]}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{/if}{timetodate($t[addtime], $datetype)}</span>{/if}<img src="{DT_PATH}file/ext/{$t[fileext]}.gif" align="absmiddle"/> <a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}">{$t[title]}</a></li>
+{/loop}
+</ul>
+{if $showpage && $pages}<div class="pages">{$pages}</div>{/if}

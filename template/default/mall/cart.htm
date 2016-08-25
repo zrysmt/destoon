@@ -1,0 +1,187 @@
+{template 'header'}
+{if $action == 'show'}
+<div class="m">
+<div class="left_box">
+	<div class="pos">
+		您的位置: <a href="{DT_PATH}">首页</a> 
+		&raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a>
+		&raquo; <a href="{$MOD[linkurl]}cart.php">购物车</a>
+	</div>
+	{if $code > 0}
+	<div style="padding:80px;" class="t_c px14 f_b"><img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ok.gif" alt="" align="absmiddle"/>  商品已成功加入购物车！ 
+	&nbsp;&nbsp;&nbsp;<a href="{DT_PATH}api/redirect.php?mid={$moduleid}&itemid={$code}" class="b">继续购物</a>&nbsp;&nbsp;&nbsp;<a href="{$MOD[linkurl]}cart.php" class="b">去购物车结算</a></div>
+	{else}
+	<div style="padding:80px;" class="t_c px14 f_b">
+	<img src="{DT_STATIC}{$MODULE[2][moduledir]}/image/ko.gif" alt="" align="absmiddle"/>
+	添加失败！
+	{if $code == -1}
+	商品已经下架
+	{elseif $code == -2}
+	商品由您自己发布
+	{else}
+	商品已经下架或由您自己发布
+	{/if}
+	&nbsp;&nbsp;&nbsp;<a href="{if $code == -1}{$MOD[linkurl]}{else}{DT_PATH}api/redirect.php?mid={$moduleid}&itemid={$id}{/if}" class="b">继续购物</a>&nbsp;&nbsp;&nbsp;<a href="{$MOD[linkurl]}cart.php" class="b">去购物车结算</a>
+	</div>
+	{/if}
+</div>
+</div>
+{else}
+<script type="text/javascript">
+var errimg = '{DT_SKIN}image/nopic50.gif';
+function check() {
+	if(Dd('itemid').value == 0 || Dd('itemid').value == '') {
+		alert('请输入商品ID');
+		Dd('itemid').focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<div class="m">
+<div class="left_box">
+	<div class="pos">
+		<div class="f_r">
+		<a href="?action=clear" onclick="return confirm('确定要清空购物车吗？');" class="b">清空</a>&nbsp;&nbsp;
+		</div>
+		您的位置: <a href="{DT_PATH}">首页</a> 
+		&raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a>
+		&raquo; <a href="{$MOD[linkurl]}cart.php">购物车</a>
+	</div>
+
+	{if $lists}
+	<form method="post" action="{$MOD[linkurl]}buy.php" onsubmit="return Mcheck();">
+	<input type="hidden" name="from" value="cart"/>
+	<table cellpadding="10" cellspacing="0" width="100%">
+	<tr align="center" bgcolor="#F6F6F6">
+	<td width="20"><input type="checkbox" onclick="checkall(this.form);calculate();"/></td>
+	<td width="60">图片</td>
+	<td>商品</td>
+	<td>库存</td>
+	<td>单价</td>
+	<td>数量</td>
+	<td width="100">小计</td>
+	<td width="40">操作</td>
+	</tr>
+	{loop $lists $i $t}
+	<tr align="center"{if $i%2==1} bgcolor="#F6F6F6"{/if} id="tr_{$t[key]}">
+	<td>
+	<input type="checkbox" name="cart[]" value="{$t[key]}" checked onclick="calculate()" id="check_{$t[key]}"/>
+	<input type="hidden" id="a1_{$t[key]}" value="{$t[a1]}"/>
+	<input type="hidden" id="a2_{$t[key]}" value="{$t[a2]}"/>
+	<input type="hidden" id="a3_{$t[key]}" value="{$t[a3]}"/>
+	<input type="hidden" id="p1_{$t[key]}" value="{$t[p1]}"/>
+	<input type="hidden" id="p2_{$t[key]}" value="{$t[p2]}"/>
+	<input type="hidden" id="p3_{$t[key]}" value="{$t[p3]}"/>
+	<input type="hidden" id="amount_{$t[key]}" value="{$t[amount]}"/>
+	</td>
+	<td><a href="{$t[linkurl]}" target="_blank"><img src="{$t[thumb]}" width="50" alt="{$t[alt]}"  onerror="this.src=errimg;"/></a></td>
+	<td align="left" style="line-height:24px;color:#666666;"><a href="{$t[linkurl]}" target="_blank" class="b" title="{$t[alt]}">{$t[title]}</a><br/>
+	{if $t[vip]}<img src="{DT_SKIN}image/vip_{$t[vip]}.gif" alt="{VIP}" title="{VIP}:{$t[vip]}级" align="absmiddle"/> {/if}<a href="{userurl($t[username])}" target="_blank">{$t[company]}</a>
+	{if $DT[im_web]}{im_web($t[username].'&mid='.$moduleid.'&itemid='.$t[itemid])}&nbsp;{/if}
+	{if $t[qq] && $DT[im_qq]}{im_qq($t[qq])}&nbsp;{/if}
+	{if $t[ali] && $DT[im_ali]}{im_ali($t[ali])}&nbsp;{/if}
+	{if $t[msn] && $DT[im_msn]}{im_msn($t[msn])}&nbsp;{/if}
+	{if $t[skype] && $DT[im_skype]}{im_skype($t[skype])}</a>&nbsp;{/if}
+	<br/>品牌:{if $t[brand]}{$t[brand]}{else}未填写{/if}&nbsp;{if $t[m1]}{$t[n1]}:{$t[m1]}&nbsp;{/if}{if $t[m2]}{$t[n2]}:{$t[m2]}&nbsp;{/if}{if $t[m3]}{$t[n3]}:{$t[m3]}&nbsp;{/if}
+	</td>
+	<td>{$t[amount]}</td>
+	<td title="{if $t[a2]}{$t[a1]}-{$t[a2]}{$t[unit]} {$DT[money_sign]}{$t[p1]}&#10;{if $t[a3]}{$t[a2]+1}-{$t[a3]}{$t[unit]} {$DT[money_sign]}{$t[p2]}&#10;{$t[a3]}{$t[unit]}以上 {$DT[money_sign]}{$t[p3]}{else}{$t[a2]+1}{$t[unit]}以上 {$DT[money_sign]}{$t[p2]}{/if}{else}{$DT[money_sign]}{$t[p1]}{/if}"><span class="f_price" id="price_{$t[key]}">{$t[price]}</span></td>
+	<td><img src="{DT_SKIN}image/arrow_l.gif" width="16" height="8" alt="减少" class="c_p" onclick="alter('{$t[key]}', '-');"/><input type="text" name="amounts[{$t[key]}]" value="{$t[a]}" id="number_{$t[key]}" size="3" onblur="calculate();" class="cc_inp"/> <img src="{DT_SKIN}image/arrow_r.gif" width="16" height="8" alt="增加" class="c_p" onclick="alter('{$t[key]}', '+');"/></td>
+	<td><span class="f_price" id="total_{$t[key]}">{$t[price]}</span></td>
+	<td class="c_p f_dblue" onclick="if(confirm('确定要移除此商品吗？')) move('{$t[key]}');">删除</a></td>
+	</tr>
+	{/loop}
+	</table>
+	<div class="b10">&nbsp;</div>
+		<div class="cart_foot">已选商品 <span class="f_red f_b px16" id="total_good"></span> 件&nbsp;&nbsp;&nbsp;&nbsp;合计(不含运费)： <span class="f_red f_b px16" id="total_amount"></span> {$DT[money_unit]}</div>
+	<div class="b10">&nbsp;</div>
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr align="center">
+		<td height="60">&nbsp;</td>
+		<td width="280"><a href="{$MOD[linkurl]}"><img src="{DT_SKIN}image/btn_browse.gif" width="106" height="33" alt="继续购物"/></a></td>
+		<td width="280"><input type="image" src="{DT_SKIN}image/btn_buynext.gif"/></td>
+		</tr>
+		<tr align="center">
+		<td height="50">&nbsp;</td>
+		<td class="f_gray">您也可以返回到{$MOD[name]}首页，继续挑选商品</td>
+		<td class="f_gray">如果您已经完成挑选，请您点下一步进入提交订单</td>
+		</tr>
+		</table>
+	</form>
+	{else}
+		<div style="padding:80px;" class="t_c px14 f_b"><img src="{DT_SKIN}image/cart_empty.png" width="57" height="49" alt="" align="absmiddle"/> 您的 <span class="f_orange">购物车</span> 还是空的，赶快行动吧！马上去 <a href="{$MOD[linkurl]}" class="b">挑选商品</a></div>
+	{/if}
+
+</div>
+</div>
+<script type="text/javascript">
+function Mcheck() {
+	if(Dd('total_good').innerHTML == '0') {
+		alert('最少需要挑选1件商品');
+		window.scroll(0, 0);
+		return false;
+	}
+    return true;
+}
+function move(i) {
+	Dd('check_'+i).checked = false;
+	Dd('check_'+i).disabled = true;
+	Dh('tr_'+i);
+	calculate();
+	makeRequest('action=delete&ajax=1&key='+i, '?', '_move');
+}
+function _move() {
+	if(xmlHttp.readyState==4 && xmlHttp.status==200) {
+		var cart_num = get_cart();
+		$('#destoon_cart').html(cart_num > 0 ? '<strong>'+cart_num+'</strong>' : '0');
+		if(xmlHttp.responseText == 1 && Dd('total_good').innerHTML == '0') Go('?rand={$DT_TIME}');
+	}
+}
+function alter(i, t) {
+	if(t == '+') {
+		var maxa = parseFloat(Dd('amount_'+i).value);
+		if(maxa && Dd('number_'+i).value >= maxa) return;
+		Dd('number_'+i).value =  parseInt(Dd('number_'+i).value) + 1;
+	} else {
+		var mina = parseFloat(Dd('a1_'+i).value);
+		if(Dd('number_'+i).value <= mina) return;
+		Dd('number_'+i).value = parseInt(Dd('number_'+i).value) - 1;
+	}
+	calculate();
+}
+function get_price(i) {
+	if(Dd('a2_'+i).value > 0) {
+		if(Dd('a3_'+i).value > 1 && parseInt(Dd('number_'+i).value) > parseInt(Dd('a3_'+i).value)) return Dd('p3_'+i).value;
+		if(Dd('a2_'+i).value > 1 && parseInt(Dd('number_'+i).value) > parseInt(Dd('a2_'+i).value)) return Dd('p2_'+i).value;
+	}
+	return Dd('p1_'+i).value
+}
+function calculate() {
+	var itemids = [{loop $lists $i $t}{if $i},{/if}'{$t[key]}'{/loop}];
+	var _good = _amount = _total = 0;
+	for(var i = 0; i < itemids.length; i++) {
+		if(Dd('check_'+itemids[i]).checked && !Dd('check_'+itemids[i]).disabled) {
+			itemid = itemids[i];
+			var num, good, maxa, mina, price;
+			num = parseInt(Dd('number_'+itemid).value);
+			maxa = parseInt(Dd('amount_'+itemid).value);
+			mina = parseInt(Dd('a1_'+itemid).value);
+			if(num < mina) Dd('number_'+itemid).value = num = mina;
+			if(num > maxa) Dd('number_'+itemid).value = num = maxa;
+			if(isNaN(num) || num < 0) Dd('number_'+itemid).value = num = mina;
+			_good++;
+			price = parseFloat(get_price(itemid));
+			_total = price*num;
+			_amount += _total;
+			Dd('price_'+itemid).innerHTML = price.toFixed(2);
+			Dd('total_'+itemid).innerHTML = _total.toFixed(2);
+		}
+	}
+	Dd('total_good').innerHTML = _good;
+	Dd('total_amount').innerHTML = _amount.toFixed(2);
+}
+{if $lists}calculate();{/if}
+</script>
+{/if}
+{template 'footer'}

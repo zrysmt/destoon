@@ -1,0 +1,7 @@
+<ul>
+{loop $tags $i $t}
+<li class="catlist_li">{if $datetype}<span class="f_r px11 f_gray">{timetodate($t[addtime], $datetype)}</span>{/if}<a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}">{$t[title]}</a></li>
+{if $cols && $i && $i%$cols==($cols-1)}<li class="catlist_sp">&nbsp;</li>{/if}
+{/loop}
+</ul>
+{if $showpage && $pages}<div class="pages">{$pages}</div>{/if}

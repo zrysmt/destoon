@@ -1,0 +1,7 @@
+itemid,ID,
+word,关键词,
+sell_price,供应起价,
+buy_price,求购起价,
+company_price,公司起价,
+editor,编辑,
+edittime,修改时间,

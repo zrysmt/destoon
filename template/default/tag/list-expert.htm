@@ -1,0 +1,26 @@
+<table cellpadding="6" cellspacing="1" width="100%" bgcolor="#DDDDDD">			
+<tr bgcolor="#EEEEEE" align="center">
+<td width="60"><strong>头像</strong></td>
+<td><strong>姓名</strong></td>
+<td><strong>擅长领域</strong></td>
+<td width="70"><strong>人气</strong></td>
+<td width="70"><strong>被提问</strong></td>
+<td width="70"><strong>回答</strong></td>
+<td width="70"><strong>被采纳</strong></td>
+{if $DT[im_web]}<td width="40"><strong>交谈</strong></td>{/if}
+<td width="80"><strong>向TA提问</strong></td>
+</tr>
+{loop $tags $t}
+<tr bgcolor="#FFFFFF" align="center">
+	<td><a href="{$MODULE[10][linkurl]}{rewrite('expert.php?itemid='.$t['itemid'])}"{if $target} target="{$target}"{/if}><img src="{useravatar($t[username])}" width="48" height="48"/></a></td>
+	<td><a href="{$MODULE[10][linkurl]}{rewrite('expert.php?itemid='.$t['itemid'])}"{if $target} target="{$target}"{/if} class="b"><strong>{$t[title]}</strong></a></td>
+	<td>{$t[major]}</td>
+	<td>{$t[hits]}</td>
+	<td>{$t[ask]}</td>
+	<td>{$t[answer]}</td>
+	<td>{$t[best]}</td>
+	{if $DT[im_web]}<td>{im_web($t[username])}</td>{/if}
+	<td><a href="{$MODULE[2][linkurl]}{$DT[file_my]}?mid=10&action=add&askto={$t[username]}" target="_blank" class="b">向TA提问</a></td>
+</tr>
+{/loop}	
+</table>

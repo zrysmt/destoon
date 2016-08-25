@@ -1,0 +1,1 @@
+<script type="text/javascript">window.location="../?success="+Math.random();</script>

@@ -1,0 +1,31 @@
+{template 'header', 'mobile'}
+<div id="head-bar">
+<div class="head-bar">
+<div class="head-bar-back">
+<a href="{$back_link}" data-direction="reverse"><img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span></a>
+</div>
+<div class="head-bar-title">{$head_name}</div>
+</div>
+<div class="head-bar-fix"></div>
+</div>
+{if $itemid}
+<div class="main">
+	<div class="content">
+	{if $islink}
+	<a href="{$linkurl}" rel="external" class="b">{$linkurl}</a><br/>
+	{else}
+	{$content}
+	{/if}
+	</div>
+</div>
+{else}
+<div class="blank-35"></div>
+<div class="list-set">
+<ul>
+{loop $lists $k $v}
+<li><div{if $k==0} style="border:none;"{/if}><a href="about.php?itemid={$v[itemid]}">{$v[title]}</a></div></li>
+{/loop}
+</ul>
+</div>
+{/if}
+{template 'footer', 'mobile'}

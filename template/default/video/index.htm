@@ -1,0 +1,78 @@
+{template 'header'}
+{if $MOD[page_irec]}
+<div class="m">
+<div class="video">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="310" valign="top">
+<div id="v_player"></div>
+<div class="b10"></div>	
+<div id="v_title" class="f_b px14 t_c"></div>
+</td>
+<td valign="top">
+{load('player.js')}
+<script type="text/javascript">
+function Pl(u, p, a, i) {
+Inner('v_player', player(u,300,250,p,a));
+Inner('v_title', Dd('v_title_'+i).innerHTML);
+}
+</script>
+<!--{php $tags=tag("moduleid=$moduleid&condition=status=3 and level=1&areaid=$cityid&order=".$MOD[order]."&length=30&pagesize=".$MOD[page_irec]."&template=null")}-->
+<div class="thumb">
+<table width="100%">
+{loop $tags $i $t}
+{if $i%4==0}<tr align="center">{/if}
+<td width="25%" valign="top"><img src="{$t[thumb]}" width="120" height="90" title="点击播放" class="c_p" onclick="Pl('{$t[video]}',{$t[player]},1,{$i});"/>
+<ul>
+<li id="v_title_{$i}"><a href="{$t[linkurl]}" target="_blank" title="{$t[alt]}" class="w">{$t[title]}</a></li>
+</ul>
+{if $i==0}<script type="text/javascript">Pl('{$t[video]}',{$t[player]},0,{$i});</script>{/if}
+</td>
+{if $i%4==3}</tr>{/if}
+{/loop}
+</table>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="b10"></div>	
+</div>
+{/if}
+<div class="m">
+	<div class="m_l f_l">
+		{if $MOD[page_icat]}
+		<table cellpadding="0" cellspacing="0" width="100%">
+		{loop $maincat $i $c}
+		{if $i%2==0}<tr>{/if}
+		<td valign="top" width="330">
+			<div class="box_head"><span class="f_r"><a href="{$MOD[linkurl]}{$c[linkurl]}">更多&raquo;</a></span><strong>{$c[catname]}</strong></div>
+			<div class="box_body"><div class="thumb"><!--{tag("moduleid=$moduleid&condition=status=3&catid=".$c[catid]."&areaid=$cityid&order=".$MOD[order]."&length=20&width=120&height=90&pagesize=".$MOD[page_icat]."&cols=2&datetype=3&lazy=$lazy&template=list-video")}--></div></div>
+			<div class="b10"></div>			
+		</td>
+		{if $i%2==0}<td>&nbsp;</td>{/if}
+		{if $i%2==1}</tr>{/if}
+		{/loop}
+		</table>
+		{/if}
+	</div>
+	<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		<div class="box_head"><div><strong>按分类浏览</strong></div></div>
+		<div class="box_body">
+		<table width="100%" cellpadding="3">
+		{loop $maincat $k $v}
+		{if $k%2==0}<tr>{/if}
+		<td><a href="{$MOD[linkurl]}{$v[linkurl]}">{set_style($v[catname],$v[style])}</a>{if !$cityid} <span class="f_gray px10">({$v[item]})</span>{/if}</td>
+		{if $k%2==1}</tr>{/if}
+		{/loop}
+		</table>
+		</div>
+		<div class="b10 c_b"> </div>
+		<div class="box_head"><div><strong>点播排行</strong></div></div>
+		<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3 and addtime>$today_endtime-60*86400&areaid=$cityid&order=hits desc&pagesize=10")}--></div>
+		</div>
+	</div>
+</div>
+{template 'footer'}

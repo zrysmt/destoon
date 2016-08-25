@@ -1,0 +1,75 @@
+{template 'header'}
+<script type="text/javascript">var module_id= {$moduleid},item_id={$itemid},content_id='content',img_max_width={$MOD[max_width]};</script>
+<div class="m">
+<div class="m_l f_l">
+	<div class="left_box">		
+		<div class="pos">当前位置: <a href="{$MODULE[1][linkurl]}">首页</a> &raquo; <a href="{$MOD[linkurl]}">{$MOD[name]}</a> &raquo; {cat_pos($CAT, ' &raquo; ')} &raquo; </div>
+		<h1 class="title" id="title">{$title}</h1>
+		<div class="downinfo">
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+		<td width="90"><img src="{DT_PATH}file/ext/icon_{$fileext}.gif" alt="{$FILETYPE[$fileext]}"/></td>
+		<td width="180">
+		<ul>
+			<li>文件类型：{$FILETYPE[$fileext]}</li>
+			<li>文件大小：{$filesize}{$unit}</li>
+		</ul>
+		</td>
+		<td>
+		<ul>
+			<li>更新日期：{$adddate}</li>
+			<li>浏览次数：<span id="hits">{$hits}</span>&nbsp;&nbsp;&nbsp;下载次数：<span id="download">{$download}</a></li>
+		</ul>
+		</td>
+		<td width="110"><a href="#downurl"><img src="{DT_SKIN}image/btn_download.gif" alt="进入下载"/></a></td>
+		</tr>
+		</table>
+		</div>
+		{if $content}
+		<div class="left_head">详细介绍</div>
+		{if $CP}{template 'property', 'chip'}{/if}
+		<div class="content" id="content">{$content}</div>
+		<div class="b10">&nbsp;</div>
+		<center>
+		[ <a href="{$MOD[linkurl]}search.php" rel="nofollow">{$MOD[name]}搜索</a> ]&nbsp;
+		[ <a href="javascript:SendFav();">加入收藏</a> ]&nbsp;
+		[ <a href="javascript:SendPage();">告诉好友</a> ]&nbsp;
+		[ <a href="javascript:Print();">打印本文</a> ]&nbsp;
+		[ <a href="javascript:SendReport();">违规举报</a> ]&nbsp;
+		[ <a href="javascript:window.close()">关闭窗口</a> ]
+		</center>
+		<br/>
+		{/if}
+		<div class="left_head">下载地址<a name="downurl"></a></div>
+		<div id="down">{template 'content', 'chip'}</div>
+		{template 'comment', 'chip'}
+	</div>
+</div>
+<div class="m_n f_l">&nbsp;</div>
+	<div class="m_r f_l">
+		{if $tag}
+		<div class="box_head"><div><span class="f_r"><a href="{$MOD[linkurl]}search.php?kw={urlencode($tag)}" rel="nofollow">更多&raquo;</a></span><strong>相关{$MOD[name]}</strong></div></div>
+		<div class="box_body">
+		<!--{tag("moduleid=$moduleid&condition=status=3 and tag='$tag' and addtime>$addtime&areaid=$cityid&pagesize=5&order=addtime desc&template=list-down", -2)}-->
+		<!--{tag("moduleid=$moduleid&condition=status=3 and tag='$tag' and addtime<$addtime&areaid=$cityid&pagesize=5&order=addtime desc&template=list-down", -2)}-->
+		</div>
+		<div class="b10"></div>
+		{/if}
+		<div class="box_head"><div><strong>推荐{$MOD[name]}</strong></div></div>
+		<div class="box_body">
+		<!--{tag("moduleid=$moduleid&condition=status=3 and level>0&areaid=$cityid&pagesize=10&order=addtime desc&template=list-down")}-->
+		</div>
+		<div class="b10 c_b"> </div>
+		<div class="box_head"><div><strong>本类下载排行</strong></div></div>
+		<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3&catid=$catid&areaid=$cityid&order=download desc&pagesize=10")}--></div>
+		</div>
+		<div class="b10 c_b"> </div>
+		<div class="box_head"><div><strong>总下载排行</strong></div></div>
+		<div class="box_body">
+		<div class="rank_list"><!--{tag("moduleid=$moduleid&condition=status=3&areaid=$cityid&order=download desc&pagesize=10")}--></div>
+		</div>
+	</div>
+</div>
+{if $content}<script type="text/javascript" src="{DT_STATIC}file/script/content.js"></script>{/if}
+{template 'footer'}
